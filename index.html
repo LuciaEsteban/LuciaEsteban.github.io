@@ -89,15 +89,14 @@
   <main id="main">
     <!-- HERO -->
     <section class="hero" aria-labelledby="hero-heading">
-      <!-- Purely decorative — a handful of AL-flavored snippets drifting
-           slowly in the background. Not real code, just texture. -->
-      <div class="code-drift" aria-hidden="true">
-        <span>trigger OnValidate()</span>
-        <span>procedure PostDocument()</span>
-        <span>table 50100 "Sales Ext"</span>
-        <span>if not Rec.Get() then</span>
-        <span>codeunit 50101 "Report Helper"</span>
-        <span>page 50102 "Card Ext"</span>
+      <!-- Purely decorative floating color field, same treatment used
+           further down the page — keeps the hero from reading as a
+           flat gradient with text on top of it. -->
+      <div class="bubble-field bubble-field-hero" aria-hidden="true">
+        <span class="bubble bubble-a"></span>
+        <span class="bubble bubble-b"></span>
+        <span class="bubble bubble-c"></span>
+        <span class="bubble bubble-d"></span>
       </div>
       <div class="container hero-inner">
         <div class="hero-copy reveal">
@@ -114,7 +113,34 @@
           </div>
         </div>
         <div class="hero-photo reveal" aria-hidden="false">
-          <img src="assets/img/profile-placeholder.svg" alt="" data-i18n-attr="alt:hero.photoAlt" width="360" height="360" />
+          <div class="hero-photo-frame">
+            <!-- Decorative only — a generic list/record-view mockup, not
+                 a real screenshot of any product or client system, just
+                 a visual nod to the kind of interface this work lives in. -->
+            <svg class="hero-mockup-card" viewBox="0 0 220 150" aria-hidden="true" focusable="false">
+              <rect x="2" y="2" width="216" height="26" rx="12" fill="var(--color-primary)" />
+              <rect x="2" y="14" width="216" height="134" rx="12" fill="var(--color-surface)" stroke="var(--color-border)" stroke-width="1.5" />
+              <circle cx="14" cy="15" r="3" fill="#ffffff" opacity="0.9" />
+              <circle cx="24" cy="15" r="3" fill="#ffffff" opacity="0.6" />
+              <circle cx="34" cy="15" r="3" fill="#ffffff" opacity="0.35" />
+              <rect x="2" y="26" width="36" height="110" fill="var(--color-bg-alt)" />
+              <rect x="10" y="40" width="20" height="6" rx="3" fill="var(--color-accent)" />
+              <rect x="10" y="60" width="20" height="6" rx="3" fill="var(--color-border)" />
+              <rect x="10" y="80" width="20" height="6" rx="3" fill="var(--color-border)" />
+              <rect x="10" y="100" width="20" height="6" rx="3" fill="var(--color-border)" />
+              <rect x="46" y="34" width="164" height="10" rx="2" fill="var(--color-bg-alt)" />
+              <circle cx="52" cy="56" r="3" fill="var(--color-accent)" />
+              <rect x="60" y="52" width="150" height="8" rx="2" fill="var(--color-accent-soft)" />
+              <rect x="46" y="68" width="150" height="8" rx="2" fill="var(--color-border)" opacity="0.6" />
+              <rect x="46" y="84" width="130" height="8" rx="2" fill="var(--color-border)" opacity="0.6" />
+              <rect x="46" y="100" width="140" height="8" rx="2" fill="var(--color-border)" opacity="0.6" />
+              <rect x="150" y="118" width="6" height="10" fill="var(--color-primary-soft)" />
+              <rect x="160" y="112" width="6" height="16" fill="var(--color-accent)" />
+              <rect x="170" y="108" width="6" height="20" fill="var(--color-primary-soft)" />
+              <rect x="180" y="116" width="6" height="12" fill="var(--color-accent)" />
+            </svg>
+            <img src="assets/img/profile-placeholder.svg" alt="" data-i18n-attr="alt:hero.photoAlt" width="360" height="360" />
+          </div>
         </div>
       </div>
       <a class="scroll-hint" href="#expertise" data-i18n="hero.scrollHint">
@@ -136,7 +162,7 @@
         <div class="expertise-grid">
           <article class="expertise-card reveal">
             <div class="expertise-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none"><rect x="7" y="7" width="34" height="34" rx="6" stroke="currentColor" stroke-width="2"/><path d="M15 19h18M15 24h18M15 29h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <svg viewBox="0 0 48 48" fill="none"><rect x="7" y="7" width="34" height="34" rx="6" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="2"/><path d="M15 19h18M15 24h18M15 29h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             </div>
             <h3 data-i18n="expertise.items.al.title">AL Development &amp; Extensions</h3>
             <p data-i18n="expertise.items.al.body">This is the core of my day-to-day work: building and maintaining AL extensions for Business Central — tables, pages, page extensions, codeunits, events and subscribers. It's where business requirements become working functionality.</p>
@@ -144,7 +170,7 @@
 
           <article class="expertise-card reveal">
             <div class="expertise-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none"><path d="M12 8h16l8 8v24a2 2 0 01-2 2H12a2 2 0 01-2-2V10a2 2 0 012-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M28 8v8h8M16 26h16M16 32h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <svg viewBox="0 0 48 48" fill="none"><path d="M12 8h16l8 8v24a2 2 0 01-2 2H12a2 2 0 01-2-2V10a2 2 0 012-2z" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M28 8v8h8M16 26h16M16 32h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             </div>
             <h3 data-i18n="expertise.items.reports.title">Reporting (AL + RDLC)</h3>
             <p data-i18n="expertise.items.reports.body">I build business reports combining AL datasets with RDLC layouts: the multipage commercial documents a company sends to its customers and suppliers. Getting them right takes more than a template — conditional logic, totals, taxes and layout details that have to hold up in production.</p>
@@ -152,7 +178,7 @@
 
           <article class="expertise-card reveal">
             <div class="expertise-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none"><path d="M10 24a14 14 0 0124-9.5M38 24a14 14 0 01-24 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M34 10v6h-6M14 38v-6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="17" fill="currentColor" fill-opacity="0.12"/><path d="M10 24a14 14 0 0124-9.5M38 24a14 14 0 01-24 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M34 10v6h-6M14 38v-6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <h3 data-i18n="expertise.items.implementations.title">New Implementations &amp; Upgrades</h3>
             <p data-i18n="expertise.items.implementations.body">I've worked on both sides of a Business Central rollout: new implementations built from scratch, and migrations and upgrades between versions, with exposure to NAV/BC14, BC21, BC25 and BC28. Each one poses different challenges — from configuring a solution from zero to keeping existing customizations working after an upgrade.</p>
@@ -160,7 +186,7 @@
 
           <article class="expertise-card reveal">
             <div class="expertise-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none"><circle cx="12" cy="24" r="5" stroke="currentColor" stroke-width="2"/><circle cx="36" cy="12" r="5" stroke="currentColor" stroke-width="2"/><circle cx="36" cy="36" r="5" stroke="currentColor" stroke-width="2"/><path d="M17 22l14-8M17 26l14 8" stroke="currentColor" stroke-width="2"/></svg>
+              <svg viewBox="0 0 48 48" fill="none"><circle cx="12" cy="24" r="5" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="2"/><circle cx="36" cy="12" r="5" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="2"/><circle cx="36" cy="36" r="5" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="2"/><path d="M17 22l14-8M17 26l14 8" stroke="currentColor" stroke-width="2"/></svg>
             </div>
             <h3 data-i18n="expertise.items.integrations.title">Integrations &amp; APIs</h3>
             <p data-i18n="expertise.items.integrations.body">Business Central rarely works in isolation. I build the connections that let it exchange data with other systems — APIs, Web Services, XML, JSON and XMLPorts — so information moves reliably between Business Central and whatever it needs to talk to.</p>
@@ -168,7 +194,7 @@
 
           <article class="expertise-card reveal">
             <div class="expertise-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="12" rx="14" ry="5" stroke="currentColor" stroke-width="2"/><path d="M10 12v12c0 2.76 6.27 5 14 5s14-2.24 14-5V12" stroke="currentColor" stroke-width="2"/><path d="M10 24v12c0 2.76 6.27 5 14 5s14-2.24 14-5V24" stroke="currentColor" stroke-width="2"/></svg>
+              <svg viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="12" rx="14" ry="5" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="2"/><path d="M10 12v12c0 2.76 6.27 5 14 5s14-2.24 14-5V12" stroke="currentColor" stroke-width="2"/><path d="M10 24v12c0 2.76 6.27 5 14 5s14-2.24 14-5V24" stroke="currentColor" stroke-width="2"/></svg>
             </div>
             <h3 data-i18n="expertise.items.saas.title">SaaS &amp; On-Premise</h3>
             <p data-i18n="expertise.items.saas.body">I've worked hands-on with both deployment models and know how their constraints differ in practice — from what SaaS does and doesn't allow, to managing Server Tier and infrastructure on an On-Premise environment.</p>
@@ -176,7 +202,7 @@
 
           <article class="expertise-card reveal">
             <div class="expertise-icon" aria-hidden="true">
-              <svg viewBox="0 0 48 48" fill="none"><path d="M24 8l4.5 9.2 10.1 1.5-7.3 7.1 1.7 10.1L24 31l-9 4.9 1.7-10.1-7.3-7.1 10.1-1.5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+              <svg viewBox="0 0 48 48" fill="none"><path d="M24 8l4.5 9.2 10.1 1.5-7.3 7.1 1.7 10.1L24 31l-9 4.9 1.7-10.1-7.3-7.1 10.1-1.5z" fill="currentColor" fill-opacity="0.16" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
             </div>
             <h3 data-i18n="expertise.items.tooling.title">Development Environment &amp; Way of Working</h3>
             <p data-i18n="expertise.items.tooling.body">Day to day, I work in VS Code with the AL Language extension, symbols and .app/.alpackages, across multi-project workspaces. My way of working starts with a short outline of the task, tracked as an issue, and checked against the functional specification — or directly with the client when needed — before moving into development and testing, and only then to production. I work through Git with pull requests, adapting to whatever process a team already has in place.</p>
