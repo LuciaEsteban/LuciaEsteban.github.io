@@ -91,6 +91,7 @@
 
     <!-- BUSINESS CENTRAL EXPERTISE -->
     <section class="section section-expertise" id="expertise" aria-labelledby="expertise-heading">
+      <div class="bubble-field" aria-hidden="true"><span class="bubble bubble-a"></span><span class="bubble bubble-b"></span><span class="bubble bubble-c"></span></div>
       <div class="container">
         <p class="eyebrow reveal" data-i18n="expertise.eyebrow">Core capability</p>
         <h2 id="expertise-heading" class="reveal" data-i18n="expertise.title">Business Central expertise</h2>
@@ -144,47 +145,8 @@
               <svg viewBox="0 0 48 48" fill="none"><path d="M24 8l4.5 9.2 10.1 1.5-7.3 7.1 1.7 10.1L24 31l-9 4.9 1.7-10.1-7.3-7.1 10.1-1.5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
             </div>
             <h3 data-i18n="expertise.items.tooling.title">Development Environment &amp; Way of Working</h3>
-            <p data-i18n="expertise.items.tooling.body">Day to day, I work in VS Code with the AL Language extension, symbols and .app/.alpackages, across multi-project workspaces. I like to start from a clear functional specification and a short design outline before writing code, and to work through Git with pull requests — adapting to whatever process a team already has in place.</p>
+            <p data-i18n="expertise.items.tooling.body">Day to day, I work in VS Code with the AL Language extension, symbols and .app/.alpackages, across multi-project workspaces. My way of working starts with a short outline of the task, tracked as an issue, and checked against the functional specification — or directly with the client when needed — before moving into development and testing, and only then to production. I work through Git with pull requests, adapting to whatever process a team already has in place.</p>
           </article>
-        </div>
-
-        <!-- Diagrams -->
-        <div class="diagrams">
-          <div class="diagram-card reveal">
-            <h3 data-i18n="diagrams.migration.title">A typical upgrade path</h3>
-            <div class="diagram diagram-migration">
-              <span class="diagram-pill" data-i18n="diagrams.migration.from">BC21</span>
-              <svg class="diagram-arrow" viewBox="0 0 48 16" aria-hidden="true"><path d="M0 8h40M40 8l-6-6M40 8l-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span class="diagram-pill diagram-pill-accent" data-i18n="diagrams.migration.to">BC25</span>
-            </div>
-            <ol class="diagram-steps">
-              <li data-i18n="diagrams.migration.steps.0">Check extension &amp; app compatibility</li>
-              <li data-i18n="diagrams.migration.steps.1">Prepare and validate the environment</li>
-              <li data-i18n="diagrams.migration.steps.2">Run and verify the upgrade</li>
-            </ol>
-          </div>
-
-          <div class="diagram-card reveal">
-            <h3 data-i18n="diagrams.reporting.title">How a business document gets built</h3>
-            <div class="diagram diagram-flow">
-              <span class="diagram-pill" data-i18n="diagrams.reporting.steps.0">AL Dataset</span>
-              <svg class="diagram-arrow" viewBox="0 0 48 16" aria-hidden="true"><path d="M0 8h40M40 8l-6-6M40 8l-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span class="diagram-pill" data-i18n="diagrams.reporting.steps.1">RDLC Layout</span>
-              <svg class="diagram-arrow" viewBox="0 0 48 16" aria-hidden="true"><path d="M0 8h40M40 8l-6-6M40 8l-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span class="diagram-pill diagram-pill-accent" data-i18n="diagrams.reporting.steps.2">Business Document</span>
-            </div>
-          </div>
-
-          <div class="diagram-card reveal">
-            <h3 data-i18n="diagrams.integration.title">How Business Central talks to the outside world</h3>
-            <div class="diagram diagram-flow">
-              <span class="diagram-pill" data-i18n="diagrams.integration.steps.0">External System</span>
-              <svg class="diagram-arrow diagram-arrow-bidi" viewBox="0 0 48 16" aria-hidden="true"><path d="M8 8h32M8 8l6-6M8 8l6 6M40 8l-6-6M40 8l-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span class="diagram-pill" data-i18n="diagrams.integration.steps.1">API / XML / JSON / Web Services</span>
-              <svg class="diagram-arrow diagram-arrow-bidi" viewBox="0 0 48 16" aria-hidden="true"><path d="M8 8h32M8 8l6-6M8 8l6 6M40 8l-6-6M40 8l-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span class="diagram-pill diagram-pill-accent" data-i18n="diagrams.integration.steps.2">Business Central</span>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -195,7 +157,7 @@
         <p class="eyebrow reveal" data-i18n="ecosystem.eyebrow">Technology map</p>
         <h2 id="ecosystem-heading" class="reveal" data-i18n="ecosystem.title">Technology ecosystem</h2>
         <p class="section-intro reveal" data-i18n="ecosystem.intro">
-          Business Central and AL are at the center of what I do. Everything else here is a supporting technology I use around them — not a separate specialization.
+          Business Central and AL are at the center of what I do. Everything else here is a supporting technology I use around them — not a separate specialization. I'm always open to picking up new languages and tools as a project needs them.
         </p>
 
         <div class="ecosystem-rings reveal">
@@ -228,7 +190,7 @@
             <h3 data-i18n="ecosystem.additional.title">Additional / academic</h3>
             <ul class="chip-list">
               <li class="chip chip-additional" data-i18n="ecosystem.additional.items.0">Java</li>
-              <li class="chip chip-additional" data-i18n="ecosystem.additional.items.1">HTML / CSS / JavaScript (this site)</li>
+              <li class="chip chip-additional" data-i18n="ecosystem.additional.items.1">HTML / CSS (this site)</li>
               <li class="chip chip-additional" data-i18n="ecosystem.additional.items.2">Introductory C</li>
               <li class="chip chip-additional" data-i18n="ecosystem.additional.items.3">Introductory Python</li>
             </ul>
@@ -243,12 +205,6 @@
         <p class="eyebrow reveal" data-i18n="experience.eyebrow">Timeline</p>
         <h2 id="experience-heading" class="reveal" data-i18n="experience.title">Professional experience</h2>
         <p class="section-intro reveal" data-i18n="experience.intro">Now that you've seen what I can do, here's the timeline behind it.</p>
-
-        <div class="experience-duration reveal">
-          <span data-i18n="experience.durationPrefix">Professional Business Central experience:</span>
-          <strong id="experienceDuration">—</strong>
-          <span data-i18n="experience.durationSuffix">and counting</span>
-        </div>
 
         <ol class="timeline reveal">
           <li class="timeline-item">
@@ -266,6 +222,7 @@
 
     <!-- EDUCATION -->
     <section class="section section-alt" id="education" aria-labelledby="education-heading">
+      <div class="bubble-field" aria-hidden="true"><span class="bubble bubble-a"></span><span class="bubble bubble-b"></span></div>
       <div class="container">
         <p class="eyebrow reveal" data-i18n="education.eyebrow">Continuous learning</p>
         <h2 id="education-heading" class="reveal" data-i18n="education.title">Education</h2>
@@ -293,6 +250,7 @@
 
     <!-- ABOUT -->
     <section class="section" id="about" aria-labelledby="about-heading">
+      <div class="bubble-field" aria-hidden="true"><span class="bubble bubble-a"></span><span class="bubble bubble-b"></span><span class="bubble bubble-c"></span></div>
       <div class="container about-inner">
         <div class="about-copy reveal">
           <p class="eyebrow" data-i18n="about.eyebrow">Get to know me</p>
@@ -306,6 +264,7 @@
 
     <!-- BEYOND THE CODE -->
     <section class="section section-beyond" aria-labelledby="beyond-heading">
+      <div class="bubble-field" aria-hidden="true"><span class="bubble bubble-a"></span><span class="bubble bubble-b"></span></div>
       <div class="container beyond-inner reveal">
         <div class="beyond-photo">
           <img src="assets/img/guitar-placeholder.svg" alt="" data-i18n-attr="alt:beyond.guitarAlt" width="220" height="220" loading="lazy" />
@@ -320,6 +279,7 @@
 
     <!-- CONTACT -->
     <section class="section section-contact" id="contact" aria-labelledby="contact-heading">
+      <div class="bubble-field bubble-field-dark" aria-hidden="true"><span class="bubble bubble-a"></span><span class="bubble bubble-b"></span><span class="bubble bubble-c"></span></div>
       <div class="container contact-inner reveal">
         <p class="eyebrow" data-i18n="contact.eyebrow">Let's talk</p>
         <h2 id="contact-heading" data-i18n="contact.title">Contact</h2>

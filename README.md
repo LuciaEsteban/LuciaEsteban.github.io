@@ -72,8 +72,8 @@ for them). Fill these in `assets/js/config.js` before treating the site as
 final:
 
 - [x] `businessCentralStartDate` — set to March 2025 (confirmed). Adjust the exact day if it becomes known.
-- [ ] `professionalEmail`
-- [ ] `linkedInUrl`
+- [x] `professionalEmail` — set to luciaes.dev@gmail.com
+- [x] `linkedInUrl` — set to https://www.linkedin.com/in/luciaes-dev/
 - [ ] `cvPdfUrl` (and add the actual PDF under `assets/files/`)
 - [ ] Replace `assets/img/profile-placeholder.svg` with a real photo (update the `<img src>` in `index.html`'s hero section)
 - [ ] Optionally replace `assets/img/guitar-placeholder.svg` with a real photo
