@@ -118,6 +118,13 @@ h3 { font-size: 1.2rem; font-weight: 700; }
 
 p { margin: 0 0 1em; }
 
+/* Body copy is mostly muted gray for readability, which is exactly why
+   a bare browser-default <strong> disappears into it — this keeps
+   emphasized phrases in the same weight but the higher-contrast ink
+   color, so the handful of "sell" points in each paragraph actually
+   stand out instead of just going bold-and-still-gray. */
+strong { font-weight: 700; color: var(--color-ink); }
+
 a { color: var(--color-accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
@@ -393,38 +400,6 @@ button:focus-visible,
   100% { transform: translate3d(3%, -4%, 0) rotate(8deg); }
 }
 
-/* A handful of AL-ish snippets, faint and slow, bobbing behind the hero
-   copy. Each one gets its own timing via nth-child so they don't all
-   move in lockstep — small detail, but it's what stops it from looking
-   like one repeated sprite. */
-.code-drift {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  color: var(--color-primary-soft);
-}
-.code-drift span {
-  position: absolute;
-  opacity: 0.16;
-  white-space: nowrap;
-  animation: codeDrift 22s ease-in-out infinite;
-}
-.code-drift span:nth-child(1) { top: 14%; left: 4%;  animation-duration: 19s; }
-.code-drift span:nth-child(2) { top: 70%; left: 7%;  animation-duration: 24s; animation-delay: -4s; }
-.code-drift span:nth-child(3) { top: 28%; left: 58%; animation-duration: 21s; animation-delay: -9s; }
-.code-drift span:nth-child(4) { top: 80%; left: 53%; animation-duration: 26s; animation-delay: -2s; }
-.code-drift span:nth-child(5) { top: 6%;  left: 70%; animation-duration: 20s; animation-delay: -13s; }
-.code-drift span:nth-child(6) { top: 50%; left: 28%; animation-duration: 23s; animation-delay: -7s; }
-
-@keyframes codeDrift {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-16px) rotate(-1.5deg); }
-}
-
 .hero-inner {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
@@ -460,12 +435,31 @@ button:focus-visible,
   display: flex;
   justify-content: center;
 }
-.hero-photo img {
+.hero-photo-frame {
+  position: relative;
+  display: inline-block;
+}
+.hero-photo-frame img {
+  position: relative;
+  z-index: 1;
   width: min(320px, 100%);
   aspect-ratio: 1 / 1;
   border-radius: 28px;
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--color-border);
+}
+/* The little "app window" card tucked behind the photo — peeking out
+   at an angle like a second, smaller print left under the main one. */
+.hero-mockup-card {
+  position: absolute;
+  z-index: 0;
+  bottom: -22px;
+  left: -38px;
+  width: 190px;
+  height: auto;
+  transform: rotate(-9deg);
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
 }
 
 .scroll-hint {
@@ -522,11 +516,26 @@ button:focus-visible,
 }
 
 .expertise-icon {
-  width: 48px; height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px; height: 56px;
+  border-radius: 14px;
   color: var(--color-accent);
+  background: var(--color-accent-soft);
   margin-bottom: 1.1rem;
 }
-.expertise-icon svg { width: 100%; height: 100%; }
+.expertise-icon svg { width: 30px; height: 30px; }
+
+/* Each card gets its own accent (matching the top border stripe below)
+   so the six read as distinct capabilities rather than one repeated
+   icon in six boxes. */
+.expertise-card:nth-child(1) .expertise-icon { color: #2f6fed; background: rgba(47, 111, 237, 0.12); }
+.expertise-card:nth-child(2) .expertise-icon { color: #7c3aed; background: rgba(124, 58, 237, 0.12); }
+.expertise-card:nth-child(3) .expertise-icon { color: #d98e2b; background: rgba(217, 142, 43, 0.14); }
+.expertise-card:nth-child(4) .expertise-icon { color: #16a394; background: rgba(22, 163, 148, 0.12); }
+.expertise-card:nth-child(5) .expertise-icon { color: #e5484d; background: rgba(229, 72, 77, 0.12); }
+.expertise-card:nth-child(6) .expertise-icon { color: #475569; background: rgba(71, 85, 105, 0.12); }
 
 .expertise-card h3 { font-size: 1.15rem; margin-bottom: 0.6rem; }
 .expertise-card p { color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: 0; }
@@ -568,7 +577,19 @@ button:focus-visible,
   top: 50%; right: 28%;
   animation: bubbleDriftC 15s ease-in-out infinite;
 }
+.bubble-d {
+  width: 180px; height: 180px;
+  background: #d98e2b;
+  top: 32%; left: 42%;
+  animation: bubbleDriftD 19s ease-in-out infinite;
+}
 .bubble-field-dark .bubble { opacity: 0.28; }
+/* The hero is taller than the other sections that use this component,
+   so its bubbles get more room to roam without feeling static. */
+.bubble-field-hero .bubble-a { top: -30px; left: 2%; }
+.bubble-field-hero .bubble-b { bottom: 10%; right: 8%; }
+.bubble-field-hero .bubble-c { top: 15%; right: 22%; }
+.bubble-field-hero .bubble-d { bottom: -20px; left: 38%; }
 
 @keyframes bubbleDriftA {
   0%, 100% { transform: translate(0, 0); }
@@ -581,6 +602,10 @@ button:focus-visible,
 @keyframes bubbleDriftC {
   0%, 100% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(18px, -22px) scale(1.12); }
+}
+@keyframes bubbleDriftD {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-18px, 20px) scale(1.08); }
 }
 
 /* ==========================================================================
@@ -890,4 +915,5 @@ button:focus-visible,
 @media (max-width: 600px) {
   .section { padding: 3.5rem 0; }
   h1 { font-size: 2rem; }
+  .hero-mockup-card { width: 130px; bottom: -14px; left: -20px; }
 }
