@@ -23,6 +23,7 @@ window.TRANSLATIONS = {
       about: "About",
       contact: "Contact",
       langToggleLabel: "Switch language",
+      themeToggleLabel: "Toggle dark mode",
     },
     hero: {
       eyebrow: "Portfolio",
@@ -146,7 +147,7 @@ window.TRANSLATIONS = {
           title: "Computer Engineering — UNIR",
           status: "In progress",
           body:
-            "Studying part-time, online, alongside full-time professional work — a deliberate investment in deeper engineering foundations. Around 1.5 years already recognized from previous studies.",
+            "Studying part-time, online, alongside full-time professional work — a deliberate investment in deeper engineering foundations. Around 1.2 years already recognized from previous studies.",
         },
       },
     },
@@ -163,7 +164,7 @@ window.TRANSLATIONS = {
       eyebrow: "Beyond the code",
       title: "Beyond the code",
       body:
-        "Outside of Business Central, I enjoy music and play guitar. I also like meeting up with people over coffee — being there for the hard moments and celebrating the good ones together.",
+        "Outside of Business Central, I enjoy music and play guitar, and I like leaving room for reading and drawing — anything that lets the creative side breathe. I also love meeting up with people over coffee: being there for the hard moments and celebrating the good ones together.",
       guitarAlt: "Placeholder for a photo of Lucía with her guitar",
     },
     contact: {
@@ -201,6 +202,7 @@ window.TRANSLATIONS = {
       about: "Sobre mí",
       contact: "Contacto",
       langToggleLabel: "Cambiar idioma",
+      themeToggleLabel: "Cambiar a modo oscuro",
     },
     hero: {
       eyebrow: "Portfolio",
@@ -324,7 +326,7 @@ window.TRANSLATIONS = {
           title: "Ingeniería Informática — UNIR",
           status: "En curso",
           body:
-            "Estudios a tiempo parcial, online, compatibles con el trabajo a tiempo completo: una inversión deliberada en profundidad de ingeniería. Cuenta ya con aproximadamente 1,5 años reconocidos de estudios previos.",
+            "Estudios a tiempo parcial, online, compatibles con el trabajo a tiempo completo: una inversión deliberada en profundidad de ingeniería. Cuenta ya con aproximadamente 1,2 años reconocidos de estudios previos.",
         },
       },
     },
@@ -341,7 +343,7 @@ window.TRANSLATIONS = {
       eyebrow: "Más allá del código",
       title: "Más allá del código",
       body:
-        "Fuera de Business Central, me gusta la música y toco la guitarra. También me gusta quedar con la gente a tomar un café: acompañar en los momentos difíciles y celebrar juntos los logros importantes.",
+        "Fuera de Business Central, me gusta la música y toco la guitarra, y procuro dejar espacio para leer y dibujar — cualquier cosa que deje respirar el lado creativo. También me encanta quedar con la gente a tomar un café: acompañar en los momentos difíciles y celebrar juntos los logros importantes.",
       guitarAlt: "Marcador de posición para una fotografía de Lucía con su guitarra",
     },
     contact: {

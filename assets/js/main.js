@@ -10,6 +10,7 @@
   var CONFIG = window.SITE_CONFIG || {};
   var TRANSLATIONS = window.TRANSLATIONS || {};
   var LANG_STORAGE_KEY = "lucia-portfolio-lang"; // documented in README
+  var THEME_STORAGE_KEY = "lucia-portfolio-theme"; // "light" | "dark" — same idea as the language toggle
 
   var prefersReducedMotion =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -143,6 +144,45 @@
   }
 
   /* ------------------------------------------------------------------ */
+  /* Scrollspy — highlights the nav link for the section in view          */
+  /* ------------------------------------------------------------------ */
+
+  function initScrollSpy() {
+    var navLinks = document.querySelectorAll('.primary-nav a[href^="#"]');
+    if (!navLinks.length || !("IntersectionObserver" in window)) return;
+
+    var linksBySectionId = {};
+    navLinks.forEach(function (link) {
+      var id = link.getAttribute("href").slice(1);
+      if (id) linksBySectionId[id] = link;
+    });
+
+    var sections = Object.keys(linksBySectionId)
+      .map(function (id) { return document.getElementById(id); })
+      .filter(Boolean);
+    if (!sections.length) return;
+
+    // Counts a section "active" once it's crossed roughly the upper third
+    // of the viewport — feels closer to what you're actually reading than
+    // triggering the instant a section's top edge appears at the bottom.
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          var link = linksBySectionId[entry.target.id];
+          if (!link) return;
+          if (entry.isIntersecting) {
+            navLinks.forEach(function (l) { l.classList.remove("is-active"); });
+            link.classList.add("is-active");
+          }
+        });
+      },
+      { rootMargin: "-35% 0px -55% 0px" }
+    );
+
+    sections.forEach(function (section) { observer.observe(section); });
+  }
+
+  /* ------------------------------------------------------------------ */
   /* Experience duration                                                 */
   /* ------------------------------------------------------------------ */
 
@@ -153,6 +193,7 @@
     var now = new Date();
     var totalMonths =
       (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
+    // Started on the 20th and it's only the 5th this month? Not a full month yet.
     if (now.getDate() < start.getDate()) totalMonths -= 1;
     if (totalMonths < 0) totalMonths = 0;
 
@@ -166,8 +207,9 @@
     return count === 1 ? base + "_one" : base + "_other";
   }
 
-  // Shared by renderExperience and renderExpertiseIntro so the two places
-  // that mention "how long" always agree with each other.
+  // Turns a computeDuration() result into ["1 year", "8 months"] style
+  // parts, already translated — kept separate so renderExpertiseIntro
+  // doesn't have to know about pluralization rules itself.
   function durationParts(lang, duration) {
     var dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
     var parts = [];
@@ -219,6 +261,56 @@
       companyEl.textContent = CONFIG.currentCompanyDisplayName;
       companyEl.removeAttribute("data-i18n"); // custom value overrides translation lookup
     }
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Theme (light/dark)                                                   */
+  /* ------------------------------------------------------------------ */
+  // Mirrors the language toggle: an explicit choice wins, otherwise we
+  // follow the OS-level prefers-color-scheme. The inline snippet in
+  // index.html's <head> does this same check before first paint so
+  // there's no flash of the wrong theme — this just keeps it in sync
+  // afterwards and handles the toggle button.
+
+  function getStoredTheme() {
+    try {
+      return window.localStorage.getItem(THEME_STORAGE_KEY);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function systemPrefersDark() {
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+
+  function effectiveTheme() {
+    var stored = getStoredTheme();
+    if (stored === "light" || stored === "dark") return stored;
+    return systemPrefersDark() ? "dark" : "light";
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    var toggle = document.getElementById("themeToggle");
+    if (toggle) toggle.setAttribute("aria-pressed", String(theme === "dark"));
+  }
+
+  function initThemeToggle() {
+    applyTheme(effectiveTheme());
+
+    var toggle = document.getElementById("themeToggle");
+    if (!toggle) return;
+
+    toggle.addEventListener("click", function () {
+      var next = effectiveTheme() === "dark" ? "light" : "dark";
+      try {
+        window.localStorage.setItem(THEME_STORAGE_KEY, next);
+      } catch (e) {
+        /* non-fatal: theme just won't persist across visits */
+      }
+      applyTheme(next);
+    });
   }
 
   /* ------------------------------------------------------------------ */
@@ -280,6 +372,8 @@
     initNavToggle();
     initScrollReveal();
     initContactLinks();
+    initThemeToggle();
+    initScrollSpy();
     renderExpertiseIntro(lang);
     renderTimelineMeta(lang);
 
