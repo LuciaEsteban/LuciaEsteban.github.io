@@ -33,10 +33,10 @@ window.TRANSLATIONS = {
       badgeRemote: "100% remote",
       badgeLanguages: "English & Spanish",
       availability:
-        "Currently looking for a fully remote role — without stepping back from being part of a team: I want to help <strong>drive projects forward together with the company</strong>, not just alongside it.",
+        "Currently looking for a fully remote role — and for me that means staying <strong>closely involved with a team</strong>, not working off on my own: I want to keep driving projects forward together with the people I work with.",
       ctaPrimary: "Explore my Business Central work",
       ctaSecondary: "Get in touch",
-      photoAlt: "Placeholder for Lucía Esteban's professional photo",
+      photoAlt: "Portrait photo of Lucía Esteban Peña",
       scrollHint: "Scroll to explore",
     },
     expertise: {
@@ -54,7 +54,7 @@ window.TRANSLATIONS = {
         reports: {
           title: "Reporting (AL + RDLC)",
           body:
-            "I build business reports combining AL datasets with RDLC layouts: the multipage commercial documents a company sends to its customers and suppliers. Getting them right takes more than a template — conditional logic, totals, taxes and layout details that <strong>have to hold up in production</strong>.",
+            "I build business reports combining AL datasets with RDLC layouts: the multipage commercial documents a company sends to its customers and suppliers. Getting them right takes more than a template — conditional logic, totals, taxes and layout details that <strong>have to hold up in production</strong>. I've also put together multi-sheet Excel reports, for cases where the client needed a working document rather than a commercial one.",
         },
         implementations: {
           title: "New Implementations & Upgrades",
@@ -64,17 +64,17 @@ window.TRANSLATIONS = {
         integrations: {
           title: "Integrations & APIs",
           body:
-            "Business Central rarely works in isolation. I build the connections that let it exchange data with other systems — APIs, Web Services, XML, JSON and XMLPorts — so information <strong>moves reliably between Business Central and whatever it needs to talk to</strong>.",
+            "Business Central rarely works in isolation. I build the connections that let it exchange data with other systems — APIs, Web Services, XML, JSON and XMLPorts — so information <strong>moves reliably between Business Central and the systems it needs to talk to</strong>.",
         },
         saas: {
           title: "SaaS & On-Premise",
           body:
-            "I've <strong>worked hands-on with both deployment models</strong> and know how their constraints differ in practice — from what SaaS does and doesn't allow, to managing Server Tier and infrastructure on an On-Premise environment.",
+            "I've <strong>worked hands-on with both deployment models</strong> and know how their constraints differ in practice — from what SaaS does and doesn't allow, to the particulars of keeping an On-Premise environment running. That includes working across different Business Central versions, updating code to the target version as part of each migration.",
         },
         tooling: {
           title: "Development Environment & Way of Working",
           body:
-            "Day to day, I work in VS Code with the AL Language extension, symbols and .app/.alpackages, across multi-project workspaces. My way of working starts with a short <strong>outline of the task</strong>, tracked as an issue, and <strong>checked against the functional specification</strong> — or directly with the client when needed — before moving into development and testing, and only then to production. I work through <strong>Git with pull requests</strong>, adapting to whatever process a team already has in place.",
+            "I work in VS Code with the AL Language extension, across multi-project workspaces — but what I care about most is how I get there. I start by <strong>listening to the idea or requirement</strong> and sketching out the structure before writing a single line, then <strong>checking it against the functional specification</strong> — or directly with the client when needed — before moving into development. I track the work as an issue and run it through <strong>Git with pull requests</strong>, which keeps me in sync with the rest of the team and leaves a clear trail — useful both for future improvements and for troubleshooting down the line.",
         },
       },
     },
@@ -152,7 +152,7 @@ window.TRANSLATIONS = {
           tag: "Education — in progress",
           title: "Computer Engineering — UNIR",
           body:
-            "Studying part-time, online, alongside full-time professional work — a deliberate investment in deeper engineering foundations. Around 1.2 years already recognized from previous studies.",
+            "Resumed in 2026, with 1.2 years already recognized from previous studies. It's an online degree, chosen specifically to combine well with full-time work: three years of coursework remain, spread out over about six real years at a pace that fits around the job.",
         },
       },
     },
@@ -160,24 +160,24 @@ window.TRANSLATIONS = {
       eyebrow: "Get to know me",
       title: "About me",
       paragraphs: [
-        "I like working with people — sharing ideas with other developers and consultants — and I'm just as happy figuring things out on my own sometimes. What really gets me going is <strong>a genuine challenge</strong>: a problem that makes me want to dig in and actually understand it, not just patch it.",
-        "I'm organized and open-minded — and that doesn't make me any less decisive. I like keeping things clear and on track, while staying open to a better way of doing something, and I'm comfortable making a call when one is needed.",
-        "I like learning, and I like contributing more than what's strictly expected of me — <strong>going a bit further than a task asks for</strong> when I can. I'm still growing as a developer, and I know that every day I can offer a little more than I did the day before.",
-        "I'm currently finishing my degree in Computer Engineering alongside full-time work, because I'd rather keep building a solid foundation than stop learning once a job title changes.",
+        "I like working with people, sharing ideas with other developers and consultants, and I'm just as happy figuring things out on my own sometimes. What really gets me going is <strong>a genuine challenge</strong>: a problem that makes me want to dig in and actually understand it, not just patch it.",
+        "I'm organized and open-minded, and that doesn't make me any less decisive. I like keeping things clear and on track, while staying open to a better way of doing something, and I'm comfortable making a call when one is needed.",
+        "I like learning, and I like contributing more than what's strictly expected of me: <strong>going a bit further than a task asks for</strong> when I can. I also value constructive feedback, because I know there's no growing without it, even though that doesn't stop me wanting to leave every task as well done as I can. I'm still growing as a developer, and I know that every day I can offer a little more than I did the day before.",
+        "This year I resumed my degree in Computer Engineering, an online program I chose specifically so I could combine it well with full-time work. I have three years of coursework left, which I'm spreading out over around six real years so I can keep a pace that works for me.",
       ],
     },
     beyond: {
       eyebrow: "Beyond the code",
       title: "Beyond the code",
       body:
-        "Outside of Business Central, I enjoy music and play guitar, and I like leaving room for reading and drawing — anything that lets the creative side breathe. I also love meeting up with people over coffee: being there for the hard moments and celebrating the good ones together.",
+        "Outside of Business Central, I enjoy music and play guitar, and I like leaving room for reading and drawing. It's a creative side I keep working on, and one that shows up in how I approach problems when I code. I also love meeting up with people over coffee: being there for the hard moments and celebrating the good ones together.",
       guitarAlt: "Placeholder for a photo of Lucía with her guitar",
     },
     contact: {
       eyebrow: "Let's talk",
       title: "Contact",
       intro:
-        "If my profile could be <strong>a good fit for your team or project</strong>, I'd be happy to hear from you.",
+        "I'm currently in my role and I value it, but I'm open to a change if it's a genuinely <strong>good fit for where I want to go</strong> — not out of necessity, just because it works well for both sides. If my profile could be a good fit for your team or project, I'd be happy to hear from you.",
       email: "Email",
       linkedin: "LinkedIn",
       github: "GitHub",
@@ -218,10 +218,10 @@ window.TRANSLATIONS = {
       badgeRemote: "100% remoto",
       badgeLanguages: "Inglés y español",
       availability:
-        "Actualmente estoy interesada en un puesto 100% en remoto, sin dejar de formar parte de un equipo: quiero <strong>llevar los proyectos adelante junto a la empresa</strong>, no solo en paralelo a ella.",
+        "Actualmente estoy interesada en un puesto 100% en remoto — y para mí eso significa seguir <strong>muy implicada con el equipo</strong>, no trabajar a mi aire: quiero seguir llevando los proyectos adelante junto a las personas con las que trabajo.",
       ctaPrimary: "Ver mi trabajo en Business Central",
       ctaSecondary: "Contactar",
-      photoAlt: "Marcador de posición para la fotografía profesional de Lucía Esteban",
+      photoAlt: "Fotografía de retrato de Lucía Esteban Peña",
       scrollHint: "Desplázate para explorar",
     },
     expertise: {
@@ -239,7 +239,7 @@ window.TRANSLATIONS = {
         reports: {
           title: "Informes (AL + RDLC)",
           body:
-            "Construyo informes de negocio combinando datasets AL con layouts RDLC: los documentos comerciales multipágina que una empresa envía a sus clientes y proveedores. Hacerlo bien exige más que una plantilla: lógica condicional, totales, impuestos y detalles de maquetación que <strong>deben funcionar en producción</strong>.",
+            "Construyo informes de negocio combinando datasets AL con layouts RDLC: los documentos comerciales multipágina que una empresa envía a sus clientes y proveedores. Hacerlo bien exige más que una plantilla: lógica condicional, totales, impuestos y detalles de maquetación que <strong>deben funcionar en producción</strong>. También he preparado informes en Excel con varias hojas, para casos en los que lo que necesitaba el cliente era un documento de trabajo y no un documento comercial.",
         },
         implementations: {
           title: "Implantaciones nuevas y upgrades",
@@ -249,17 +249,17 @@ window.TRANSLATIONS = {
         integrations: {
           title: "Integraciones y APIs",
           body:
-            "Business Central rara vez trabaja aislado. Construyo las conexiones que le permiten intercambiar datos con otros sistemas —APIs, Web Services, XML, JSON y XMLPorts— para que la información <strong>se mueva de forma fiable entre Business Central y aquello con lo que tenga que comunicarse</strong>.",
+            "Business Central rara vez trabaja aislado. Construyo las conexiones que le permiten intercambiar datos con otros sistemas —APIs, Web Services, XML, JSON y XMLPorts— para que la información <strong>se mueva de forma fiable entre Business Central y los sistemas con los que necesita comunicarse</strong>.",
         },
         saas: {
           title: "SaaS y On-Premise",
           body:
-            "He <strong>trabajado de forma práctica con ambos modelos de despliegue</strong> y conozco cómo difieren sus restricciones: desde lo que SaaS permite y lo que no, hasta la gestión del Server Tier y la infraestructura en un entorno On-Premise.",
+            "He <strong>trabajado de forma práctica con ambos modelos de despliegue</strong> y conozco cómo difieren sus restricciones: desde lo que SaaS permite y lo que no, hasta las particularidades de mantener en marcha un entorno On-Premise. Esto incluye haber trabajado sobre distintas versiones de Business Central, actualizando código a la versión correspondiente en cada migración.",
         },
         tooling: {
           title: "Entorno de desarrollo y forma de trabajar",
           body:
-            "En el día a día trabajo en VS Code con la extensión AL Language, símbolos y .app/.alpackages, en workspaces multiproyecto. Mi forma de trabajar empieza con un pequeño <strong>esquema de la tarea</strong>, registrada como incidencia, y <strong>corroborada con el funcional</strong> —o directamente con el cliente cuando hace falta— antes de pasar a desarrollo y pruebas, y solo entonces a producción. Trabajo con <strong>Git y pull requests</strong>, adaptándome al proceso que ya tenga cada equipo.",
+            "Trabajo en VS Code con la extensión AL Language, en workspaces multiproyecto — pero lo que más cuido es cómo llego hasta ahí. Empiezo <strong>escuchando la idea o el requisito</strong> y sacando la estructura antes de escribir una sola línea, y luego la <strong>contrasto con el funcional</strong> —o directamente con el cliente cuando hace falta— antes de pasar a desarrollo. Registro el trabajo como incidencia y lo llevo con <strong>Git y pull requests</strong>, lo que me mantiene compenetrada con el resto del equipo y deja un seguimiento claro de todo, útil tanto para futuras mejoras como para resolver incidencias más adelante.",
         },
       },
     },
@@ -334,7 +334,7 @@ window.TRANSLATIONS = {
           tag: "Formación — en curso",
           title: "Ingeniería Informática — UNIR",
           body:
-            "Estudios a tiempo parcial, online, compatibles con el trabajo a tiempo completo: una inversión deliberada en profundidad de ingeniería. Cuenta ya con aproximadamente 1,2 años reconocidos de estudios previos.",
+            "Retomada en 2026, con 1,2 años ya reconocidos de estudios previos. Es una carrera online, elegida precisamente para compatibilizarla bien con el trabajo a tiempo completo: quedan tres años de plan de estudios, repartidos en unos seis años reales al ritmo que permite el trabajo.",
         },
       },
     },
@@ -342,24 +342,24 @@ window.TRANSLATIONS = {
       eyebrow: "Conóceme",
       title: "Sobre mí",
       paragraphs: [
-        "Me gusta trabajar con gente —compartir ideas con otros desarrolladores y consultores— y también disfruto resolviendo cosas por mi cuenta en ciertos momentos. Lo que de verdad me engancha es <strong>un reto real</strong>: un problema que me hace querer meterme a fondo y entenderlo bien, no solo parchearlo.",
-        "Soy organizada y de mente abierta — y eso no me hace menos decidida. Me gusta tener las cosas claras y encaminadas, sin dejar de estar abierta a una forma mejor de hacer algo, y no me cuesta tomar una decisión cuando hace falta.",
-        "Me gusta aprender, y me gusta aportar más de lo que se espera de mí: <strong>ir un poco más allá de lo que pide la tarea</strong> cuando puedo. Todavía estoy en desarrollo como profesional, y sé que cada día puedo ofrecer un poco más que el día anterior.",
-        "Actualmente estoy terminando el Grado en Ingeniería Informática compatibilizándolo con el trabajo a tiempo completo, porque prefiero seguir construyendo una base sólida antes que dejar de aprender en cuanto cambia un título.",
+        "Me gusta trabajar con gente, compartir ideas con otros desarrolladores y consultores, y también disfruto resolviendo cosas por mi cuenta en ciertos momentos. Lo que de verdad me engancha es <strong>un reto real</strong>: un problema que me hace querer meterme a fondo y entenderlo bien, no solo parchearlo.",
+        "Soy organizada y de mente abierta, y eso no me hace menos decidida. Me gusta tener las cosas claras y encaminadas, sin dejar de estar abierta a una forma mejor de hacer algo, y no me cuesta tomar una decisión cuando hace falta.",
+        "Me gusta aprender, y me gusta aportar más de lo que se espera de mí: <strong>ir un poco más allá de lo que pide la tarea</strong> cuando puedo. También valoro las críticas constructivas, porque sé que sin ellas no se puede crecer, aunque eso no quita que me guste dejar cada tarea lo mejor hecha posible. Todavía estoy en desarrollo como profesional, y sé que cada día puedo ofrecer un poco más que el día anterior.",
+        "Este año he retomado el Grado en Ingeniería Informática, una carrera online que elegí precisamente para poder compatibilizarla bien con mi trabajo a tiempo completo. Me quedan tres años de plan de estudios, que voy a repartir en unos seis años reales para llevarlo al ritmo que necesito.",
       ],
     },
     beyond: {
       eyebrow: "Más allá del código",
       title: "Más allá del código",
       body:
-        "Fuera de Business Central, me gusta la música y toco la guitarra, y procuro dejar espacio para leer y dibujar — cualquier cosa que deje respirar el lado creativo. También me encanta quedar con la gente a tomar un café: acompañar en los momentos difíciles y celebrar juntos los logros importantes.",
+        "Fuera de Business Central, me gusta la música y toco la guitarra, y procuro dejar espacio para leer y dibujar. Es un lado creativo que sigo cultivando, y que también asoma en cómo planteo las soluciones cuando programo. También me encanta quedar con la gente a tomar un café: acompañar en los momentos difíciles y celebrar juntos los logros importantes.",
       guitarAlt: "Marcador de posición para una fotografía de Lucía con su guitarra",
     },
     contact: {
       eyebrow: "Hablemos",
       title: "Contacto",
       intro:
-        "Si mi perfil pudiera <strong>encajar bien en tu equipo o proyecto</strong>, me encantaría saber de ti.",
+        "Actualmente sigo en mi puesto y lo valoro, pero estoy abierta a un cambio si encaja de verdad con <strong>lo que busco a futuro</strong> — no por necesidad, sino porque el encaje sea bueno para las dos partes. Si mi perfil pudiera encajar bien en tu equipo o proyecto, me encantaría saber de ti.",
       email: "Email",
       linkedin: "LinkedIn",
       github: "GitHub",
