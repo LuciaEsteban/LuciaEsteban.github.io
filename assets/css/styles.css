@@ -117,6 +117,8 @@ button:focus-visible,
   max-width: var(--container-width);
   margin-inline: auto;
   padding-inline: 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .eyebrow {
@@ -131,6 +133,14 @@ button:focus-visible,
 
 .section { padding: 5.5rem 0; }
 .section-alt { background: var(--color-bg-alt); }
+.section-expertise,
+#education,
+#about,
+.section-beyond,
+.section-contact {
+  position: relative;
+  overflow: hidden;
+}
 .section-intro {
   max-width: 62ch;
   color: var(--color-text-muted);
@@ -422,67 +432,56 @@ button:focus-visible,
 .expertise-card h3 { font-size: 1.15rem; margin-bottom: 0.6rem; }
 .expertise-card p { color: var(--color-text-muted); font-size: 1rem; line-height: 1.6; margin-bottom: 0; }
 
-/* Diagrams */
-.diagrams {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 3rem;
-}
-.diagram-card {
-  background: var(--color-ink);
-  color: #fff;
-  border-radius: var(--radius-md);
-  padding: 1.8rem;
-}
-.diagram-card h3 { color: #fff; font-size: 1.02rem; margin-bottom: 1.2rem; }
-.diagram {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1.2rem;
-}
-.diagram-pill {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 0.5rem 0.85rem;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-.diagram-pill-accent {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
-}
-.diagram-arrow { color: rgba(255, 255, 255, 0.45); flex-shrink: 0; }
-.diagram-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  counter-reset: step;
-  font-size: 0.88rem;
-  color: rgba(255, 255, 255, 0.8);
-}
-.diagram-steps li {
-  counter-increment: step;
-  padding-left: 1.6rem;
-  position: relative;
-}
-.diagram-steps li::before {
-  content: counter(step);
+/* ==========================================================================
+   Decorative bubble field — soft floating color orbs used to break up
+   otherwise flat section backgrounds. Purely decorative (aria-hidden),
+   CSS-only, positioned behind section content, and covered by the
+   prefers-reduced-motion override below like every other animation here.
+   ========================================================================== */
+.bubble-field {
   position: absolute;
-  left: 0; top: -1px;
-  width: 18px; height: 18px;
-  font-size: 0.7rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.bubble {
+  position: absolute;
   border-radius: 50%;
-  background: var(--color-accent);
-  color: #fff;
-  font-family: var(--font-mono);
+  filter: blur(50px);
+  opacity: 0.16;
+}
+.bubble-a {
+  width: 220px; height: 220px;
+  background: #2f6fed;
+  top: -50px; left: 6%;
+  animation: bubbleDriftA 17s ease-in-out infinite;
+}
+.bubble-b {
+  width: 170px; height: 170px;
+  background: #16a394;
+  bottom: -40px; right: 10%;
+  animation: bubbleDriftB 21s ease-in-out infinite;
+}
+.bubble-c {
+  width: 130px; height: 130px;
+  background: #7c3aed;
+  top: 50%; right: 28%;
+  animation: bubbleDriftC 15s ease-in-out infinite;
+}
+.bubble-field-dark .bubble { opacity: 0.28; }
+
+@keyframes bubbleDriftA {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(26px, 34px); }
+}
+@keyframes bubbleDriftB {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-22px, -28px); }
+}
+@keyframes bubbleDriftC {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(18px, -22px) scale(1.12); }
 }
 
 /* ==========================================================================
@@ -553,17 +552,6 @@ button:focus-visible,
 /* ==========================================================================
    Experience timeline
    ========================================================================== */
-
-.experience-duration {
-  margin-top: 2rem;
-  font-size: 1.15rem;
-  color: var(--color-text);
-}
-.experience-duration strong {
-  color: var(--color-accent);
-  font-family: var(--font-mono);
-  margin-inline: 0.35rem;
-}
 
 #expertiseDuration {
   color: var(--color-accent);
