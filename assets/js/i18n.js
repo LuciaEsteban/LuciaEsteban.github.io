@@ -18,8 +18,7 @@ window.TRANSLATIONS = {
     nav: {
       expertise: "Business Central",
       ecosystem: "Ecosystem",
-      experience: "Experience",
-      education: "Education",
+      journey: "Journey",
       about: "About",
       contact: "Contact",
       langToggleLabel: "Switch language",
@@ -31,7 +30,10 @@ window.TRANSLATIONS = {
       role: "Microsoft Dynamics 365 Business Central / AL Developer",
       tagline:
         "I build and maintain <strong>AL extensions, business reports and integrations</strong> for Microsoft Dynamics 365 Business Central — across SaaS and On-Premise environments.",
-      availability: "Open to remote opportunities, in English or Spanish.",
+      badgeRemote: "100% remote",
+      badgeLanguages: "English & Spanish",
+      availability:
+        "Currently looking for a fully remote role — without stepping back from being part of a team: I want to help <strong>drive projects forward together with the company</strong>, not just alongside it.",
       ctaPrimary: "Explore my Business Central work",
       ctaSecondary: "Get in touch",
       photoAlt: "Placeholder for Lucía Esteban's professional photo",
@@ -108,18 +110,13 @@ window.TRANSLATIONS = {
       },
       additional: {
         title: "Additional / academic",
-        items: ["Java", "HTML / CSS (this site)", "Introductory C", "Introductory Python"],
+        items: ["Java", "HTML / CSS", "Introductory C", "Introductory Python"],
       },
     },
     experience: {
-      eyebrow: "Timeline",
-      title: "Professional experience",
-      intro: "Now that you've seen what I can do, here's the timeline behind it.",
-      current: {
-        role: "Microsoft Dynamics 365 Business Central / AL Developer",
-        companyFallback: "Currently working professionally with Business Central",
-        versions: "Exposure to NAV/BC14, BC21, BC25 and BC28",
-      },
+      // Display copy for this now lives under `journey` below — these four
+      // are kept here because durationParts() in main.js builds its key
+      // from "experience.years"/"experience.months" at runtime.
       years_one: "{n} year",
       years_other: "{n} years",
       months_one: "{n} month",
@@ -127,25 +124,33 @@ window.TRANSLATIONS = {
       lessThanAMonth: "just getting started",
       conjunction: "and",
     },
-    education: {
-      eyebrow: "Continuous learning",
-      title: "Education",
+    journey: {
+      eyebrow: "Trajectory",
+      title: "Experience & education",
       intro:
-        "Formal education has run alongside professional work, not instead of it — including right now.",
+        "A still-short professional history, paired with the formal education that's run alongside it — including right now.",
       items: {
+        electronics: {
+          tag: "Education",
+          title: "Electronics and Industrial Automation Engineering",
+          meta: "2 years completed — Universidad Politécnica de Alcalá",
+          body: "Switched tracks into software development from here, which continued through DAM and further technical education.",
+        },
         dam: {
+          tag: "Education",
           title: "Higher Technician in Multiplatform Application Development (DAM)",
-          status: "Completed",
+          meta: "Completed",
           body: "Higher Vocational Training in software development.",
         },
-        electronics: {
-          title: "Electronics and Industrial Automation Engineering",
-          status: "2 years completed",
-          body: "Completed 2 years of the degree at Universidad Politécnica de Alcalá before switching tracks into software development, which continued through DAM and further technical education.",
+        professional: {
+          tag: "Professional",
+          role: "Microsoft Dynamics 365 Business Central / AL Developer",
+          companyFallback: "Currently working professionally with Business Central",
+          versions: "Exposure to NAV/BC14, BC21, BC25 and BC28",
         },
         unir: {
+          tag: "Education — in progress",
           title: "Computer Engineering — UNIR",
-          status: "In progress",
           body:
             "Studying part-time, online, alongside full-time professional work — a deliberate investment in deeper engineering foundations. Around 1.2 years already recognized from previous studies.",
         },
@@ -156,6 +161,7 @@ window.TRANSLATIONS = {
       title: "About me",
       paragraphs: [
         "I like working with people — sharing ideas with other developers and consultants — and I'm just as happy figuring things out on my own sometimes. What really gets me going is <strong>a genuine challenge</strong>: a problem that makes me want to dig in and actually understand it, not just patch it.",
+        "I'm organized and open-minded — and that doesn't make me any less decisive. I like keeping things clear and on track, while staying open to a better way of doing something, and I'm comfortable making a call when one is needed.",
         "I like learning, and I like contributing more than what's strictly expected of me — <strong>going a bit further than a task asks for</strong> when I can. I'm still growing as a developer, and I know that every day I can offer a little more than I did the day before.",
         "I'm currently finishing my degree in Computer Engineering alongside full-time work, because I'd rather keep building a solid foundation than stop learning once a job title changes.",
       ],
@@ -197,8 +203,7 @@ window.TRANSLATIONS = {
     nav: {
       expertise: "Business Central",
       ecosystem: "Ecosistema",
-      experience: "Experiencia",
-      education: "Formación",
+      journey: "Trayectoria",
       about: "Sobre mí",
       contact: "Contacto",
       langToggleLabel: "Cambiar idioma",
@@ -210,7 +215,10 @@ window.TRANSLATIONS = {
       role: "Desarrolladora Microsoft Dynamics 365 Business Central / AL",
       tagline:
         "Desarrollo y mantengo <strong>extensiones AL, informes de negocio e integraciones</strong> para Microsoft Dynamics 365 Business Central, en entornos SaaS y On-Premise.",
-      availability: "Abierta a oportunidades en remoto, en inglés o español.",
+      badgeRemote: "100% remoto",
+      badgeLanguages: "Inglés y español",
+      availability:
+        "Actualmente estoy interesada en un puesto 100% en remoto, sin dejar de formar parte de un equipo: quiero <strong>llevar los proyectos adelante junto a la empresa</strong>, no solo en paralelo a ella.",
       ctaPrimary: "Ver mi trabajo en Business Central",
       ctaSecondary: "Contactar",
       photoAlt: "Marcador de posición para la fotografía profesional de Lucía Esteban",
@@ -287,18 +295,10 @@ window.TRANSLATIONS = {
       },
       additional: {
         title: "Adicional / académico",
-        items: ["Java", "HTML / CSS (esta web)", "Nociones de C", "Nociones de Python"],
+        items: ["Java", "HTML / CSS", "Nociones de C", "Nociones de Python"],
       },
     },
     experience: {
-      eyebrow: "Trayectoria",
-      title: "Experiencia profesional",
-      intro: "Ahora que has visto lo que sé hacer, aquí está la trayectoria detrás de ello.",
-      current: {
-        role: "Desarrolladora Microsoft Dynamics 365 Business Central / AL",
-        companyFallback: "Actualmente trabajando profesionalmente con Business Central",
-        versions: "Exposición a NAV/BC14, BC21, BC25 y BC28",
-      },
       years_one: "{n} año",
       years_other: "{n} años",
       months_one: "{n} mes",
@@ -306,25 +306,33 @@ window.TRANSLATIONS = {
       lessThanAMonth: "recién empezando",
       conjunction: "y",
     },
-    education: {
-      eyebrow: "Aprendizaje continuo",
-      title: "Formación",
+    journey: {
+      eyebrow: "Trayectoria",
+      title: "Experiencia y formación",
       intro:
-        "La formación académica ha ido en paralelo al trabajo profesional, no en su lugar, incluido ahora mismo.",
+        "Un recorrido profesional todavía breve, junto a la formación que lo ha acompañado — incluido ahora mismo.",
       items: {
+        electronics: {
+          tag: "Formación",
+          title: "Ingeniería Electrónica Automática Industrial",
+          meta: "2 años completados — Universidad Politécnica de Alcalá",
+          body: "Desde aquí cambié de rama hacia el desarrollo de software, que continué después con el DAM y más formación técnica.",
+        },
         dam: {
+          tag: "Formación",
           title: "Técnico Superior en Desarrollo de Aplicaciones Multiplataforma (DAM)",
-          status: "Completado",
+          meta: "Completado",
           body: "Ciclo Formativo de Grado Superior en desarrollo de software.",
         },
-        electronics: {
-          title: "Ingeniería Electrónica Automática Industrial",
-          status: "2 años completados",
-          body: "Completé 2 años de la carrera en la Universidad Politécnica de Alcalá antes de cambiar de rama hacia el desarrollo de software, que continué después con el DAM y más formación técnica.",
+        professional: {
+          tag: "Profesional",
+          role: "Desarrolladora Microsoft Dynamics 365 Business Central / AL",
+          companyFallback: "Actualmente trabajando profesionalmente con Business Central",
+          versions: "Exposición a NAV/BC14, BC21, BC25 y BC28",
         },
         unir: {
+          tag: "Formación — en curso",
           title: "Ingeniería Informática — UNIR",
-          status: "En curso",
           body:
             "Estudios a tiempo parcial, online, compatibles con el trabajo a tiempo completo: una inversión deliberada en profundidad de ingeniería. Cuenta ya con aproximadamente 1,2 años reconocidos de estudios previos.",
         },
@@ -335,6 +343,7 @@ window.TRANSLATIONS = {
       title: "Sobre mí",
       paragraphs: [
         "Me gusta trabajar con gente —compartir ideas con otros desarrolladores y consultores— y también disfruto resolviendo cosas por mi cuenta en ciertos momentos. Lo que de verdad me engancha es <strong>un reto real</strong>: un problema que me hace querer meterme a fondo y entenderlo bien, no solo parchearlo.",
+        "Soy organizada y de mente abierta — y eso no me hace menos decidida. Me gusta tener las cosas claras y encaminadas, sin dejar de estar abierta a una forma mejor de hacer algo, y no me cuesta tomar una decisión cuando hace falta.",
         "Me gusta aprender, y me gusta aportar más de lo que se espera de mí: <strong>ir un poco más allá de lo que pide la tarea</strong> cuando puedo. Todavía estoy en desarrollo como profesional, y sé que cada día puedo ofrecer un poco más que el día anterior.",
         "Actualmente estoy terminando el Grado en Ingeniería Informática compatibilizándolo con el trabajo a tiempo completo, porque prefiero seguir construyendo una base sólida antes que dejar de aprender en cuanto cambia un título.",
       ],
