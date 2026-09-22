@@ -60,7 +60,10 @@
       var key = el.getAttribute("data-i18n");
       var value = resolvePath(dict, key);
       if (typeof value === "string") {
-        el.textContent = value;
+        // innerHTML, not textContent: a few strings in i18n.js wrap a
+        // phrase in <strong> for emphasis. Safe here because every value
+        // comes from our own dictionary, never from a visitor.
+        el.innerHTML = value;
       }
     });
 
