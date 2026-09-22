@@ -64,8 +64,7 @@
         <ul>
           <li><a href="#expertise" data-i18n="nav.expertise">Business Central</a></li>
           <li><a href="#ecosystem" data-i18n="nav.ecosystem">Ecosystem</a></li>
-          <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
-          <li><a href="#education" data-i18n="nav.education">Education</a></li>
+          <li><a href="#journey" data-i18n="nav.journey">Journey</a></li>
           <li><a href="#about" data-i18n="nav.about">About</a></li>
           <li><a href="#contact" class="nav-cta" data-i18n="nav.contact">Contact</a></li>
         </ul>
@@ -106,7 +105,11 @@
           <p class="hero-tagline" data-i18n="hero.tagline">
             I build and maintain AL extensions, business reports and integrations for Microsoft Dynamics 365 Business Central — across SaaS and On-Premise environments.
           </p>
-          <p class="hero-availability" data-i18n="hero.availability">Open to remote opportunities, in English or Spanish.</p>
+          <div class="hero-badges" aria-hidden="false">
+            <span class="hero-badge" data-i18n="hero.badgeRemote">100% remote</span>
+            <span class="hero-badge" data-i18n="hero.badgeLanguages">English &amp; Spanish</span>
+          </div>
+          <p class="hero-availability" data-i18n="hero.availability">Currently looking for a fully remote role — without stepping back from being part of a team: I want to help <strong>drive projects forward together with the company</strong>, not just alongside it.</p>
           <div class="hero-ctas">
             <a class="btn btn-primary" href="#expertise" data-i18n="hero.ctaPrimary">Explore my Business Central work</a>
             <a class="btn btn-secondary" href="#contact" data-i18n="hero.ctaSecondary">Get in touch</a>
@@ -250,7 +253,7 @@
             <h3 data-i18n="ecosystem.additional.title">Additional / academic</h3>
             <ul class="chip-list">
               <li class="chip chip-additional" data-i18n="ecosystem.additional.items.0">Java</li>
-              <li class="chip chip-additional" data-i18n="ecosystem.additional.items.1">HTML / CSS (this site)</li>
+              <li class="chip chip-additional" data-i18n="ecosystem.additional.items.1">HTML / CSS</li>
               <li class="chip chip-additional" data-i18n="ecosystem.additional.items.2">Introductory C</li>
               <li class="chip chip-additional" data-i18n="ecosystem.additional.items.3">Introductory Python</li>
             </ul>
@@ -259,50 +262,55 @@
       </div>
     </section>
 
-    <!-- EXPERIENCE -->
-    <section class="section" id="experience" aria-labelledby="experience-heading">
+    <!-- JOURNEY (professional experience + education, combined — one job
+         entry didn't earn a whole section to itself, and the two threads
+         genuinely run side by side anyway) -->
+    <section class="section section-alt" id="journey" aria-labelledby="journey-heading">
+      <div class="bubble-field" aria-hidden="true"><span class="bubble bubble-a"></span><span class="bubble bubble-b"></span><span class="bubble bubble-c"></span></div>
       <div class="container">
-        <p class="eyebrow reveal" data-i18n="experience.eyebrow">Timeline</p>
-        <h2 id="experience-heading" class="reveal" data-i18n="experience.title">Professional experience</h2>
-        <p class="section-intro reveal" data-i18n="experience.intro">Now that you've seen what I can do, here's the timeline behind it.</p>
+        <p class="eyebrow reveal" data-i18n="journey.eyebrow">Trajectory</p>
+        <h2 id="journey-heading" class="reveal" data-i18n="journey.title">Experience &amp; education</h2>
+        <p class="section-intro reveal" data-i18n="journey.intro">A still-short professional history, paired with the formal education that's run alongside it — including right now.</p>
 
         <ol class="timeline reveal">
-          <li class="timeline-item">
+          <li class="timeline-item timeline-item-education">
             <div class="timeline-dot" aria-hidden="true"></div>
             <div class="timeline-content">
-              <p class="timeline-date" id="timelineStartLabel">2025 —</p>
-              <h3 data-i18n="experience.current.role">Microsoft Dynamics 365 Business Central / AL Developer</h3>
-              <p id="timelineCompany" data-i18n="experience.current.companyFallback">Currently working professionally with Business Central</p>
-              <p class="timeline-meta" data-i18n="experience.current.versions">Exposure to NAV/BC14, BC21, BC25 and BC28</p>
+              <span class="timeline-tag timeline-tag-education" data-i18n="journey.items.electronics.tag">Education</span>
+              <h3 data-i18n="journey.items.electronics.title">Electronics and Industrial Automation Engineering</h3>
+              <p class="timeline-meta" data-i18n="journey.items.electronics.meta">2 years completed — Universidad Politécnica de Alcalá</p>
+              <p data-i18n="journey.items.electronics.body">Switched tracks into software development from here, which continued through DAM and further technical education.</p>
             </div>
           </li>
-        </ol>
-      </div>
-    </section>
 
-    <!-- EDUCATION -->
-    <section class="section section-alt" id="education" aria-labelledby="education-heading">
-      <div class="bubble-field" aria-hidden="true"><span class="bubble bubble-a"></span><span class="bubble bubble-b"></span></div>
-      <div class="container">
-        <p class="eyebrow reveal" data-i18n="education.eyebrow">Continuous learning</p>
-        <h2 id="education-heading" class="reveal" data-i18n="education.title">Education</h2>
-        <p class="section-intro reveal" data-i18n="education.intro">Formal education has run alongside professional work, not instead of it — including right now.</p>
+          <li class="timeline-item timeline-item-education">
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <div class="timeline-content">
+              <span class="timeline-tag timeline-tag-education" data-i18n="journey.items.dam.tag">Education</span>
+              <h3 data-i18n="journey.items.dam.title">Higher Technician in Multiplatform Application Development (DAM)</h3>
+              <p class="timeline-meta" data-i18n="journey.items.dam.meta">Completed</p>
+              <p data-i18n="journey.items.dam.body">Higher Vocational Training in software development.</p>
+            </div>
+          </li>
 
-        <ol class="edu-list reveal">
-          <li class="edu-item edu-completed">
-            <span class="edu-status" data-i18n="education.items.dam.status">Completed</span>
-            <h3 data-i18n="education.items.dam.title">Higher Technician in Multiplatform Application Development (DAM)</h3>
-            <p data-i18n="education.items.dam.body">Higher Vocational Training in software development.</p>
+          <li class="timeline-item timeline-item-professional">
+            <div class="timeline-dot" aria-hidden="true"></div>
+            <div class="timeline-content">
+              <span class="timeline-tag timeline-tag-professional" data-i18n="journey.items.professional.tag">Professional</span>
+              <p class="timeline-date" id="timelineStartLabel">2025 —</p>
+              <h3 data-i18n="journey.items.professional.role">Microsoft Dynamics 365 Business Central / AL Developer</h3>
+              <p id="timelineCompany" data-i18n="journey.items.professional.companyFallback">Currently working professionally with Business Central</p>
+              <p class="timeline-meta" data-i18n="journey.items.professional.versions">Exposure to NAV/BC14, BC21, BC25 and BC28</p>
+            </div>
           </li>
-          <li class="edu-item edu-completed">
-            <span class="edu-status" data-i18n="education.items.electronics.status">2 years completed</span>
-            <h3 data-i18n="education.items.electronics.title">Electronics and Industrial Automation Engineering</h3>
-            <p data-i18n="education.items.electronics.body">Completed 2 years of the degree at Universidad Politécnica de Alcalá before switching tracks into software development, which continued through DAM and further technical education.</p>
-          </li>
-          <li class="edu-item edu-progress">
-            <span class="edu-status edu-status-progress" data-i18n="education.items.unir.status">In progress</span>
-            <h3 data-i18n="education.items.unir.title">Computer Engineering — UNIR</h3>
-            <p data-i18n="education.items.unir.body">Studying part-time, online, alongside full-time professional work — a deliberate investment in deeper engineering foundations. Around 1.2 years already recognized from previous studies.</p>
+
+          <li class="timeline-item timeline-item-education">
+            <div class="timeline-dot timeline-dot-pulse" aria-hidden="true"></div>
+            <div class="timeline-content">
+              <span class="timeline-tag timeline-tag-education" data-i18n="journey.items.unir.tag">Education — in progress</span>
+              <h3 data-i18n="journey.items.unir.title">Computer Engineering — UNIR</h3>
+              <p data-i18n="journey.items.unir.body">Studying part-time, online, alongside full-time professional work — a deliberate investment in deeper engineering foundations. Around 1.2 years already recognized from previous studies.</p>
+            </div>
           </li>
         </ol>
       </div>
@@ -316,8 +324,9 @@
           <p class="eyebrow" data-i18n="about.eyebrow">Get to know me</p>
           <h2 id="about-heading" data-i18n="about.title">About me</h2>
           <p data-i18n="about.paragraphs.0">I like working with people — sharing ideas with other developers and consultants — and I'm just as happy figuring things out on my own sometimes. What really gets me going is a genuine challenge: a problem that makes me want to dig in and actually understand it, not just patch it.</p>
-          <p data-i18n="about.paragraphs.1">I like learning, and I like contributing more than what's strictly expected of me — going a bit further than a task asks for when I can. I'm still growing as a developer, and I know that every day I can offer a little more than I did the day before.</p>
-          <p data-i18n="about.paragraphs.2">I'm currently finishing my degree in Computer Engineering alongside full-time work, because I'd rather keep building a solid foundation than stop learning once a job title changes.</p>
+          <p data-i18n="about.paragraphs.1">I'm organized and open-minded — and that doesn't make me any less decisive. I like keeping things clear and on track, while staying open to a better way of doing something, and I'm comfortable making a call when one is needed.</p>
+          <p data-i18n="about.paragraphs.2">I like learning, and I like contributing more than what's strictly expected of me — going a bit further than a task asks for when I can. I'm still growing as a developer, and I know that every day I can offer a little more than I did the day before.</p>
+          <p data-i18n="about.paragraphs.3">I'm currently finishing my degree in Computer Engineering alongside full-time work, because I'd rather keep building a solid foundation than stop learning once a job title changes.</p>
         </div>
       </div>
     </section>
