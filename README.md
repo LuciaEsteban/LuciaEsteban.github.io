@@ -71,7 +71,7 @@ The following are intentionally left as placeholders (no data was invented
 for them). Fill these in `assets/js/config.js` before treating the site as
 final:
 
-- [ ] `businessCentralStartDate` — replace with the exact professional start date
+- [x] `businessCentralStartDate` — set to March 2025 (confirmed). Adjust the exact day if it becomes known.
 - [ ] `professionalEmail`
 - [ ] `linkedInUrl`
 - [ ] `cvPdfUrl` (and add the actual PDF under `assets/files/`)

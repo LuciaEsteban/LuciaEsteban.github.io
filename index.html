@@ -46,7 +46,6 @@
       <nav class="primary-nav" id="primaryNav" aria-label="Primary">
         <ul>
           <li><a href="#expertise" data-i18n="nav.expertise">Business Central</a></li>
-          <li><a href="#case-studies" data-i18n="nav.caseStudies">Case Studies</a></li>
           <li><a href="#ecosystem" data-i18n="nav.ecosystem">Ecosystem</a></li>
           <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
           <li><a href="#education" data-i18n="nav.education">Education</a></li>
@@ -95,8 +94,8 @@
       <div class="container">
         <p class="eyebrow reveal" data-i18n="expertise.eyebrow">Core capability</p>
         <h2 id="expertise-heading" class="reveal" data-i18n="expertise.title">Business Central expertise</h2>
-        <p class="section-intro reveal" data-i18n="expertise.intro">
-          This is where most of my professional experience lives. Everything below is capability I have applied in real Business Central projects — not a list of buzzwords.
+        <p class="section-intro reveal">
+          <span data-i18n="expertise.introBeforeDuration">I've been working professionally with Business Central / AL, in a consultancy environment, since March 2025 — </span><strong id="expertiseDuration">—</strong><span data-i18n="expertise.introAfterDuration"> so far. In that time I've covered new implementations, migrations and upgrades, reporting, and integrations, across SaaS and On-Premise environments.</span>
         </p>
 
         <div class="expertise-grid">
@@ -105,31 +104,31 @@
               <svg viewBox="0 0 48 48" fill="none"><rect x="7" y="7" width="34" height="34" rx="6" stroke="currentColor" stroke-width="2"/><path d="M15 19h18M15 24h18M15 29h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             </div>
             <h3 data-i18n="expertise.items.al.title">AL Development &amp; Extensions</h3>
-            <p data-i18n="expertise.items.al.body">Building and maintaining AL extensions: tables, pages, page extensions, codeunits, business logic, events and subscribers.</p>
+            <p data-i18n="expertise.items.al.body">This is the core of my day-to-day work: building and maintaining AL extensions for Business Central — tables, pages, page extensions, codeunits, events and subscribers. It's where business requirements become working functionality.</p>
           </article>
 
           <article class="expertise-card reveal">
             <div class="expertise-icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none"><path d="M12 8h16l8 8v24a2 2 0 01-2 2H12a2 2 0 01-2-2V10a2 2 0 012-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M28 8v8h8M16 26h16M16 32h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             </div>
-            <h3 data-i18n="expertise.items.reports.title">Reports &amp; RDLC</h3>
-            <p data-i18n="expertise.items.reports.body">AL datasets combined with RDLC layouts to produce multipage business documents, with conditional logic, calculations and alignment that hold up in production.</p>
+            <h3 data-i18n="expertise.items.reports.title">Reporting (AL + RDLC)</h3>
+            <p data-i18n="expertise.items.reports.body">I build business reports combining AL datasets with RDLC layouts: the multipage commercial documents a company sends to its customers and suppliers. Getting them right takes more than a template — conditional logic, totals, taxes and layout details that have to hold up in production.</p>
           </article>
 
           <article class="expertise-card reveal">
             <div class="expertise-icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none"><path d="M10 24a14 14 0 0124-9.5M38 24a14 14 0 01-24 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M34 10v6h-6M14 38v-6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <h3 data-i18n="expertise.items.migrations.title">Migrations &amp; Upgrades</h3>
-            <p data-i18n="expertise.items.migrations.body">Version migrations and upgrades between Business Central releases: extension/app compatibility, environment preparation and validation.</p>
+            <h3 data-i18n="expertise.items.implementations.title">New Implementations &amp; Upgrades</h3>
+            <p data-i18n="expertise.items.implementations.body">I've worked on both sides of a Business Central rollout: new implementations built from scratch, and migrations and upgrades between versions, with exposure to NAV/BC14, BC21, BC25 and BC28. Each one poses different challenges — from configuring a solution from zero to keeping existing customizations working after an upgrade.</p>
           </article>
 
           <article class="expertise-card reveal">
             <div class="expertise-icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none"><circle cx="12" cy="24" r="5" stroke="currentColor" stroke-width="2"/><circle cx="36" cy="12" r="5" stroke="currentColor" stroke-width="2"/><circle cx="36" cy="36" r="5" stroke="currentColor" stroke-width="2"/><path d="M17 22l14-8M17 26l14 8" stroke="currentColor" stroke-width="2"/></svg>
             </div>
-            <h3 data-i18n="expertise.items.integrations.title">Integrations &amp; Data</h3>
-            <p data-i18n="expertise.items.integrations.body">Working with APIs, Web Services, XML, JSON and XMLPorts inside Business Central solutions to exchange data with the outside world.</p>
+            <h3 data-i18n="expertise.items.integrations.title">Integrations &amp; APIs</h3>
+            <p data-i18n="expertise.items.integrations.body">Business Central rarely works in isolation. I build the connections that let it exchange data with other systems — APIs, Web Services, XML, JSON and XMLPorts — so information moves reliably between Business Central and whatever it needs to talk to.</p>
           </article>
 
           <article class="expertise-card reveal">
@@ -137,15 +136,15 @@
               <svg viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="12" rx="14" ry="5" stroke="currentColor" stroke-width="2"/><path d="M10 12v12c0 2.76 6.27 5 14 5s14-2.24 14-5V12" stroke="currentColor" stroke-width="2"/><path d="M10 24v12c0 2.76 6.27 5 14 5s14-2.24 14-5V24" stroke="currentColor" stroke-width="2"/></svg>
             </div>
             <h3 data-i18n="expertise.items.saas.title">SaaS &amp; On-Premise</h3>
-            <p data-i18n="expertise.items.saas.body">Hands-on experience with both deployment models, and a practical understanding of how their constraints differ — from Server Tier to what SaaS does and doesn't allow.</p>
+            <p data-i18n="expertise.items.saas.body">I've worked hands-on with both deployment models and know how their constraints differ in practice — from what SaaS does and doesn't allow, to managing Server Tier and infrastructure on an On-Premise environment.</p>
           </article>
 
           <article class="expertise-card reveal">
             <div class="expertise-icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none"><path d="M24 8l4.5 9.2 10.1 1.5-7.3 7.1 1.7 10.1L24 31l-9 4.9 1.7-10.1-7.3-7.1 10.1-1.5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
             </div>
-            <h3 data-i18n="expertise.items.tooling.title">Development Environment &amp; Tooling</h3>
-            <p data-i18n="expertise.items.tooling.body">AL Language in VS Code, symbols and .app/.alpackages, multi-project workspaces, Go to Definition, and diagnosing dependency and compilation issues.</p>
+            <h3 data-i18n="expertise.items.tooling.title">Development Environment &amp; Way of Working</h3>
+            <p data-i18n="expertise.items.tooling.body">Day to day, I work in VS Code with the AL Language extension, symbols and .app/.alpackages, across multi-project workspaces. I like to start from a clear functional specification and a short design outline before writing code, and to work through Git with pull requests — adapting to whatever process a team already has in place.</p>
           </article>
         </div>
 
@@ -190,71 +189,8 @@
       </div>
     </section>
 
-    <!-- CASE STUDIES -->
-    <section class="section section-alt" id="case-studies" aria-labelledby="cases-heading">
-      <div class="container">
-        <p class="eyebrow reveal" data-i18n="caseStudies.eyebrow">Applied experience</p>
-        <h2 id="cases-heading" class="reveal" data-i18n="caseStudies.title">Technical case studies</h2>
-        <p class="section-intro reveal" data-i18n="caseStudies.intro">
-          Anonymized examples based on real project work. No client names, internal systems or confidential details are included — just the technical substance, which I'm happy to go deeper on in an interview.
-        </p>
-
-        <div class="case-list">
-          <article class="case-card reveal" data-case="upgrade">
-            <h3 data-i18n="caseStudies.items.upgrade.title">Business Central Upgrade</h3>
-            <dl>
-              <div><dt data-i18n="caseStudies.labels.challenge">Challenge</dt><dd data-i18n="caseStudies.items.upgrade.challenge">An On-Premise environment needed to move from one Business Central version to a newer one without breaking existing customizations.</dd></div>
-              <div><dt data-i18n="caseStudies.labels.work">What I worked on</dt><dd data-i18n="caseStudies.items.upgrade.work">Assessed extension and app compatibility ahead of the upgrade, prepared and cloned the environment for migration, worked with Business Central Server / Server Tier and the Business Central Administration Shell, and troubleshot SQL Server issues — including Full-Text related problems — that surfaced during the process.</dd></div>
-              <div><dt data-i18n="caseStudies.labels.technologies">Technologies</dt><dd data-i18n="caseStudies.items.upgrade.technologies">Business Central On-Premise, AL, PowerShell, SQL Server</dd></div>
-              <div><dt data-i18n="caseStudies.labels.demonstrates">What this demonstrates</dt><dd data-i18n="caseStudies.items.upgrade.demonstrates">Comfort owning an upgrade end-to-end: technical assessment, environment work and troubleshooting under real constraints.</dd></div>
-            </dl>
-          </article>
-
-          <article class="case-card reveal" data-case="reporting">
-            <h3 data-i18n="caseStudies.items.reporting.title">Commercial Reporting System</h3>
-            <dl>
-              <div><dt data-i18n="caseStudies.labels.challenge">Challenge</dt><dd data-i18n="caseStudies.items.reporting.challenge">A family of commercial documents — quotes, order confirmations, delivery notes, invoices, credit memos and purchase orders — needed layouts that were accurate, configurable and consistent across all of them.</dd></div>
-              <div><dt data-i18n="caseStudies.labels.work">What I worked on</dt><dd data-i18n="caseStudies.items.reporting.work">Built and maintained the underlying AL datasets and RDLC layouts, implemented configurable corporate backgrounds sourced from Company Information, kept multipage layouts stable with correct header/footer handling, added configurable general/legal conditions laid out in two columns, and implemented conditional logic to show extra codes or data on order lines based on multiple business rules. Also handled the totals and tax breakdown: gross base, discounts, net base, VAT, VAT amount and equivalence surcharge — and fixed the usual RDLC pitfalls along the way: blank values, empty rows, premature page breaks and page duplication.</dd></div>
-              <div><dt data-i18n="caseStudies.labels.technologies">Technologies</dt><dd data-i18n="caseStudies.items.reporting.technologies">AL, RDLC, Business Central</dd></div>
-              <div><dt data-i18n="caseStudies.labels.demonstrates">What this demonstrates</dt><dd data-i18n="caseStudies.items.reporting.demonstrates">Real fluency in AL + RDLC reporting beyond cosmetic changes — including the fiscal and layout edge cases that make business documents genuinely production-ready.</dd></div>
-            </dl>
-          </article>
-
-          <article class="case-card reveal" data-case="legalConditions">
-            <h3 data-i18n="caseStudies.items.legalConditions.title">Configurable Legal Conditions</h3>
-            <dl>
-              <div><dt data-i18n="caseStudies.labels.challenge">Challenge</dt><dd data-i18n="caseStudies.items.legalConditions.challenge">Long legal/general conditions text needed to live outside hardcoded report layouts, so it could be edited without a code deployment.</dd></div>
-              <div><dt data-i18n="caseStudies.labels.work">What I worked on</dt><dd data-i18n="caseStudies.items.legalConditions.work">Extended the Company Information page to edit long condition text stored in a BLOB field, and implemented the read/write logic — including working with streams and page lifecycle events — to load and save that content correctly.</dd></div>
-              <div><dt data-i18n="caseStudies.labels.technologies">Technologies</dt><dd data-i18n="caseStudies.items.legalConditions.technologies">AL, Business Central page extensions, BLOB fields</dd></div>
-              <div><dt data-i18n="caseStudies.labels.demonstrates">What this demonstrates</dt><dd data-i18n="caseStudies.items.legalConditions.demonstrates">Understanding of Business Central's data persistence model beyond simple fields, applied to a genuinely useful configuration feature.</dd></div>
-            </dl>
-          </article>
-
-          <article class="case-card reveal" data-case="integration">
-            <h3 data-i18n="caseStudies.items.integration.title">Integration &amp; Data Exchange</h3>
-            <dl>
-              <div><dt data-i18n="caseStudies.labels.challenge">Challenge</dt><dd data-i18n="caseStudies.items.integration.challenge">Business Central needed to exchange structured data with an external system as part of a broader business process.</dd></div>
-              <div><dt data-i18n="caseStudies.labels.work">What I worked on</dt><dd data-i18n="caseStudies.items.integration.work">Worked with APIs / Web Services and XML, JSON and XMLPorts to move data in and out of Business Central in the format the integration required.</dd></div>
-              <div><dt data-i18n="caseStudies.labels.technologies">Technologies</dt><dd data-i18n="caseStudies.items.integration.technologies">AL, APIs / Web Services, XML, JSON, XMLPorts</dd></div>
-              <div><dt data-i18n="caseStudies.labels.demonstrates">What this demonstrates</dt><dd data-i18n="caseStudies.items.integration.demonstrates">Practical, honest integration experience — the kind of building block most Business Central projects eventually need.</dd></div>
-            </dl>
-          </article>
-
-          <article class="case-card reveal" data-case="troubleshooting">
-            <h3 data-i18n="caseStudies.items.troubleshooting.title">BC Environment Troubleshooting</h3>
-            <dl>
-              <div><dt data-i18n="caseStudies.labels.challenge">Challenge</dt><dd data-i18n="caseStudies.items.troubleshooting.challenge">A Business Central environment was showing configuration and compilation issues that needed a systematic diagnosis rather than guesswork.</dd></div>
-              <div><dt data-i18n="caseStudies.labels.work">What I worked on</dt><dd data-i18n="caseStudies.items.troubleshooting.work">Diagnosed Server Tier and SQL/configuration issues, traced symbol and dependency problems back to their source, and used the standard development tooling to confirm and resolve each one.</dd></div>
-              <div><dt data-i18n="caseStudies.labels.technologies">Technologies</dt><dd data-i18n="caseStudies.items.troubleshooting.technologies">Business Central Server, SQL Server, AL Language tooling</dd></div>
-              <div><dt data-i18n="caseStudies.labels.demonstrates">What this demonstrates</dt><dd data-i18n="caseStudies.items.troubleshooting.demonstrates">A methodical approach to troubleshooting — narrowing down a problem rather than working around it.</dd></div>
-            </dl>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <!-- ECOSYSTEM -->
-    <section class="section" id="ecosystem" aria-labelledby="ecosystem-heading">
+    <section class="section section-alt" id="ecosystem" aria-labelledby="ecosystem-heading">
       <div class="container">
         <p class="eyebrow reveal" data-i18n="ecosystem.eyebrow">Technology map</p>
         <h2 id="ecosystem-heading" class="reveal" data-i18n="ecosystem.title">Technology ecosystem</h2>
@@ -302,7 +238,7 @@
     </section>
 
     <!-- EXPERIENCE -->
-    <section class="section section-alt" id="experience" aria-labelledby="experience-heading">
+    <section class="section" id="experience" aria-labelledby="experience-heading">
       <div class="container">
         <p class="eyebrow reveal" data-i18n="experience.eyebrow">Timeline</p>
         <h2 id="experience-heading" class="reveal" data-i18n="experience.title">Professional experience</h2>
@@ -329,7 +265,7 @@
     </section>
 
     <!-- EDUCATION -->
-    <section class="section" id="education" aria-labelledby="education-heading">
+    <section class="section section-alt" id="education" aria-labelledby="education-heading">
       <div class="container">
         <p class="eyebrow reveal" data-i18n="education.eyebrow">Continuous learning</p>
         <h2 id="education-heading" class="reveal" data-i18n="education.title">Education</h2>
@@ -342,9 +278,9 @@
             <p data-i18n="education.items.dam.body">Higher Vocational Training in software development.</p>
           </li>
           <li class="edu-item edu-completed">
-            <span class="edu-status" data-i18n="education.items.electronics.status">Previous studies</span>
-            <h3 data-i18n="education.items.electronics.title">Electronic Engineering</h3>
-            <p data-i18n="education.items.electronics.body">University studies prior to DAM, roughly two years, later built on through further technical education.</p>
+            <span class="edu-status" data-i18n="education.items.electronics.status">2 years completed</span>
+            <h3 data-i18n="education.items.electronics.title">Electronics and Industrial Automation Engineering</h3>
+            <p data-i18n="education.items.electronics.body">Completed 2 years of the degree at Universidad Politécnica de Alcalá before switching tracks into software development, which continued through DAM and further technical education.</p>
           </li>
           <li class="edu-item edu-progress">
             <span class="edu-status edu-status-progress" data-i18n="education.items.unir.status">In progress</span>
@@ -356,14 +292,14 @@
     </section>
 
     <!-- ABOUT -->
-    <section class="section section-alt" id="about" aria-labelledby="about-heading">
+    <section class="section" id="about" aria-labelledby="about-heading">
       <div class="container about-inner">
         <div class="about-copy reveal">
           <p class="eyebrow" data-i18n="about.eyebrow">Get to know me</p>
           <h2 id="about-heading" data-i18n="about.title">About me</h2>
-          <p data-i18n="about.paragraphs.0">I'm a Business Central / AL developer who enjoys the parts of the job most people find tedious — chasing down why an RDLC report duplicates a page, or making sense of a migration that doesn't go quite to plan.</p>
-          <p data-i18n="about.paragraphs.1">I've worked both independently and as part of a team with other developers and consultants, across new development, maintenance, troubleshooting and evolving existing solutions — and I'm equally comfortable in either mode.</p>
-          <p data-i18n="about.paragraphs.2">I'm currently completing a Computer Engineering degree alongside full-time work, because I'd rather keep building a solid foundation than stop learning once a job title changes. I'm curious by default, and genuinely enjoy picking up new tools and problems.</p>
+          <p data-i18n="about.paragraphs.0">I like working with people — sharing ideas with other developers and consultants — and I'm just as happy figuring things out on my own sometimes. What really gets me going is a genuine challenge: a problem that makes me want to dig in and actually understand it, not just patch it.</p>
+          <p data-i18n="about.paragraphs.1">I like learning, and I like contributing more than what's strictly expected of me — going a bit further than a task asks for when I can. I'm still growing as a developer, and I know that every day I can offer a little more than I did the day before.</p>
+          <p data-i18n="about.paragraphs.2">I'm currently finishing my degree in Computer Engineering alongside full-time work, because I'd rather keep building a solid foundation than stop learning once a job title changes.</p>
         </div>
       </div>
     </section>
@@ -377,7 +313,7 @@
         <div class="beyond-copy">
           <p class="eyebrow" data-i18n="beyond.eyebrow">Beyond the code</p>
           <h2 id="beyond-heading" data-i18n="beyond.title">Beyond the code</h2>
-          <p data-i18n="beyond.body">Outside of Business Central, I play guitar — mostly for myself, occasionally badly, always happily.</p>
+          <p data-i18n="beyond.body">Outside of Business Central, I enjoy music and play guitar. I also like meeting up with people over coffee — being there for the hard moments and celebrating the good ones together.</p>
         </div>
       </div>
     </section>
