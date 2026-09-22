@@ -25,6 +25,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <!-- Sets the theme before first paint so there's no light-mode flash
+       for visitors whose system (or last visit) prefers dark. The real
+       toggle logic lives in main.js — this is just the early read. -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("lucia-portfolio-theme");
+        var theme = saved === "light" || saved === "dark"
+          ? saved
+          : (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      } catch (e) {
+        // Storage blocked (private browsing, locked-down settings, etc.) — falls back to light, no harm done.
+      }
+    })();
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main" data-i18n="skipLink">Skip to main content</a>
@@ -58,6 +75,13 @@
           <span class="lang-divider" aria-hidden="true">|</span>
           <button type="button" class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
         </div>
+
+        <!-- Defaults to the OS preference; a click stores an explicit
+             override in localStorage so it sticks on the next visit. -->
+        <button type="button" id="themeToggle" class="theme-toggle" aria-pressed="false" data-i18n-attr="aria-label:nav.themeToggleLabel" aria-label="Toggle dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/></svg>
+        </button>
       </nav>
     </div>
   </header>
@@ -65,6 +89,16 @@
   <main id="main">
     <!-- HERO -->
     <section class="hero" aria-labelledby="hero-heading">
+      <!-- Purely decorative — a handful of AL-flavored snippets drifting
+           slowly in the background. Not real code, just texture. -->
+      <div class="code-drift" aria-hidden="true">
+        <span>trigger OnValidate()</span>
+        <span>procedure PostDocument()</span>
+        <span>table 50100 "Sales Ext"</span>
+        <span>if not Rec.Get() then</span>
+        <span>codeunit 50101 "Report Helper"</span>
+        <span>page 50102 "Card Ext"</span>
+      </div>
       <div class="container hero-inner">
         <div class="hero-copy reveal">
           <p class="eyebrow" data-i18n="hero.eyebrow">Portfolio</p>
@@ -242,7 +276,7 @@
           <li class="edu-item edu-progress">
             <span class="edu-status edu-status-progress" data-i18n="education.items.unir.status">In progress</span>
             <h3 data-i18n="education.items.unir.title">Computer Engineering — UNIR</h3>
-            <p data-i18n="education.items.unir.body">Studying part-time, online, alongside full-time professional work — a deliberate investment in deeper engineering foundations. Around 1.5 years already recognized from previous studies.</p>
+            <p data-i18n="education.items.unir.body">Studying part-time, online, alongside full-time professional work — a deliberate investment in deeper engineering foundations. Around 1.2 years already recognized from previous studies.</p>
           </li>
         </ol>
       </div>
@@ -272,7 +306,7 @@
         <div class="beyond-copy">
           <p class="eyebrow" data-i18n="beyond.eyebrow">Beyond the code</p>
           <h2 id="beyond-heading" data-i18n="beyond.title">Beyond the code</h2>
-          <p data-i18n="beyond.body">Outside of Business Central, I enjoy music and play guitar. I also like meeting up with people over coffee — being there for the hard moments and celebrating the good ones together.</p>
+          <p data-i18n="beyond.body">Outside of Business Central, I enjoy music and play guitar, and I like leaving room for reading and drawing — anything that lets the creative side breathe. I also love meeting up with people over coffee: being there for the hard moments and celebrating the good ones together.</p>
         </div>
       </div>
     </section>
