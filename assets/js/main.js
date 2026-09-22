@@ -48,7 +48,6 @@
     applyTranslations(lang);
     updateLangButtons(lang);
     document.documentElement.setAttribute("lang", lang);
-    renderExperience(lang);
     renderExpertiseIntro(lang);
     renderTimelineMeta(lang);
   }
@@ -183,26 +182,6 @@
     return parts;
   }
 
-  function renderExperience(lang) {
-    var el = document.getElementById("experienceDuration");
-    if (!el) return;
-
-    var dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
-    var duration = computeDuration(CONFIG.businessCentralStartDate);
-
-    if (!duration) {
-      el.textContent = "—";
-      return;
-    }
-
-    if (duration.years === 0 && duration.months === 0) {
-      el.textContent = resolvePath(dict, "experience.lessThanAMonth") || "";
-      return;
-    }
-
-    el.textContent = durationParts(lang, duration).join(" ");
-  }
-
   // Prose form ("1 year and 8 months") used inline in a sentence, as
   // opposed to the compact form used in the Experience section counter.
   function renderExpertiseIntro(lang) {
@@ -301,7 +280,6 @@
     initNavToggle();
     initScrollReveal();
     initContactLinks();
-    renderExperience(lang);
     renderExpertiseIntro(lang);
     renderTimelineMeta(lang);
 

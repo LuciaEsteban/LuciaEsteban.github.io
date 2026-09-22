@@ -71,35 +71,15 @@ window.TRANSLATIONS = {
         tooling: {
           title: "Development Environment & Way of Working",
           body:
-            "Day to day, I work in VS Code with the AL Language extension, symbols and .app/.alpackages, across multi-project workspaces. I like to start from a clear functional specification and a short design outline before writing code, and to work through Git with pull requests — adapting to whatever process a team already has in place.",
+            "Day to day, I work in VS Code with the AL Language extension, symbols and .app/.alpackages, across multi-project workspaces. My way of working starts with a short outline of the task, tracked as an issue, and checked against the functional specification — or directly with the client when needed — before moving into development and testing, and only then to production. I work through Git with pull requests, adapting to whatever process a team already has in place.",
         },
-      },
-    },
-    diagrams: {
-      migration: {
-        title: "A typical upgrade path",
-        from: "BC21",
-        to: "BC25",
-        steps: [
-          "Check extension & app compatibility",
-          "Prepare and validate the environment",
-          "Run and verify the upgrade",
-        ],
-      },
-      reporting: {
-        title: "How a business document gets built",
-        steps: ["AL Dataset", "RDLC Layout", "Business Document"],
-      },
-      integration: {
-        title: "How Business Central talks to the outside world",
-        steps: ["External System", "API / XML / JSON / Web Services", "Business Central"],
       },
     },
     ecosystem: {
       eyebrow: "Technology map",
       title: "Technology ecosystem",
       intro:
-        "Business Central and AL are at the center of what I do. Everything else here is a supporting technology I use around them — not a separate specialization.",
+        "Business Central and AL are at the center of what I do. Everything else here is a supporting technology I use around them — not a separate specialization. I'm always open to picking up new languages and tools as a project needs them.",
       core: {
         title: "Core",
         items: [
@@ -127,7 +107,7 @@ window.TRANSLATIONS = {
       },
       additional: {
         title: "Additional / academic",
-        items: ["Java", "HTML / CSS / JavaScript (this site)", "Introductory C", "Introductory Python"],
+        items: ["Java", "HTML / CSS (this site)", "Introductory C", "Introductory Python"],
       },
     },
     experience: {
@@ -139,8 +119,6 @@ window.TRANSLATIONS = {
         companyFallback: "Currently working professionally with Business Central",
         versions: "Exposure to NAV/BC14, BC21, BC25 and BC28",
       },
-      durationPrefix: "Professional Business Central experience:",
-      durationSuffix: "and counting",
       years_one: "{n} year",
       years_other: "{n} years",
       months_one: "{n} month",
@@ -271,35 +249,15 @@ window.TRANSLATIONS = {
         tooling: {
           title: "Entorno de desarrollo y forma de trabajar",
           body:
-            "En el día a día trabajo en VS Code con la extensión AL Language, símbolos y .app/.alpackages, en workspaces multiproyecto. Me gusta partir de una especificación funcional clara y un breve esquema de diseño antes de escribir código, y trabajar con Git mediante pull requests, adaptándome al proceso que ya tenga cada equipo.",
+            "En el día a día trabajo en VS Code con la extensión AL Language, símbolos y .app/.alpackages, en workspaces multiproyecto. Mi forma de trabajar empieza con un pequeño esquema de la tarea, registrada como incidencia, y corroborada con el funcional —o directamente con el cliente cuando hace falta— antes de pasar a desarrollo y pruebas, y solo entonces a producción. Trabajo con Git y pull requests, adaptándome al proceso que ya tenga cada equipo.",
         },
-      },
-    },
-    diagrams: {
-      migration: {
-        title: "Un flujo de upgrade típico",
-        from: "BC21",
-        to: "BC25",
-        steps: [
-          "Revisar compatibilidad de extensiones y apps",
-          "Preparar y validar el entorno",
-          "Ejecutar y verificar el upgrade",
-        ],
-      },
-      reporting: {
-        title: "Cómo se construye un documento comercial",
-        steps: ["Dataset AL", "Layout RDLC", "Documento comercial"],
-      },
-      integration: {
-        title: "Cómo se comunica Business Central con el exterior",
-        steps: ["Sistema externo", "API / XML / JSON / Web Services", "Business Central"],
       },
     },
     ecosystem: {
       eyebrow: "Mapa tecnológico",
       title: "Ecosistema tecnológico",
       intro:
-        "Business Central y AL están en el centro de lo que hago. Todo lo demás aquí es una tecnología de apoyo que uso a su alrededor, no una especialización aparte.",
+        "Business Central y AL están en el centro de lo que hago. Todo lo demás aquí es una tecnología de apoyo que uso a su alrededor, no una especialización aparte. Siempre estoy abierta a aprender nuevos lenguajes y herramientas según lo pida el proyecto.",
       core: {
         title: "Núcleo",
         items: [
@@ -327,7 +285,7 @@ window.TRANSLATIONS = {
       },
       additional: {
         title: "Adicional / académico",
-        items: ["Java", "HTML / CSS / JavaScript (esta web)", "Nociones de C", "Nociones de Python"],
+        items: ["Java", "HTML / CSS (esta web)", "Nociones de C", "Nociones de Python"],
       },
     },
     experience: {
@@ -339,8 +297,6 @@ window.TRANSLATIONS = {
         companyFallback: "Actualmente trabajando profesionalmente con Business Central",
         versions: "Exposición a NAV/BC14, BC21, BC25 y BC28",
       },
-      durationPrefix: "Experiencia profesional en Business Central:",
-      durationSuffix: "y sigue sumando",
       years_one: "{n} año",
       years_other: "{n} años",
       months_one: "{n} mes",

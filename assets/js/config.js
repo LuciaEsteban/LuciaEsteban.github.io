@@ -22,8 +22,8 @@ window.SITE_CONFIG = {
    * Contact details. Leave a value as null to automatically hide the
    * related link/button instead of publishing a broken or fake one.
    */
-  professionalEmail: null, // e.g. "lucia@example.com"
-  linkedInUrl: null, // e.g. "https://www.linkedin.com/in/..."
+  professionalEmail: "luciaes.dev@gmail.com",
+  linkedInUrl: "https://www.linkedin.com/in/luciaes-dev/",
   githubUrl: "https://github.com/LuciaEsteban",
   cvPdfUrl: null, // e.g. "assets/files/lucia-esteban-cv.pdf"
 
