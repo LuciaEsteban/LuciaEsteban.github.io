@@ -12,12 +12,11 @@ window.TRANSLATIONS = {
     meta: {
       title: "Lucía Esteban — Microsoft Dynamics 365 Business Central / AL Developer",
       description:
-        "Portfolio of Lucía Esteban Peña, Microsoft Dynamics 365 Business Central / AL Developer — AL development, RDLC reporting, migrations and integrations.",
+        "Portfolio of Lucía Esteban Peña, Microsoft Dynamics 365 Business Central / AL Developer — AL development, RDLC reporting, implementations, migrations and integrations.",
     },
     skipLink: "Skip to main content",
     nav: {
       expertise: "Business Central",
-      caseStudies: "Case Studies",
       ecosystem: "Ecosystem",
       experience: "Experience",
       education: "Education",
@@ -40,38 +39,39 @@ window.TRANSLATIONS = {
     expertise: {
       eyebrow: "Core capability",
       title: "Business Central expertise",
-      intro:
-        "This is where most of my professional experience lives. Everything below is capability I have applied in real Business Central projects — not a list of buzzwords.",
+      introBeforeDuration: "I've been working professionally with Business Central / AL, in a consultancy environment, since March 2025 — ",
+      introAfterDuration:
+        " so far. In that time I've covered new implementations, migrations and upgrades, reporting, and integrations, across SaaS and On-Premise environments.",
       items: {
         al: {
           title: "AL Development & Extensions",
           body:
-            "Building and maintaining AL extensions: tables, pages, page extensions, codeunits, business logic, events and subscribers.",
+            "This is the core of my day-to-day work: building and maintaining AL extensions for Business Central — tables, pages, page extensions, codeunits, events and subscribers. It's where business requirements become working functionality.",
         },
         reports: {
-          title: "Reports & RDLC",
+          title: "Reporting (AL + RDLC)",
           body:
-            "AL datasets combined with RDLC layouts to produce multipage business documents, with conditional logic, calculations and alignment that hold up in production.",
+            "I build business reports combining AL datasets with RDLC layouts: the multipage commercial documents a company sends to its customers and suppliers. Getting them right takes more than a template — conditional logic, totals, taxes and layout details that have to hold up in production.",
         },
-        migrations: {
-          title: "Migrations & Upgrades",
+        implementations: {
+          title: "New Implementations & Upgrades",
           body:
-            "Version migrations and upgrades between Business Central releases: extension/app compatibility, environment preparation and validation.",
+            "I've worked on both sides of a Business Central rollout: new implementations built from scratch, and migrations and upgrades between versions, with exposure to NAV/BC14, BC21, BC25 and BC28. Each one poses different challenges — from configuring a solution from zero to keeping existing customizations working after an upgrade.",
         },
         integrations: {
-          title: "Integrations & Data",
+          title: "Integrations & APIs",
           body:
-            "Working with APIs, Web Services, XML, JSON and XMLPorts inside Business Central solutions to exchange data with the outside world.",
+            "Business Central rarely works in isolation. I build the connections that let it exchange data with other systems — APIs, Web Services, XML, JSON and XMLPorts — so information moves reliably between Business Central and whatever it needs to talk to.",
         },
         saas: {
           title: "SaaS & On-Premise",
           body:
-            "Hands-on experience with both deployment models, and a practical understanding of how their constraints differ — from Server Tier to what SaaS does and doesn't allow.",
+            "I've worked hands-on with both deployment models and know how their constraints differ in practice — from what SaaS does and doesn't allow, to managing Server Tier and infrastructure on an On-Premise environment.",
         },
         tooling: {
-          title: "Development Environment & Tooling",
+          title: "Development Environment & Way of Working",
           body:
-            "AL Language in VS Code, symbols and .app/.alpackages, multi-project workspaces, Go to Definition, and diagnosing dependency and compilation issues.",
+            "Day to day, I work in VS Code with the AL Language extension, symbols and .app/.alpackages, across multi-project workspaces. I like to start from a clear functional specification and a short design outline before writing code, and to work through Git with pull requests — adapting to whatever process a team already has in place.",
         },
       },
     },
@@ -93,70 +93,6 @@ window.TRANSLATIONS = {
       integration: {
         title: "How Business Central talks to the outside world",
         steps: ["External System", "API / XML / JSON / Web Services", "Business Central"],
-      },
-    },
-    caseStudies: {
-      eyebrow: "Applied experience",
-      title: "Technical case studies",
-      intro:
-        "Anonymized examples based on real project work. No client names, internal systems or confidential details are included — just the technical substance, which I'm happy to go deeper on in an interview.",
-      labels: {
-        challenge: "Challenge",
-        work: "What I worked on",
-        technologies: "Technologies",
-        demonstrates: "What this demonstrates",
-      },
-      items: {
-        upgrade: {
-          title: "Business Central Upgrade",
-          challenge:
-            "An On-Premise environment needed to move from one Business Central version to a newer one without breaking existing customizations.",
-          work:
-            "Assessed extension and app compatibility ahead of the upgrade, prepared and cloned the environment for migration, worked with Business Central Server / Server Tier and the Business Central Administration Shell, and troubleshot SQL Server issues — including Full-Text related problems — that surfaced during the process.",
-          technologies: "Business Central On-Premise, AL, PowerShell, SQL Server",
-          demonstrates:
-            "Comfort owning an upgrade end-to-end: technical assessment, environment work and troubleshooting under real constraints.",
-        },
-        reporting: {
-          title: "Commercial Reporting System",
-          challenge:
-            "A family of commercial documents — quotes, order confirmations, delivery notes, invoices, credit memos and purchase orders — needed layouts that were accurate, configurable and consistent across all of them.",
-          work:
-            "Built and maintained the underlying AL datasets and RDLC layouts, implemented configurable corporate backgrounds sourced from Company Information, kept multipage layouts stable with correct header/footer handling, added configurable general/legal conditions laid out in two columns, and implemented conditional logic to show extra codes or data on order lines based on multiple business rules. Also handled the totals and tax breakdown: gross base, discounts, net base, VAT, VAT amount and equivalence surcharge — and fixed the usual RDLC pitfalls along the way: blank values, empty rows, premature page breaks and page duplication.",
-          technologies: "AL, RDLC, Business Central",
-          demonstrates:
-            "Real fluency in AL + RDLC reporting beyond cosmetic changes — including the fiscal and layout edge cases that make business documents genuinely production-ready.",
-        },
-        legalConditions: {
-          title: "Configurable Legal Conditions",
-          challenge:
-            "Long legal/general conditions text needed to live outside hardcoded report layouts, so it could be edited without a code deployment.",
-          work:
-            "Extended the Company Information page to edit long condition text stored in a BLOB field, and implemented the read/write logic — including working with streams and page lifecycle events — to load and save that content correctly.",
-          technologies: "AL, Business Central page extensions, BLOB fields",
-          demonstrates:
-            "Understanding of Business Central's data persistence model beyond simple fields, applied to a genuinely useful configuration feature.",
-        },
-        integration: {
-          title: "Integration & Data Exchange",
-          challenge:
-            "Business Central needed to exchange structured data with an external system as part of a broader business process.",
-          work:
-            "Worked with APIs / Web Services and XML, JSON and XMLPorts to move data in and out of Business Central in the format the integration required.",
-          technologies: "AL, APIs / Web Services, XML, JSON, XMLPorts",
-          demonstrates:
-            "Practical, honest integration experience — the kind of building block most Business Central projects eventually need.",
-        },
-        troubleshooting: {
-          title: "BC Environment Troubleshooting",
-          challenge:
-            "A Business Central environment was showing configuration and compilation issues that needed a systematic diagnosis rather than guesswork.",
-          work:
-            "Diagnosed Server Tier and SQL/configuration issues, traced symbol and dependency problems back to their source, and used the standard development tooling to confirm and resolve each one.",
-          technologies: "Business Central Server, SQL Server, AL Language tooling",
-          demonstrates:
-            "A methodical approach to troubleshooting — narrowing down a problem rather than working around it.",
-        },
       },
     },
     ecosystem: {
@@ -210,6 +146,7 @@ window.TRANSLATIONS = {
       months_one: "{n} month",
       months_other: "{n} months",
       lessThanAMonth: "just getting started",
+      conjunction: "and",
     },
     education: {
       eyebrow: "Continuous learning",
@@ -223,9 +160,9 @@ window.TRANSLATIONS = {
           body: "Higher Vocational Training in software development.",
         },
         electronics: {
-          title: "Electronic Engineering",
-          status: "Previous studies",
-          body: "University studies prior to DAM, roughly two years, later built on through further technical education.",
+          title: "Electronics and Industrial Automation Engineering",
+          status: "2 years completed",
+          body: "Completed 2 years of the degree at Universidad Politécnica de Alcalá before switching tracks into software development, which continued through DAM and further technical education.",
         },
         unir: {
           title: "Computer Engineering — UNIR",
@@ -239,16 +176,16 @@ window.TRANSLATIONS = {
       eyebrow: "Get to know me",
       title: "About me",
       paragraphs: [
-        "I'm a Business Central / AL developer who enjoys the parts of the job most people find tedious — chasing down why an RDLC report duplicates a page, or making sense of a migration that doesn't go quite to plan.",
-        "I've worked both independently and as part of a team with other developers and consultants, across new development, maintenance, troubleshooting and evolving existing solutions — and I'm equally comfortable in either mode.",
-        "I'm currently completing a Computer Engineering degree alongside full-time work, because I'd rather keep building a solid foundation than stop learning once a job title changes. I'm curious by default, and genuinely enjoy picking up new tools and problems.",
+        "I like working with people — sharing ideas with other developers and consultants — and I'm just as happy figuring things out on my own sometimes. What really gets me going is a genuine challenge: a problem that makes me want to dig in and actually understand it, not just patch it.",
+        "I like learning, and I like contributing more than what's strictly expected of me — going a bit further than a task asks for when I can. I'm still growing as a developer, and I know that every day I can offer a little more than I did the day before.",
+        "I'm currently finishing my degree in Computer Engineering alongside full-time work, because I'd rather keep building a solid foundation than stop learning once a job title changes.",
       ],
     },
     beyond: {
       eyebrow: "Beyond the code",
       title: "Beyond the code",
       body:
-        "Outside of Business Central, I play guitar — mostly for myself, occasionally badly, always happily.",
+        "Outside of Business Central, I enjoy music and play guitar. I also like meeting up with people over coffee — being there for the hard moments and celebrating the good ones together.",
       guitarAlt: "Placeholder for a photo of Lucía with her guitar",
     },
     contact: {
@@ -275,12 +212,11 @@ window.TRANSLATIONS = {
     meta: {
       title: "Lucía Esteban — Desarrolladora Microsoft Dynamics 365 Business Central / AL",
       description:
-        "Portfolio de Lucía Esteban Peña, desarrolladora de Microsoft Dynamics 365 Business Central / AL — desarrollo AL, informes RDLC, migraciones e integraciones.",
+        "Portfolio de Lucía Esteban Peña, desarrolladora de Microsoft Dynamics 365 Business Central / AL — desarrollo AL, informes RDLC, implantaciones, migraciones e integraciones.",
     },
     skipLink: "Ir al contenido principal",
     nav: {
       expertise: "Business Central",
-      caseStudies: "Casos técnicos",
       ecosystem: "Ecosistema",
       experience: "Experiencia",
       education: "Formación",
@@ -303,38 +239,39 @@ window.TRANSLATIONS = {
     expertise: {
       eyebrow: "Capacidad principal",
       title: "Experiencia en Business Central",
-      intro:
-        "Aquí está la mayor parte de mi experiencia profesional. Todo lo que aparece a continuación es algo que he aplicado en proyectos reales de Business Central, no una lista de palabras de moda.",
+      introBeforeDuration: "Trabajo profesionalmente con Business Central / AL, en el ámbito de la consultoría, desde marzo de 2025 — ",
+      introAfterDuration:
+        " hasta ahora. En este tiempo he trabajado en implantaciones nuevas, migraciones y actualizaciones, informes e integraciones, tanto en entornos SaaS como On-Premise.",
       items: {
         al: {
           title: "Desarrollo AL y extensiones",
           body:
-            "Desarrollo y mantenimiento de extensiones AL: tablas, páginas, page extensions, codeunits, lógica de negocio, eventos y subscribers.",
+            "Es el núcleo de mi trabajo diario: desarrollar y mantener extensiones AL para Business Central —tablas, páginas, page extensions, codeunits, eventos y subscribers—. Aquí es donde los requisitos de negocio se convierten en funcionalidad real.",
         },
         reports: {
-          title: "Informes y RDLC",
+          title: "Informes (AL + RDLC)",
           body:
-            "Datasets AL combinados con layouts RDLC para generar documentos comerciales multipágina, con lógica condicional, cálculos y una alineación que aguanta bien en producción.",
+            "Construyo informes de negocio combinando datasets AL con layouts RDLC: los documentos comerciales multipágina que una empresa envía a sus clientes y proveedores. Hacerlo bien exige más que una plantilla: lógica condicional, totales, impuestos y detalles de maquetación que deben funcionar en producción.",
         },
-        migrations: {
-          title: "Migraciones y upgrades",
+        implementations: {
+          title: "Implantaciones nuevas y upgrades",
           body:
-            "Migraciones y upgrades entre versiones de Business Central: compatibilidad de extensiones y apps, preparación del entorno y validación.",
+            "He trabajado en las dos caras de un proyecto de Business Central: implantaciones nuevas desde cero y migraciones o actualizaciones entre versiones, con exposición a NAV/BC14, BC21, BC25 y BC28. Cada una plantea retos distintos, desde configurar una solución desde cero hasta mantener las personalizaciones existentes tras un upgrade.",
         },
         integrations: {
-          title: "Integraciones y datos",
+          title: "Integraciones y APIs",
           body:
-            "Trabajo con APIs, Web Services, XML, JSON y XMLPorts dentro de soluciones Business Central para intercambiar datos con el exterior.",
+            "Business Central rara vez trabaja aislado. Construyo las conexiones que le permiten intercambiar datos con otros sistemas —APIs, Web Services, XML, JSON y XMLPorts— para que la información se mueva de forma fiable entre Business Central y aquello con lo que tenga que comunicarse.",
         },
         saas: {
           title: "SaaS y On-Premise",
           body:
-            "Experiencia práctica con ambos modelos de despliegue, y una comprensión real de cómo difieren sus restricciones, desde el Server Tier hasta lo que SaaS permite y lo que no.",
+            "He trabajado de forma práctica con ambos modelos de despliegue y conozco cómo difieren sus restricciones: desde lo que SaaS permite y lo que no, hasta la gestión del Server Tier y la infraestructura en un entorno On-Premise.",
         },
         tooling: {
-          title: "Entorno de desarrollo y herramientas",
+          title: "Entorno de desarrollo y forma de trabajar",
           body:
-            "AL Language en VS Code, símbolos y .app/.alpackages, workspaces multiproyecto, Go to Definition, y diagnóstico de problemas de dependencias y compilación.",
+            "En el día a día trabajo en VS Code con la extensión AL Language, símbolos y .app/.alpackages, en workspaces multiproyecto. Me gusta partir de una especificación funcional clara y un breve esquema de diseño antes de escribir código, y trabajar con Git mediante pull requests, adaptándome al proceso que ya tenga cada equipo.",
         },
       },
     },
@@ -356,70 +293,6 @@ window.TRANSLATIONS = {
       integration: {
         title: "Cómo se comunica Business Central con el exterior",
         steps: ["Sistema externo", "API / XML / JSON / Web Services", "Business Central"],
-      },
-    },
-    caseStudies: {
-      eyebrow: "Experiencia aplicada",
-      title: "Casos técnicos",
-      intro:
-        "Ejemplos anonimizados basados en trabajo real de proyectos. No se incluyen nombres de clientes, sistemas internos ni detalles confidenciales, solo el contenido técnico, del que puedo hablar con más profundidad en una entrevista.",
-      labels: {
-        challenge: "Reto",
-        work: "En qué trabajé",
-        technologies: "Tecnologías",
-        demonstrates: "Qué demuestra",
-      },
-      items: {
-        upgrade: {
-          title: "Upgrade de Business Central",
-          challenge:
-            "Un entorno On-Premise necesitaba pasar de una versión de Business Central a otra más reciente sin romper las personalizaciones existentes.",
-          work:
-            "Evalué la compatibilidad de extensiones y apps antes del upgrade, preparé y cloné el entorno para la migración, trabajé con Business Central Server / Server Tier y la Business Central Administration Shell, y resolví problemas de SQL Server —incluidos algunos relacionados con Full-Text— que surgieron durante el proceso.",
-          technologies: "Business Central On-Premise, AL, PowerShell, SQL Server",
-          demonstrates:
-            "Capacidad de asumir un upgrade de principio a fin: evaluación técnica, trabajo de entorno y resolución de problemas bajo restricciones reales.",
-        },
-        reporting: {
-          title: "Sistema de informes comerciales",
-          challenge:
-            "Una familia de documentos comerciales —ofertas, confirmaciones de pedido, albaranes, facturas, abonos y pedidos de compra— necesitaba layouts precisos, configurables y coherentes entre sí.",
-          work:
-            "Construí y mantuve los datasets AL y layouts RDLC subyacentes, implementé fondos corporativos configurables procedentes de Company Information, mantuve layouts multipágina estables con una gestión correcta de header/footer, añadí condiciones generales/legales configurables en dos columnas, e implementé lógica condicional para mostrar códigos o datos adicionales en las líneas de pedido según múltiples reglas de negocio. También me encargué de los totales y el desglose fiscal: base bruta, descuentos, base neta, IVA, importe de IVA y recargo de equivalencia, corrigiendo por el camino los problemas típicos de RDLC: valores vacíos, filas vacías, saltos de página prematuros y duplicación de páginas.",
-          technologies: "AL, RDLC, Business Central",
-          demonstrates:
-            "Dominio real de informes AL + RDLC más allá de cambios cosméticos, incluyendo los casos fiscales y de layout que hacen que un documento comercial esté realmente listo para producción.",
-        },
-        legalConditions: {
-          title: "Condiciones legales configurables",
-          challenge:
-            "Un texto largo de condiciones generales/legales necesitaba vivir fuera de los layouts de informe con contenido fijo, para poder editarse sin desplegar código.",
-          work:
-            "Extendí la página de Company Information para editar el texto largo de condiciones almacenado en un campo BLOB, e implementé la lógica de lectura/escritura —incluyendo trabajo con streams y eventos del ciclo de vida de la página— para cargar y guardar ese contenido correctamente.",
-          technologies: "AL, page extensions de Business Central, campos BLOB",
-          demonstrates:
-            "Comprensión del modelo de persistencia de datos de Business Central más allá de los campos simples, aplicada a una funcionalidad de configuración realmente útil.",
-        },
-        integration: {
-          title: "Integración e intercambio de datos",
-          challenge:
-            "Business Central necesitaba intercambiar datos estructurados con un sistema externo como parte de un proceso de negocio más amplio.",
-          work:
-            "Trabajé con APIs / Web Services y XML, JSON y XMLPorts para mover datos dentro y fuera de Business Central en el formato que requería la integración.",
-          technologies: "AL, APIs / Web Services, XML, JSON, XMLPorts",
-          demonstrates:
-            "Experiencia de integración práctica y honesta: el tipo de pieza que la mayoría de proyectos de Business Central acaba necesitando.",
-        },
-        troubleshooting: {
-          title: "Resolución de problemas de entorno BC",
-          challenge:
-            "Un entorno de Business Central presentaba problemas de configuración y compilación que requerían un diagnóstico sistemático en lugar de prueba y error.",
-          work:
-            "Diagnostiqué problemas de Server Tier y de configuración/SQL, rastreé problemas de símbolos y dependencias hasta su origen, y utilicé las herramientas de desarrollo estándar para confirmar y resolver cada uno.",
-          technologies: "Business Central Server, SQL Server, herramientas de AL Language",
-          demonstrates:
-            "Un enfoque metódico para la resolución de problemas: acotar la causa en lugar de rodearla.",
-        },
       },
     },
     ecosystem: {
@@ -473,6 +346,7 @@ window.TRANSLATIONS = {
       months_one: "{n} mes",
       months_other: "{n} meses",
       lessThanAMonth: "recién empezando",
+      conjunction: "y",
     },
     education: {
       eyebrow: "Aprendizaje continuo",
@@ -486,9 +360,9 @@ window.TRANSLATIONS = {
           body: "Ciclo Formativo de Grado Superior en desarrollo de software.",
         },
         electronics: {
-          title: "Ingeniería Electrónica",
-          status: "Estudios previos",
-          body: "Estudios universitarios previos al DAM, de aproximadamente dos años, sobre los que después continué con más formación técnica.",
+          title: "Ingeniería Electrónica Automática Industrial",
+          status: "2 años completados",
+          body: "Completé 2 años de la carrera en la Universidad Politécnica de Alcalá antes de cambiar de rama hacia el desarrollo de software, que continué después con el DAM y más formación técnica.",
         },
         unir: {
           title: "Ingeniería Informática — UNIR",
@@ -502,16 +376,16 @@ window.TRANSLATIONS = {
       eyebrow: "Conóceme",
       title: "Sobre mí",
       paragraphs: [
-        "Soy desarrolladora Business Central / AL y disfruto con las partes del trabajo que a mucha gente le resultan tediosas: averiguar por qué un informe RDLC duplica una página, o entender una migración que no ha ido exactamente según lo previsto.",
-        "He trabajado tanto de forma autónoma como en equipo con otros desarrolladores y consultores, en desarrollo nuevo, mantenimiento, resolución de incidencias y evolución de soluciones existentes, y me siento igual de cómoda en cualquiera de los dos modos.",
-        "Actualmente estoy terminando el Grado en Ingeniería Informática compatibilizándolo con el trabajo a tiempo completo, porque prefiero seguir construyendo una base sólida antes que dejar de aprender en cuanto cambia un título. Soy curiosa por naturaleza y disfruto de verdad aprendiendo herramientas y problemas nuevos.",
+        "Me gusta trabajar con gente —compartir ideas con otros desarrolladores y consultores— y también disfruto resolviendo cosas por mi cuenta en ciertos momentos. Lo que de verdad me engancha es un reto real: un problema que me hace querer meterme a fondo y entenderlo bien, no solo parchearlo.",
+        "Me gusta aprender, y me gusta aportar más de lo que se espera de mí: ir un poco más allá de lo que pide la tarea cuando puedo. Todavía estoy en desarrollo como profesional, y sé que cada día puedo ofrecer un poco más que el día anterior.",
+        "Actualmente estoy terminando el Grado en Ingeniería Informática compatibilizándolo con el trabajo a tiempo completo, porque prefiero seguir construyendo una base sólida antes que dejar de aprender en cuanto cambia un título.",
       ],
     },
     beyond: {
       eyebrow: "Más allá del código",
       title: "Más allá del código",
       body:
-        "Fuera de Business Central, toco la guitarra, sobre todo para mí misma, a veces mal, siempre con gusto.",
+        "Fuera de Business Central, me gusta la música y toco la guitarra. También me gusta quedar con la gente a tomar un café: acompañar en los momentos difíciles y celebrar juntos los logros importantes.",
       guitarAlt: "Marcador de posición para una fotografía de Lucía con su guitarra",
     },
     contact: {

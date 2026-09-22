@@ -12,11 +12,11 @@ window.SITE_CONFIG = {
    * Used to automatically compute "years / months of experience" across
    * the site, so it never needs to be updated by hand again.
    *
-   * TODO(Lucía): replace with your exact start date. Until you do, the
-   * placeholder below keeps the "professionally since 2025" claim true
-   * without pretending to know the exact day.
+   * Set to March 2025 as confirmed by Lucía. The exact day isn't known,
+   * so the 1st is used as a neutral placeholder within that month —
+   * adjust it if the precise start day should be reflected instead.
    */
-  businessCentralStartDate: "2025-01-01",
+  businessCentralStartDate: "2025-03-01",
 
   /**
    * Contact details. Leave a value as null to automatically hide the

@@ -49,6 +49,7 @@
     updateLangButtons(lang);
     document.documentElement.setAttribute("lang", lang);
     renderExperience(lang);
+    renderExpertiseIntro(lang);
     renderTimelineMeta(lang);
   }
 
@@ -166,6 +167,22 @@
     return count === 1 ? base + "_one" : base + "_other";
   }
 
+  // Shared by renderExperience and renderExpertiseIntro so the two places
+  // that mention "how long" always agree with each other.
+  function durationParts(lang, duration) {
+    var dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
+    var parts = [];
+    if (duration.years > 0) {
+      var yearsTemplate = resolvePath(dict, pluralKey("experience.years", duration.years));
+      if (yearsTemplate) parts.push(yearsTemplate.replace("{n}", duration.years));
+    }
+    if (duration.months > 0) {
+      var monthsTemplate = resolvePath(dict, pluralKey("experience.months", duration.months));
+      if (monthsTemplate) parts.push(monthsTemplate.replace("{n}", duration.months));
+    }
+    return parts;
+  }
+
   function renderExperience(lang) {
     var el = document.getElementById("experienceDuration");
     if (!el) return;
@@ -183,16 +200,31 @@
       return;
     }
 
-    var parts = [];
-    if (duration.years > 0) {
-      var yearsTemplate = resolvePath(dict, pluralKey("experience.years", duration.years));
-      if (yearsTemplate) parts.push(yearsTemplate.replace("{n}", duration.years));
+    el.textContent = durationParts(lang, duration).join(" ");
+  }
+
+  // Prose form ("1 year and 8 months") used inline in a sentence, as
+  // opposed to the compact form used in the Experience section counter.
+  function renderExpertiseIntro(lang) {
+    var el = document.getElementById("expertiseDuration");
+    if (!el) return;
+
+    var dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
+    var duration = computeDuration(CONFIG.businessCentralStartDate);
+
+    if (!duration) {
+      el.textContent = "—";
+      return;
     }
-    if (duration.months > 0) {
-      var monthsTemplate = resolvePath(dict, pluralKey("experience.months", duration.months));
-      if (monthsTemplate) parts.push(monthsTemplate.replace("{n}", duration.months));
+
+    if (duration.years === 0 && duration.months === 0) {
+      el.textContent = resolvePath(dict, "experience.lessThanAMonth") || "";
+      return;
     }
-    el.textContent = parts.join(" ");
+
+    var parts = durationParts(lang, duration);
+    var conjunction = resolvePath(dict, "experience.conjunction") || "and";
+    el.textContent = parts.length === 2 ? parts.join(" " + conjunction + " ") : parts.join(" ");
   }
 
   function renderTimelineMeta() {
@@ -270,6 +302,7 @@
     initScrollReveal();
     initContactLinks();
     renderExperience(lang);
+    renderExpertiseIntro(lang);
     renderTimelineMeta(lang);
 
     document.querySelectorAll(".lang-btn").forEach(function (btn) {
