@@ -50,13 +50,25 @@
       listenLabel: "Play a short spoken welcome message (about 20 seconds)",
       speaker: "Lucía",
       nowPlaying: "Voice message",
-      // Captions, timed to the recording: [start s, end s, words]
+      // Captions, timed to the pauses in the recording: [start s, end s, words]
       openingCues: [
-        [0.2, 2.33, "Hello, and welcome to my portfolio."],
+        [0.21, 2.33, "Hello, and welcome to my portfolio."],
         [2.71, 5.77, "I'm Lucía Esteban, a Business Central developer."],
-        [6.1, 10.59, "Here you'll discover what I work on, how I approach each project, my background,"],
-        [10.59, 14.48, "and a little about who I am beyond the code. Thank you for stopping by."],
-        [15.13, 20.53, "If you think I could be a good fit for your team, I'd be glad to talk."]
+        [6.29, 8.45, "Here you'll discover what I work on,"],
+        [8.74, 10.59, "how I approach each project,"],
+        [10.73, 11.78, "my background,"],
+        [11.98, 14.48, "and a little about who I am beyond the code."],
+        [15.13, 16.41, "Thank you for stopping by."],
+        [16.68, 20.53, "If you think I could be a good fit for your team, I'd be glad to talk."]
+      ],
+      // Guided tour while the message plays: [start s, element to show]
+      openingTour: [
+        [6.29, "#expertise"],
+        [8.74, ".expertise-card:last-child"],
+        [10.73, "#journey"],
+        [11.98, "#about"],
+        [13.72, ".section-beyond"],
+        [16.68, "#contact"]
       ]
     },
     es: {
@@ -82,11 +94,21 @@
       nowPlaying: "Mensaje de voz",
       openingCues: [
         [0.2, 2.39, "Hola, y bienvenidos a mi portfolio."],
-        [2.89, 5.85, "Soy Lucía Esteban, desarrolladora de Business Central."],
-        [6.26, 10.72, "Aquí descubrirás en qué trabajo, cómo abordo cada proyecto, mi formación"],
+        [2.89, 5.78, "Soy Lucía Esteban, desarrolladora de Business Central."],
+        [6.26, 7.99, "Aquí descubrirás en qué trabajo,"],
+        [8.21, 9.7, "cómo abordo cada proyecto,"],
+        [9.98, 10.72, "mi formación"],
         [11.12, 13.56, "y también un poco de quién soy fuera del código."],
-        [14.05, 15.29, "Gracias por tu visita."],
-        [15.7, 19.88, "Si crees que puedo encajar en tu equipo, estaré encantada de hablar contigo."]
+        [14.06, 15.29, "Gracias por tu visita."],
+        [15.7, 19.87, "Si crees que puedo encajar en tu proyecto, estaré encantada de hablar contigo."]
+      ],
+      openingTour: [
+        [6.26, "#expertise"],
+        [8.21, ".expertise-card:last-child"],
+        [9.98, "#journey"],
+        [11.12, "#about"],
+        [12.6, ".section-beyond"],
+        [15.7, "#contact"]
       ]
     }
   };

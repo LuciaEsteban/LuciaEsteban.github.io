@@ -3,9 +3,11 @@
  *
  * A comic-style speech bubble with a sound icon sits at the top right of
  * the profile photo. Clicking it (or the photo) pops the bubble and plays
- * Lucía's recorded welcome, with captions to the left of the photo that
- * appear word by word in time with the voice. The message plays once per
- * visit and can never overlap itself.
+ * Lucía's recorded welcome, with captions that appear word by word in
+ * time with the voice. While she speaks, the page scrolls to each part
+ * she mentions (a guided tour) and returns to the top at the end; any
+ * scroll by the visitor stops the tour. The message plays once per visit
+ * and can never overlap itself.
  */
 (function () {
   "use strict";
@@ -55,27 +57,55 @@
       });
     }
 
-    function sync(audio) {
+    function sync(audio, tour) {
       var time = audio.currentTime, i = -1;
+      tour.update(time);
       for (var k = 0; k < cues.length; k++) if (time >= cues[k][0]) i = k;
       if (i >= 0) {
         if (i !== current) showCue(i);
         var cue = cues[i];
         var progress = (time - cue[0]) / Math.max(cue[1] - cue[0], 0.1);
-        words.forEach(function (w) { if (w.at <= progress + 0.04) w.el.classList.add("is-said"); });
+        // A small lag keeps the words just behind the voice, never ahead of it.
+        words.forEach(function (w) { if (w.at <= progress - 0.03) w.el.classList.add("is-said"); });
       }
-      raf = requestAnimationFrame(function () { sync(audio); });
+      raf = requestAnimationFrame(function () { sync(audio, tour); });
     }
+
+    /* Where the captions go, so they never cover any text:
+         right of the photo  when there is room (wide screens)
+         below the photo     on narrower desktops
+         over the photo      when the hero is stacked (tablet / mobile)
+       During the guided tour it floats in a screen corner instead. */
+    var floating = false;
+    function place() {
+      if (floating) return;
+      var spaceRight = innerWidth - frame.getBoundingClientRect().right - 24;
+      var where = innerWidth <= 900 ? "over" : spaceRight >= 260 ? "right" : "below";
+      box.classList.remove("cc-right", "cc-below", "cc-over");
+      box.classList.add("cc-" + where);
+      box.style.width = where === "right" ? Math.min(320, spaceRight - 16) + "px" : "";
+    }
+    window.addEventListener("resize", place);
 
     return {
       open: function () {
+        place();
         cues = t("openingCues");
         box.querySelector(".voice-cc-name").textContent = t("speaker") + " · " + t("nowPlaying");
         box.classList.add("is-open");
       },
-      follow: function (audio) {
+      follow: function (audio, tour) {
         box.classList.add("is-live");
-        sync(audio);
+        sync(audio, tour);
+      },
+      /* Leave the photo and stay in a corner of the screen (tour). */
+      float: function () {
+        if (floating) return;
+        floating = true;
+        box.classList.remove("cc-right", "cc-below", "cc-over");
+        box.style.width = "";
+        box.classList.add("cc-float");
+        document.body.appendChild(box); // the frame is transformed, so fixed would not work inside it
       },
       close: function (delay) {
         cancelAnimationFrame(raf);
@@ -85,6 +115,46 @@
           box.classList.add("is-closing");
           setTimeout(function () { box.remove(); }, 600);
         }, delay);
+      }
+    };
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Guided tour: scroll to what the voice is talking about              */
+  /* ------------------------------------------------------------------ */
+  function Tour(steps, onFirstStep) {
+    var next = 0, active = true;
+    var behavior = XP.reduceMotion ? "auto" : "smooth";
+    var userEvents = ["wheel", "touchmove", "keydown"];
+
+    function stop() {
+      active = false;
+      userEvents.forEach(function (ev) { window.removeEventListener(ev, stop); });
+    }
+    userEvents.forEach(function (ev) { window.addEventListener(ev, stop, { passive: true }); });
+
+    function go(selector) {
+      var el = document.querySelector(selector);
+      if (!el) return;
+      var r = el.getBoundingClientRect();
+      var header = document.querySelector(".site-header");
+      var top = el.tagName === "SECTION"
+        ? r.top + scrollY - (header ? header.offsetHeight : 0) - 8 // section: its start
+        : r.top + scrollY - Math.max((innerHeight - r.height) / 2, 80); // card: centred
+      window.scrollTo({ top: Math.max(top, 0), behavior: behavior });
+    }
+
+    return {
+      update: function (time) {
+        while (active && next < steps.length && time >= steps[next][0]) {
+          if (next === 0) onFirstStep();
+          go(steps[next][1]);
+          next++;
+        }
+      },
+      finish: function () {
+        if (active && next > 0) window.scrollTo({ top: 0, behavior: behavior });
+        stop();
       }
     };
   }
@@ -141,11 +211,15 @@
         popBubble();
         captions.open();
         var started = false;
+        var tour = Tour(t("openingTour"), function () { captions.float(); });
         setTimeout(function () {
           XP.Voice.play("opening", {
-            onStart: function (audio) { started = true; captions.follow(audio); },
-            // Leave the last words on screen for a moment; close at once if it never played.
-            onEnd: function () { captions.close(started ? 2500 : 0); }
+            onStart: function (audio) { started = true; captions.follow(audio, tour); },
+            onEnd: function () {
+              tour.finish(); // back to the top
+              // Leave the last words on screen for a moment; close at once if it never played.
+              captions.close(started ? 2500 : 0);
+            }
           });
         }, 350);
       }
