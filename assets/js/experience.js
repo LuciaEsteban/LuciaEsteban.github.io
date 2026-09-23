@@ -38,12 +38,14 @@
       animOn: "Animation: on",
       animOff: "Animation: off",
       animLabelOn: "Turn off the seasonal background animation",
-      animLabelOff: "Turn on the seasonal background animation"
+      animLabelOff: "Turn on the seasonal background animation",
+      welcomeVO: "Welcome to my portfolio. If you would like to get to know me a little better, tap the bubble on the screen. You can also change the language in the top right corner.",
+      openingVO: "Here you can get to know me a little better: from my work as a Business Central developer and the way I approach each project, to what motivates me and what I enjoy outside of code. If you think I could be a good fit for your team, I would be glad to talk."
     },
     es: {
       eyebrow: "Portfolio",
       role: "Desarrolladora Microsoft Dynamics 365 Business Central / AL",
-      cta: "Toca la burbuja",
+      cta: "Toca la burbuja para entrar",
       musicOn: "♪ Música: on",
       musicOff: "♪ Música: off",
       silent: "Entrar sin sonido",
@@ -56,7 +58,9 @@
       animOn: "Animación: on",
       animOff: "Animación: off",
       animLabelOn: "Desactivar la animación de fondo de temporada",
-      animLabelOff: "Activar la animación de fondo de temporada"
+      animLabelOff: "Activar la animación de fondo de temporada",
+      welcomeVO: "Bienvenidos a mi portfolio. Si quieres conocerme un poco más, toca la burbuja que aparece en pantalla. También puedes cambiar el idioma en la esquina superior derecha.",
+      openingVO: "En este espacio podrás conocerme un poco mejor: desde mi trabajo como desarrolladora en Business Central y la forma en que afronto cada proyecto, hasta lo que me motiva y lo que hago fuera del código. Si crees que puedo encajar en tu equipo, estaré encantada de hablar contigo."
     }
   };
   function lang() {
@@ -582,6 +586,73 @@
   }
 
   /* ------------------------------------------------------------------ */
+  /* Voice-over                                                          */
+  /* Plays recorded clips from assets/audio/ when they exist:            */
+  /*   welcome-en.mp3 / welcome-es.mp3  (bubble screen)                  */
+  /*   opening-en.mp3 / opening-es.mp3  (right after entering the site)  */
+  /* Missing files are simply skipped, so the site works without them.   */
+  /* A caption with the same words is shown while a clip plays.          */
+  /* ------------------------------------------------------------------ */
+  var Voice = {
+    clip: null,
+    exists: {},
+    caption: null,
+
+    has: function (url) {
+      if (!(url in this.exists)) {
+        this.exists[url] = fetch(url, { method: "HEAD", cache: "no-cache" })
+          .then(function (r) { return r.ok; })
+          .catch(function () { return false; });
+      }
+      return this.exists[url];
+    },
+
+    stop: function () {
+      if (this.clip) { this.clip.pause(); this.clip = null; }
+      this.hideCaption();
+      this.unduck();
+    },
+
+    play: function (kind) {
+      var self = this, l = lang();
+      var url = "assets/audio/" + kind + "-" + l + ".mp3";
+      this.stop();
+      var token = this.token = {};
+      return this.has(url).then(function (ok) {
+        if (!ok || self.token !== token) return;
+        var a = new window.Audio(url);
+        a.volume = 1;
+        self.clip = a;
+        self.showCaption(t(kind + "VO"));
+        self.duck();
+        a.addEventListener("ended", function () { if (self.clip === a) self.stop(); });
+        a.play().catch(function () { self.stop(); });
+      });
+    },
+
+    // Lower the music while someone is speaking.
+    duck: function () {
+      if (Music.playing && Audio.ctx) Audio.musicGain.gain.setTargetAtTime(Music.volume * 0.3, Audio.ctx.currentTime, 0.3);
+    },
+    unduck: function () {
+      if (Music.playing && Audio.ctx) Audio.musicGain.gain.setTargetAtTime(Music.volume, Audio.ctx.currentTime, 0.6);
+    },
+
+    showCaption: function (text) {
+      if (!this.caption) {
+        this.caption = document.createElement("p");
+        this.caption.className = "voice-caption";
+        this.caption.setAttribute("aria-live", "polite");
+        document.body.appendChild(this.caption);
+      }
+      this.caption.textContent = text;
+      var c = this.caption;
+      requestAnimationFrame(function () { c.classList.add("is-visible"); });
+    },
+    hideCaption: function () { if (this.caption) this.caption.classList.remove("is-visible"); }
+  };
+
+  /* ------------------------------------------------------------------ */
   /* Intro                                                               */
   /* ------------------------------------------------------------------ */
   function initIntro() {
@@ -594,16 +665,57 @@
     var entered = false;
     initCodeRain(intro);
 
-    // Localise
-    intro.querySelectorAll("[data-intro-text]").forEach(function (el) {
-      el.textContent = t(el.getAttribute("data-intro-text"));
-    });
-    bubble.setAttribute("aria-label", t("bubbleLabel"));
+    // Language switch (top right of the intro). It drives the site's own
+    // EN/ES buttons, so the choice carries over to the whole page.
+    var langBox = document.createElement("div");
+    langBox.className = "intro-lang";
+    langBox.innerHTML =
+      '<span class="intro-lang-label" aria-hidden="true">' +
+      '<svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" fill="none"/>' +
+      '<path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>' +
+      'Language · Idioma</span>' +
+      '<div class="intro-lang-buttons" role="group" aria-label="Language / Idioma">' +
+      '<button type="button" data-lang="en" lang="en">English</button>' +
+      '<button type="button" data-lang="es" lang="es">Español</button></div>';
+    intro.appendChild(langBox);
+    if (!reduceMotion) setTimeout(function () { langBox.classList.add("is-hinting"); }, 2600);
+
+    function localise() {
+      intro.querySelectorAll("[data-intro-text]").forEach(function (el) {
+        el.textContent = t(el.getAttribute("data-intro-text"));
+      });
+      bubble.setAttribute("aria-label", t("bubbleLabel"));
+      langBox.querySelectorAll("button").forEach(function (b) {
+        b.setAttribute("aria-pressed", b.getAttribute("data-lang") === lang() ? "true" : "false");
+      });
+      paintToggle();
+    }
     function paintToggle() {
       musicToggle.textContent = wantMusic ? t("musicOn") : t("musicOff");
       musicToggle.setAttribute("aria-pressed", wantMusic ? "true" : "false");
     }
-    paintToggle();
+    localise();
+
+    langBox.addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-lang]");
+      if (!b) return;
+      e.stopPropagation();
+      langBox.classList.remove("is-hinting");
+      var siteBtn = document.querySelector('.lang-btn[data-lang="' + b.getAttribute("data-lang") + '"]');
+      if (siteBtn) siteBtn.click();
+      else { try { localStorage.setItem("lucia-portfolio-lang", b.getAttribute("data-lang")); } catch (err) {} }
+      localise();
+      Voice.play("welcome"); // a click is a user gesture, so the browser allows sound here
+    });
+
+    // The first click anywhere on the intro (other than the bubble or a
+    // button) also plays the welcome message; browsers block sound before that.
+    var welcomed = false;
+    intro.addEventListener("pointerdown", function (e) {
+      if (welcomed || e.target.closest("button")) return;
+      welcomed = true;
+      Voice.play("welcome");
+    });
 
     // Rising fizz
     var fizzTimer = null;
@@ -630,6 +742,7 @@
     function enter(withSound) {
       if (entered) return;
       entered = true;
+      Voice.stop();
       Audio.enabled = !!withSound;
       if (withSound) Audio.init();
 
@@ -644,6 +757,7 @@
         intro.classList.add("is-leaving");
         document.documentElement.classList.remove("intro-open");
         if (withSound && wantMusic) setTimeout(function () { Music.start(); }, 500);
+        if (withSound) setTimeout(function () { Voice.play("opening"); }, 1300);
       }, 380);
       setTimeout(function () {
         intro.classList.add("is-gone");
