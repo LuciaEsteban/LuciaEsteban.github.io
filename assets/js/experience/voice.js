@@ -5,9 +5,10 @@
  * the profile photo. Clicking it (or the photo) pops the bubble and plays
  * Lucía's recorded welcome, with captions that appear word by word in
  * time with the voice. While she speaks, the page scrolls to each part
- * she mentions (a guided tour) and returns to the top at the end; any
- * scroll by the visitor stops the tour. The message plays once per visit
- * and can never overlap itself.
+ * she mentions (a guided tour, with gently eased scrolling) and returns
+ * to the top at the end; the visitor's own scrolling is paused meanwhile.
+ * Captions live at page level, above everything else. The message plays
+ * once per visit and can never overlap itself.
  */
 (function () {
   "use strict";
@@ -35,7 +36,8 @@
       "</div>" +
       '<p class="voice-cc-prev"></p>' +
       '<p class="voice-cc-now"></p>';
-    frame.appendChild(box);
+    // Lives at page level (not inside the photo) so it stays above everything.
+    document.body.appendChild(box);
     var prevEl = box.querySelector(".voice-cc-prev");
     var nowEl = box.querySelector(".voice-cc-now");
     var cues = [], words = [], current = -1, raf = 0;
@@ -79,11 +81,19 @@
     var floating = false;
     function place() {
       if (floating) return;
-      var spaceRight = innerWidth - frame.getBoundingClientRect().right - 24;
+      var r = frame.getBoundingClientRect();
+      var spaceRight = innerWidth - r.right - 24;
       var where = innerWidth <= 900 ? "over" : spaceRight >= 260 ? "right" : "below";
+      var pos = {
+        right: [r.right + 20, r.top + r.height / 2, Math.min(320, spaceRight - 16)],
+        below: [r.left, r.bottom + 18, r.width],
+        over: [r.left + 12, r.bottom - 12, r.width - 24]
+      }[where];
       box.classList.remove("cc-right", "cc-below", "cc-over");
       box.classList.add("cc-" + where);
-      box.style.width = where === "right" ? Math.min(320, spaceRight - 16) + "px" : "";
+      box.style.left = pos[0] + scrollX + "px";
+      box.style.top = pos[1] + scrollY + "px";
+      box.style.width = pos[2] + "px";
     }
     window.addEventListener("resize", place);
 
@@ -103,9 +113,8 @@
         if (floating) return;
         floating = true;
         box.classList.remove("cc-right", "cc-below", "cc-over");
-        box.style.width = "";
+        box.style.left = box.style.top = box.style.width = "";
         box.classList.add("cc-float");
-        document.body.appendChild(box); // the frame is transformed, so fixed would not work inside it
       },
       close: function (delay) {
         cancelAnimationFrame(raf);
@@ -120,41 +129,75 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* Guided tour: scroll to what the voice is talking about              */
+  /* Guided tour: glide to what the voice is talking about               */
   /* ------------------------------------------------------------------ */
-  function Tour(steps, onFirstStep) {
-    var next = 0, active = true;
-    var behavior = XP.reduceMotion ? "auto" : "smooth";
-    var userEvents = ["wheel", "touchmove", "keydown"];
 
-    function stop() {
-      active = false;
-      userEvents.forEach(function (ev) { window.removeEventListener(ev, stop); });
+  /* Eased scroll (slow start, slow end) that can be retargeted mid-way. */
+  var Glide = {
+    raf: 0,
+    to: function (target, duration) {
+      cancelAnimationFrame(this.raf);
+      var start = scrollY, dist = target - start, t0 = performance.now(), self = this;
+      // "instant" per frame: the page's CSS smooth scrolling would fight the easing.
+      function jump(y) { window.scrollTo({ top: y, behavior: "instant" }); }
+      if (XP.reduceMotion || Math.abs(dist) < 2) { jump(target); return; }
+      (function step(now) {
+        var k = Math.min((now - t0) / duration, 1);
+        var ease = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; // easeInOutCubic
+        jump(start + dist * ease);
+        if (k < 1) self.raf = requestAnimationFrame(step);
+      })(t0);
     }
-    userEvents.forEach(function (ev) { window.addEventListener(ev, stop, { passive: true }); });
+  };
 
-    function go(selector) {
+  function Tour(steps, onFirstStep) {
+    var next = 0, locked = true;
+
+    // While the tour runs, the page follows the voice: the visitor's own
+    // scrolling (wheel, touch, keys, in-page links) is paused until it ends.
+    var SCROLL_KEYS = { ArrowUp: 1, ArrowDown: 1, PageUp: 1, PageDown: 1, Home: 1, End: 1, " ": 1 };
+    function block(e) {
+      if (!locked) return;
+      if (e.type === "keydown" && !SCROLL_KEYS[e.key]) return;
+      if (e.type === "click" && !(e.target.closest && e.target.closest('a[href^="#"]'))) return;
+      e.preventDefault();
+    }
+    var LOCK_EVENTS = ["wheel", "touchmove", "keydown", "click"];
+    LOCK_EVENTS.forEach(function (ev) { window.addEventListener(ev, block, { passive: false, capture: true }); });
+
+    function unlock() {
+      locked = false;
+      LOCK_EVENTS.forEach(function (ev) { window.removeEventListener(ev, block, { capture: true }); });
+    }
+
+    function targetFor(selector) {
       var el = document.querySelector(selector);
-      if (!el) return;
+      if (!el) return null;
       var r = el.getBoundingClientRect();
       var header = document.querySelector(".site-header");
       var top = el.tagName === "SECTION"
         ? r.top + scrollY - (header ? header.offsetHeight : 0) - 8 // section: its start
         : r.top + scrollY - Math.max((innerHeight - r.height) / 2, 80); // card: centred
-      window.scrollTo({ top: Math.max(top, 0), behavior: behavior });
+      return Math.max(top, 0);
+    }
+
+    function glideTo(top) {
+      // Longer trips take a little longer, always gently.
+      Glide.to(top, Math.min(1100 + Math.abs(top - scrollY) * 0.35, 2200));
     }
 
     return {
       update: function (time) {
-        while (active && next < steps.length && time >= steps[next][0]) {
+        while (next < steps.length && time >= steps[next][0]) {
           if (next === 0) onFirstStep();
-          go(steps[next][1]);
+          var top = targetFor(steps[next][1]);
+          if (top !== null) glideTo(top);
           next++;
         }
       },
       finish: function () {
-        if (active && next > 0) window.scrollTo({ top: 0, behavior: behavior });
-        stop();
+        if (next > 0) Glide.to(0, Math.min(1400 + scrollY * 0.2, 2600)); // back to the top
+        unlock();
       }
     };
   }
