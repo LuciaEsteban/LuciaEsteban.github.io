@@ -179,7 +179,7 @@ window.TRANSLATIONS = {
       title: "Beyond the code",
       body:
         "Outside of Business Central, I enjoy music and play the guitar, and I make time for reading and drawing. It is a side of me that I think also comes through in the creativity and ideas I bring to my code. I also value spending time with the people around me, supporting them through difficult moments and celebrating achievements together.",
-      guitarAlt: "Acoustic guitar",
+      guitarAlt: "Mountain lake at sunset",
     },
     contact: {
       eyebrow: "Let's talk",
@@ -384,7 +384,7 @@ window.TRANSLATIONS = {
       title: "Más allá del código",
       body:
         "Fuera de Business Central, disfruto de la música y toco la guitarra, y reservo tiempo para la lectura y el dibujo. Es una parte de mí que creo que también se nota en la creatividad y en las ideas que luego me surgen al programar. También valoro mucho el tiempo con las personas de mi entorno: acompañar en los momentos difíciles y celebrar juntos los logros.",
-      guitarAlt: "Guitarra acústica",
+      guitarAlt: "Lago de montaña al atardecer",
     },
     contact: {
       eyebrow: "Hablemos",
