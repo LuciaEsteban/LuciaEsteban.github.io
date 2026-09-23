@@ -118,6 +118,11 @@ design is untouched):
   extra download. Floating player bottom-right ("Music on/off") with
   play/pause, volume and a live equalizer; pauses automatically when
   the tab is hidden.
+- **Seasonal background** — a few slow, low-opacity particles that
+  follow the time of year (northern hemisphere): snow Dec–Feb, petals
+  Mar–May, warm drifting motes Jun–Aug, falling leaves Sep–Nov. Adapts
+  to light/dark mode, pauses in hidden tabs, off with reduced motion.
+  Preview any season with `?season=winter|spring|summer|autumn`.
 - **Page interactions** — 3D tilt on the expertise cards, hero colour
   orbs that follow the mouse, and clicking the photo or the guitar
   strums a chord.
