@@ -109,6 +109,7 @@
 }
 .season-toggle.is-off .season-toggle-icon { color: var(--color-text-muted); background: transparent; border: 1px dashed var(--color-border); }
 @media (max-width: 600px) {
-  .season-toggle { right: 0.8rem; bottom: calc(0.8rem + 60px); padding: 0.35rem; }
+  /* Phones: icon only, next to the music player instead of above it */
+  .season-toggle { right: calc(0.8rem + 98px); bottom: calc(0.8rem + 7px); padding: 0.3rem; }
   .season-toggle-label { display: none; }
 }
