@@ -292,7 +292,7 @@
   function effectiveTheme() {
     var stored = getStoredTheme();
     if (stored === "light" || stored === "dark") return stored;
-    return systemPrefersDark() ? "dark" : "light";
+    return "dark"; // default for first-time visitors; the toggle choice is remembered
   }
 
   function applyTheme(theme) {

@@ -41,41 +41,41 @@ window.TRANSLATIONS = {
       scrollHint: "Scroll to explore",
     },
     expertise: {
-      eyebrow: "Core capability",
+      eyebrow: "What I do",
       title: "Business Central expertise",
-      introBeforeDuration: "I have been working professionally with Business Central / AL in a consultancy environment since March 2025, which adds up to ",
+      introBeforeDuration: "I have been working professionally with Business Central / AL in a consultancy environment since March 2025, which amounts to ",
       introAfterDuration:
-        " so far. In that time I've covered new implementations, migrations and upgrades, reporting, and integrations, across SaaS and On-Premise environments.",
+        " so far. During that time I have worked on new implementations, migrations and upgrades, reporting and integrations, across both SaaS and On-Premise environments.",
       items: {
         al: {
           title: "AL Development & Extensions",
           body:
-            "This is <strong>the core of my day-to-day work</strong>: building and maintaining AL extensions for Business Central: tables, pages, page extensions, codeunits, events and subscribers. It's where business requirements become working functionality.",
+            "This is <strong>the core of my day-to-day work</strong>: building and maintaining AL extensions for Business Central, including tables, pages, page extensions, codeunits, events and subscribers. It is where business requirements become working functionality.",
         },
         reports: {
           title: "Reporting (AL + RDLC)",
           body:
-            "I develop reports combining AL datasets with RDLC layouts, mainly multi-page commercial documents for customers and suppliers, including conditional logic, totals and taxes. I have also developed multi-sheet Excel reports for clients who needed a working document.",
+            "I develop reports that combine AL datasets with RDLC layouts, mainly multi-page commercial documents for customers and suppliers, with conditional logic, totals and taxes. I have also built multi-sheet Excel reports for clients who needed a working document.",
         },
         implementations: {
-          title: "Re-implementations, data and code migrations",
+          title: "Re-implementations and Data & Code Migrations",
           body:
-            "I have worked on new implementations, <strong>re-implementations, data migrations and code migrations</strong> between versions (NAV/BC14, BC21, BC25 and BC28), adapting existing customizations to each version.",
+            "I have worked on new implementations, <strong>re-implementations, and data and code migrations</strong> between versions (NAV/BC14, BC21, BC25 and BC28), adapting existing customizations to each target version.",
         },
         integrations: {
           title: "Integrations & APIs",
           body:
-            "Business Central rarely works in isolation. I build the connections that let it exchange data with other systems (APIs, Web Services, XML, JSON and XMLPorts), so information <strong>moves reliably between Business Central and the systems it needs to talk to</strong>.",
+            "Business Central rarely works in isolation. I build the integrations that allow it to exchange data with other systems (APIs, web services, XML, JSON and XMLports), so that information <strong>flows reliably between Business Central and the systems it depends on</strong>.",
         },
         saas: {
           title: "SaaS & On-Premise",
           body:
-            "I have <strong>worked with both deployment models</strong> and know their differences in practice: what SaaS does and does not allow, and what maintaining an On-Premise environment involves. I have also worked with Docker.",
+            "I have <strong>hands-on experience with both deployment models</strong> and understand how they differ in practice: what SaaS does and does not allow, and what running an On-Premise environment involves. I have also worked with Docker.",
         },
         tooling: {
           title: "Development Environment & Way of Working",
           body:
-            "I work in VS Code with the AL Language extension. Before developing, I analyse the requirement, define the structure and validate it against the functional specification or with the client. I manage each task as an issue with <strong>Git and pull requests</strong>, and I aim to write <strong>clean code that can scale</strong> in the future.",
+            "I work in VS Code with the AL Language extension. Before starting development, I analyze the requirement, define the structure and validate it against the functional specification or with the client. I manage each task as an issue using <strong>Git and pull requests</strong>, and I aim to write <strong>clean code that can scale</strong> as the project grows.",
         },
       },
     },
@@ -83,7 +83,7 @@ window.TRANSLATIONS = {
       eyebrow: "Technology map",
       title: "Technology ecosystem",
       intro:
-        "<strong>Business Central and AL are at the center of what I do.</strong> Everything else here is a supporting technology I use around them, not a separate specialization. I am always open to learning new languages and tools as each project requires.",
+        "<strong>Business Central and AL are at the heart of what I do.</strong> Everything else here is a supporting technology I use alongside them, not a separate specialization. I am always open to learning new languages and tools as each project requires.",
       core: {
         title: "Core",
         items: [
@@ -111,7 +111,7 @@ window.TRANSLATIONS = {
       },
       additional: {
         title: "Additional / academic",
-        items: ["Java", "HTML / CSS", "Introductory C", "Introductory Python"],
+        items: ["Java", "HTML / CSS", "C (fundamentals)", "Python (fundamentals)"],
       },
     },
     experience: {
@@ -129,38 +129,38 @@ window.TRANSLATIONS = {
       eyebrow: "Looking ahead",
       title: "AI in my work",
       intro:
-        "I use AI and keep exploring it in my work. I see it as a tool and as part of the future of our field: it is changing the way we work, but <strong>it is not a substitute for the work itself</strong>. That is why I make the most of it without setting aside my studies, my foundations or my own judgement.",
+        "I use AI in my work and keep exploring what it can offer. I see it as a tool and as part of the future of our field: it is changing the way we work, but <strong>it is no substitute for the work itself</strong>. That is why I make the most of it without losing sight of my studies, my foundations or my own judgment.",
     },
     journey: {
-      eyebrow: "Trajectory",
+      eyebrow: "Background",
       title: "Experience & education",
       intro:
-        "My professional path, together with the formal education that has run alongside it.",
+        "My professional path and the education that has accompanied it.",
       items: {
         electronics: {
           tag: "Education",
           title: "Electronics and Industrial Automation Engineering",
           meta: "2 years completed, Universidad Politécnica de Alcalá",
-          body: "From here I moved into software development, a path I continued through the DAM qualification and further technical training.",
+          body: "This is where I moved into software development, a path I continued with the DAM qualification and further technical training.",
         },
         dam: {
           tag: "Education",
           title: "Higher Technician in Multiplatform Application Development (DAM)",
           meta: "Completed",
-          body: "Higher Vocational Training in software development.",
+          body: "Higher vocational qualification in software development.",
         },
         professional: {
           tag: "Professional",
           role: "Microsoft Dynamics 365 Business Central / AL Developer",
           companyFallback: "Currently working professionally with Business Central",
-          versions: "Exposure to NAV/BC14, BC21, BC25 and BC28",
+          versions: "Experience with NAV/BC14, BC21, BC25 and BC28",
           since: "Since {year}",
         },
         unir: {
           tag: "Education (in progress)",
           title: "Computer Engineering, UNIR",
           body:
-            "Online degree, with part of it recognized from previous studies, which I successfully combine with full-time work.",
+            "Online degree, partly credited from previous studies, which I successfully combine with full-time work.",
         },
       },
     },
@@ -168,24 +168,24 @@ window.TRANSLATIONS = {
       eyebrow: "Get to know me",
       title: "About me",
       paragraphs: [
-        "I enjoy working as part of a team and sharing ideas with other developers and consultants. I can also work independently, while not hesitating to ask for help when needed, as that is part of continuing to learn. What motivates me most is <strong>a real challenge</strong>: a problem worth understanding in depth, rather than simply patching.",
-        "I am organized and open-minded, while also being decisive. I like to keep work clear and on track, remain open to better ways of doing things, and make decisions with confidence when they are needed.",
-        "I enjoy learning and contributing beyond what is strictly expected: <strong>going a step further than a task requires</strong> whenever I can. I value constructive feedback as an essential part of professional growth, while always aiming to deliver every task to the highest standard. I see my development as continuous, and I aim to bring a little more to each project.",
-        "I like to keep learning so I do not fall behind, and not only at university: in a company there are also many people to learn from every day.",
+        "I enjoy working as part of a team and sharing ideas with other developers and consultants. I am also comfortable working independently, and I do not hesitate to ask for help when needed, as that is part of continuing to learn. What motivates me most is <strong>a real challenge</strong>: a problem worth understanding in depth rather than simply patching.",
+        "I am organized and open-minded, as well as decisive. I like to keep work clear and on track, stay open to better ways of doing things, and make decisions confidently when they are needed.",
+        "I enjoy learning and contributing beyond what is strictly expected, <strong>going a step further than a task requires</strong> whenever I can. I value constructive feedback as an essential part of professional growth, while always aiming to deliver high-quality work. I see my development as an ongoing process and aim to bring a little more to every project.",
+        "I like to keep learning so that I stay up to date, and not only at university: in any company there are many people to learn from every day.",
       ],
     },
     beyond: {
       eyebrow: "Beyond the code",
       title: "Beyond the code",
       body:
-        "Outside of Business Central, I enjoy music and play the guitar, and I make time for reading and drawing. It is a part of me that I think also shows in the creativity and ideas that come to me when I code. I also value time with the people around me: supporting them in difficult moments and celebrating achievements together.",
-      guitarAlt: "Placeholder for a photo of Lucía with her guitar",
+        "Outside of Business Central, I enjoy music and play the guitar, and I make time for reading and drawing. It is a side of me that I think also comes through in the creativity and ideas I bring to my code. I also value spending time with the people around me, supporting them through difficult moments and celebrating achievements together.",
+      guitarAlt: "Acoustic guitar",
     },
     contact: {
       eyebrow: "Let's talk",
       title: "Contact",
       intro:
-        "I value my current role, and I am open to new opportunities that are a <strong>strong fit for my professional goals</strong> and beneficial for both sides. If my profile could be a good fit for your team or project, I would be glad to hear from you.",
+        "I value my current role, and I am open to new opportunities that are a <strong>strong fit for my professional goals</strong> and mutually beneficial. If my profile could be a good fit for your team or project, I would be glad to hear from you.",
       email: "Email",
       linkedin: "LinkedIn",
       github: "GitHub",
@@ -212,7 +212,7 @@ window.TRANSLATIONS = {
     },
     footer: {
       rights: "All rights reserved.",
-      builtWith: "Designed and built by Lucía Esteban.",
+      builtWith: "Designed and developed by Lucía Esteban.",
     },
   },
 
@@ -384,7 +384,7 @@ window.TRANSLATIONS = {
       title: "Más allá del código",
       body:
         "Fuera de Business Central, disfruto de la música y toco la guitarra, y reservo tiempo para la lectura y el dibujo. Es una parte de mí que creo que también se nota en la creatividad y en las ideas que luego me surgen al programar. También valoro mucho el tiempo con las personas de mi entorno: acompañar en los momentos difíciles y celebrar juntos los logros.",
-      guitarAlt: "Marcador de posición para una fotografía de Lucía con su guitarra",
+      guitarAlt: "Guitarra acústica",
     },
     contact: {
       eyebrow: "Hablemos",
