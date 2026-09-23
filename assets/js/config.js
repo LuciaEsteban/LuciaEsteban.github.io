@@ -25,7 +25,10 @@ window.SITE_CONFIG = {
   professionalEmail: "luciaes.dev@gmail.com",
   linkedInUrl: "https://www.linkedin.com/in/luciaes-dev/",
   githubUrl: "https://github.com/LuciaEsteban",
-  cvPdfUrls: {\n    en: "assets/files/Lucia-Esteban-CV-EN.pdf",\n    es: "assets/files/Lucia-Esteban-CV-ES.pdf",\n  },
+  cvPdfUrls: {
+    en: "assets/files/Lucia-Esteban-CV-EN.pdf",
+    es: "assets/files/Lucia-Esteban-CV-ES.pdf",
+  },
 
   /**
    * Contact form endpoint. Messages are delivered straight to the inbox
