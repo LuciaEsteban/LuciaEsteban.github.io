@@ -119,15 +119,14 @@ design is untouched):
   play/pause, volume and a live equalizer; pauses automatically when
   the tab is hidden.
 - **Language switch on the intro + voice-over** — the intro has an
-  English/Español switch (top right, with a short pulsing hint) that
-  also sets the language of the whole site. Recorded voice clips are
-  played from `assets/audio/` if present: `welcome-en.mp3` /
-  `welcome-es.mp3` on the bubble screen (the language switch pulses again when it ends) (on the first click, or when the
-  language is changed, since browsers block sound before any
-  interaction) and `opening-en.mp3` / `opening-es.mp3` right after
-  entering (not when entering with Escape). The words are shown as a
-  caption while each clip plays; the texts live in `experience.js`
-  (`welcomeVO`, `openingVO`). Missing clips are simply skipped.
+  English/Español switch (top right) that also sets the language of the
+  whole site. A welcome text is typed out under the bubble (browsers
+  block sound before the first click, so this part is written, not
+  spoken); when it finishes, the switch pulses and a small tooltip
+  points it out. Right after entering, a recorded clip is played from
+  `assets/audio/opening-en.mp3` / `opening-es.mp3` if present, with a
+  caption of the same words (`openingVO` in `experience.js`). Missing
+  clips are simply skipped.
 - **Seasonal background** — a few slow, low-opacity particles that
   follow the time of year (northern hemisphere): snow Dec–Feb, petals
   Mar–May, warm drifting motes Jun–Aug, falling leaves Sep–Nov. Adapts
