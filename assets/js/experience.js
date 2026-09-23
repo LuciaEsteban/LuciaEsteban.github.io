@@ -859,8 +859,8 @@
       this.dpr = Math.min(window.devicePixelRatio || 1, 2);
       this.w = innerWidth; this.h = innerHeight;
       this.canvas.width = this.w * this.dpr; this.canvas.height = this.h * this.dpr;
-      // Sparse on purpose: roughly one particle per 70px of width.
-      this.count = Math.max(10, Math.min(26, Math.round(this.w / 70)));
+      // Sparse on purpose: roughly one particle per 105px of width.
+      this.count = Math.max(7, Math.min(17, Math.round(this.w / 105)));
       if (this.parts) while (this.parts.length < this.count) this.parts.push(this.spawn(true));
       if (this.parts) this.parts.length = Math.min(this.parts.length, this.count);
     },
@@ -896,7 +896,7 @@
         p.x += Math.sin(p.phase) * p.sway * 0.5 * dt;
         p.rot += p.vrot * dt + (s === "autumn" ? Math.sin(p.phase) * 0.01 * dt : 0);
         if (p.y > this.h + 30 || p.y < -30 || p.x < -40 || p.x > this.w + 40) { this.parts[i] = this.spawn(false); continue; }
-        var alpha = p.alpha;
+        var alpha = p.alpha * 0.8;
         if (s === "summer") alpha *= 0.65 + 0.35 * Math.sin(p.phase * 2.3); // gentle twinkle
         c.globalAlpha = alpha;
         c.fillStyle = pal[p.colorIdx % pal.length];
