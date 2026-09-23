@@ -117,7 +117,8 @@ design is untouched):
   so it never repeats exactly. No audio files, so no licensing and no
   extra download. Floating player bottom-right ("Music on/off") with
   play/pause, volume and a live equalizer; pauses automatically when
-  the tab is hidden.
+  the tab is hidden. Switching it off cuts the sound within a quarter
+  of a second (the music's reverb sits before the fader).
 - **Language switch on the intro + voice-over** — the intro has an
   English/Español switch (top right) that also sets the language of the
   whole site. A welcome text is typed out under the bubble (browsers
@@ -126,7 +127,9 @@ design is untouched):
   points it out. Right after entering, a recorded clip is played from
   `assets/audio/opening-en.mp3` / `opening-es.mp3` if present, with a
   caption of the same words (`openingVO` in `experience.js`). Missing
-  clips are simply skipped.
+  clips are simply skipped. The clips are Lucía's own recordings, cleaned
+  up (noise reduction, EQ, light compression, a subtle room echo,
+  loudness-normalized to about -16 LUFS).
 - **Seasonal background** — a few slow, low-opacity particles that
   follow the time of year (northern hemisphere): snow Dec–Feb, petals
   Mar–May, warm drifting motes Jun–Aug, falling leaves Sep–Nov. Adapts
