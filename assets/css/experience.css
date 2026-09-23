@@ -736,3 +736,30 @@ body > .site-footer {
 }
 .intro-lang-tip.is-visible { opacity: 1; transform: none; animation: tipBob 1.6s ease-in-out 350ms 3; }
 @keyframes tipBob { 50% { transform: translateY(3px); } }
+
+/* Welcome text typed out under the bubble */
+.intro-welcome {
+  max-width: 34rem;
+  min-height: 3.2em;           /* reserve two lines so nothing jumps while typing */
+  margin: -0.4rem 0 0;
+  padding: 0 1rem;
+  color: #c3d1ea;
+  font-size: clamp(0.85rem, 2.2vmin, 1rem);
+  line-height: 1.6;
+  text-align: center;
+}
+.intro-welcome.is-typing::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: #9dc0f5;
+  animation: caretBlink 0.9s steps(1) infinite;
+}
+@keyframes caretBlink { 50% { opacity: 0; } }
+@media (max-width: 600px) { .intro-welcome { min-height: 4.8em; } }
+
+/* "Press Enter" makes no sense on touch screens */
+@media (pointer: coarse) { .intro-hint { display: none; } }
