@@ -708,3 +708,31 @@ body > .site-footer {
 }
 .voice-caption.is-visible { opacity: 1; transform: translate(-50%, 0); }
 @media (max-width: 600px) { .voice-caption { bottom: 5.5rem; font-size: 0.82rem; } }
+
+/* Small tooltip under the language switch ("You can change the language here") */
+.intro-lang-tip {
+  position: relative;
+  margin-top: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: #eef3fc;
+  color: var(--color-primary);
+  font: 600 0.78rem var(--font-sans);
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 350ms ease, transform 350ms ease;
+  pointer-events: none;
+}
+.intro-lang-tip::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: 2.2rem;
+  width: 10px; height: 10px;
+  background: inherit;
+  transform: rotate(45deg);
+}
+.intro-lang-tip.is-visible { opacity: 1; transform: none; animation: tipBob 1.6s ease-in-out 350ms 3; }
+@keyframes tipBob { 50% { transform: translateY(3px); } }
