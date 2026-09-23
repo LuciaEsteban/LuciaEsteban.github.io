@@ -35,6 +35,9 @@
       volume: "Music volume",
       bubbleLabel: "Enter the portfolio",
       langTip: "You can change the language here",
+      listen: "Listen to my welcome",
+      listening: "Playing…",
+      listenLabel: "Play a short spoken welcome message (about 20 seconds)",
       animOn: "Animation: on",
       animOff: "Animation: off",
       animLabelOn: "Turn off the seasonal background animation",
@@ -55,6 +58,9 @@
       volume: "Volumen de la música",
       bubbleLabel: "Entrar al portfolio",
       langTip: "Puedes cambiar el idioma aquí",
+      listen: "Escucha mi bienvenida",
+      listening: "Reproduciendo…",
+      listenLabel: "Reproducir un breve mensaje de bienvenida (unos 20 segundos)",
       animOn: "Animación: on",
       animOff: "Animación: off",
       animLabelOn: "Desactivar la animación de fondo de temporada",
@@ -626,13 +632,14 @@
 
     play: function (kind, onEnd) {
       var self = this, l = lang();
-      var url = "assets/audio/" + kind + "-" + l + ".mp3";
+      var url = "assets/audio/" + kind + "-" + l + ".mp3?v=2"; // bump when a clip is replaced
       this.stop();
       var token = this.token = {};
       return this.has(url).then(function (ok) {
-        if (!ok || self.token !== token) return;
+        if (self.token !== token) return;
+        if (!ok) { if (onEnd) onEnd(); return; }
         var a = new window.Audio(url);
-        a.volume = 1;
+        a.volume = 0.85;
         self.clip = a;
         self.showCaption(t(kind + "VO"));
         self.duck();
@@ -641,7 +648,7 @@
           self.stop();
           if (onEnd) onEnd();
         });
-        a.play().catch(function () { self.stop(); });
+        a.play().catch(function () { self.stop(); if (onEnd) onEnd(); });
       });
     },
 
@@ -803,7 +810,6 @@
         intro.classList.add("is-leaving");
         document.documentElement.classList.remove("intro-open");
         if (withSound && wantMusic) setTimeout(function () { Music.start(); }, 500);
-        if (withSound) setTimeout(function () { Voice.play("opening"); }, 1300);
       }, 380);
       setTimeout(function () {
         intro.classList.add("is-gone");
@@ -824,11 +830,59 @@
   }
 
   /* ------------------------------------------------------------------ */
+  /* "Listen to my welcome": the spoken message plays only when the      */
+  /* visitor asks for it, by clicking the badge or the profile photo.    */
+  /* It can be played once per visit, never twice at the same time.     */
+  /* ------------------------------------------------------------------ */
+  function initListenBadge() {
+    var frame = document.querySelector(".hero-photo-frame");
+    if (!frame) return;
+    var state = "idle"; // idle → playing → done
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "listen-badge";
+    btn.innerHTML =
+      '<span class="listen-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24">' +
+      '<path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>' +
+      '<path d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></span>' +
+      '<span class="listen-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>' +
+      '<span class="listen-text"></span>';
+    frame.appendChild(btn);
+    frame.classList.add("has-listen");
+
+    function paint() {
+      btn.querySelector(".listen-text").textContent = state === "playing" ? t("listening") : t("listen");
+      btn.setAttribute("aria-label", t("listenLabel"));
+      btn.classList.toggle("is-playing", state === "playing");
+    }
+    function play(e) {
+      if (e) e.stopPropagation();
+      if (state !== "idle") return; // once only, and never on top of itself
+      state = "playing";
+      paint();
+      Voice.play("opening", function () {
+        state = "done";
+        btn.classList.add("is-done");
+        frame.classList.remove("has-listen");
+        setTimeout(function () { btn.remove(); }, 600);
+      });
+    }
+    btn.addEventListener("click", play);
+    frame.addEventListener("click", play);
+    document.querySelectorAll(".lang-btn").forEach(function (b) {
+      b.addEventListener("click", function () { setTimeout(paint, 0); });
+    });
+    paint();
+  }
+
+  /* ------------------------------------------------------------------ */
   /* Page interactivity                                                  */
   /* ------------------------------------------------------------------ */
   function initPageFx() {
-    // Photo & guitar: strum a chord, with a soft ripple
-    ["hero-photo-frame", "beyond-photo"].forEach(function (cls) {
+    initListenBadge();
+
+    // "Beyond the code" photo: strum a chord, with a soft ripple
+    ["beyond-photo"].forEach(function (cls) {
       var el = document.querySelector("." + cls);
       if (!el) return;
       el.style.cursor = "pointer";
