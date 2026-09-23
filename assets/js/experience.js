@@ -28,13 +28,13 @@
       cta: "Tap the bubble to enter",
       musicOn: "♪ Music: on",
       musicOff: "♪ Music: off",
-      silent: "Enter without sound",
       hint: "Or press Enter to continue",
       dockLabel: "Music",
       play: "Play background music",
       pause: "Pause background music",
       volume: "Music volume",
       bubbleLabel: "Enter the portfolio",
+      langTip: "You can change the language here",
       animOn: "Animation: on",
       animOff: "Animation: off",
       animLabelOn: "Turn off the seasonal background animation",
@@ -48,13 +48,13 @@
       cta: "Toca la burbuja para entrar",
       musicOn: "♪ Música: on",
       musicOff: "♪ Música: off",
-      silent: "Entrar sin sonido",
       hint: "O pulsa Enter para continuar",
       dockLabel: "Música",
       play: "Reproducir música de fondo",
       pause: "Pausar música de fondo",
       volume: "Volumen de la música",
       bubbleLabel: "Entrar al portfolio",
+      langTip: "Puedes cambiar el idioma aquí",
       animOn: "Animación: on",
       animOff: "Animación: off",
       animLabelOn: "Desactivar la animación de fondo de temporada",
@@ -613,7 +613,7 @@
       this.unduck();
     },
 
-    play: function (kind) {
+    play: function (kind, onEnd) {
       var self = this, l = lang();
       var url = "assets/audio/" + kind + "-" + l + ".mp3";
       this.stop();
@@ -625,7 +625,11 @@
         self.clip = a;
         self.showCaption(t(kind + "VO"));
         self.duck();
-        a.addEventListener("ended", function () { if (self.clip === a) self.stop(); });
+        a.addEventListener("ended", function () {
+          if (self.clip !== a) return;
+          self.stop();
+          if (onEnd) onEnd();
+        });
         a.play().catch(function () { self.stop(); });
       });
     },
@@ -660,7 +664,6 @@
     if (!intro) return;
     var bubble = intro.querySelector(".intro-bubble");
     var musicToggle = intro.querySelector("[data-intro-music]");
-    var silentBtn = intro.querySelector("[data-intro-silent]");
     var wantMusic = true;
     var entered = false;
     initCodeRain(intro);
@@ -678,7 +681,25 @@
       '<button type="button" data-lang="en" lang="en">English</button>' +
       '<button type="button" data-lang="es" lang="es">Español</button></div>';
     intro.appendChild(langBox);
-    if (!reduceMotion) setTimeout(function () { langBox.classList.add("is-hinting"); }, 2600);
+    // Pulse around the switch: once when the intro appears, and again
+    // whenever the welcome message finishes, to point out where it is.
+    var tip = document.createElement("span");
+    tip.className = "intro-lang-tip";
+    tip.setAttribute("aria-hidden", "true");
+    langBox.appendChild(tip);
+    var tipTimer = null;
+    function hintLanguage() {
+      if (entered) return;
+      tip.textContent = t("langTip");
+      tip.classList.add("is-visible");
+      clearTimeout(tipTimer);
+      tipTimer = setTimeout(function () { tip.classList.remove("is-visible"); }, 5000);
+      if (reduceMotion) return;
+      langBox.classList.remove("is-hinting");
+      void langBox.offsetWidth; // restart the animation
+      langBox.classList.add("is-hinting");
+    }
+    setTimeout(hintLanguage, 2600);
 
     function localise() {
       intro.querySelectorAll("[data-intro-text]").forEach(function (el) {
@@ -701,11 +722,12 @@
       if (!b) return;
       e.stopPropagation();
       langBox.classList.remove("is-hinting");
+      tip.classList.remove("is-visible");
       var siteBtn = document.querySelector('.lang-btn[data-lang="' + b.getAttribute("data-lang") + '"]');
       if (siteBtn) siteBtn.click();
       else { try { localStorage.setItem("lucia-portfolio-lang", b.getAttribute("data-lang")); } catch (err) {} }
       localise();
-      Voice.play("welcome"); // a click is a user gesture, so the browser allows sound here
+      Voice.play("welcome", hintLanguage); // a click is a user gesture, so the browser allows sound here
     });
 
     // The first click anywhere on the intro (other than the bubble or a
@@ -714,7 +736,7 @@
     intro.addEventListener("pointerdown", function (e) {
       if (welcomed || e.target.closest("button")) return;
       welcomed = true;
-      Voice.play("welcome");
+      Voice.play("welcome", hintLanguage);
     });
 
     // Rising fizz
@@ -769,7 +791,6 @@
     }
 
     bubble.addEventListener("click", function (e) { e.stopPropagation(); enter(true); });
-    silentBtn.addEventListener("click", function (e) { e.stopPropagation(); enter(false); });
     document.addEventListener("keydown", function onKey(e) {
       if (entered) { document.removeEventListener("keydown", onKey); return; }
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); enter(true); }
