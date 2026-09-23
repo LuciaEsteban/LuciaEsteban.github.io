@@ -7,6 +7,15 @@ its own right.
 
 Live site: https://luciaesteban.github.io/
 
+## Code guide
+
+A complete, section-by-section explanation of how every file works, with
+code excerpts, written for readers who know Java/AL but not web
+development:
+
+- English: [docs/code-guide-en.md](docs/code-guide-en.md)
+- Español: [docs/guia-codigo-es.md](docs/guia-codigo-es.md)
+
 ## Project purpose
 
 The site leads with Business Central / AL capability — what Lucía can build
@@ -36,6 +45,7 @@ a functional benefit.
 ```
 .
 ├── index.html                    Single-page site, all sections
+├── docs/                         Code guide (English + Spanish)
 ├── assets/
 │   ├── css/
 │   │   ├── styles.css            Base design, incl. responsive & motion rules
