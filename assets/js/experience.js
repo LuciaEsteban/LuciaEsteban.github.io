@@ -389,7 +389,7 @@
     },
 
     ring: function (x, y, radius) {
-      this.parts.push({ ring: true, x: x, y: y, r: radius * 0.6, vr: 9, life: 1, decay: 0.03 });
+      this.parts.push({ ring: true, x: x, y: y, r: radius * 0.6, r0: radius * 0.6, born: performance.now(), life: 1, decay: 0 });
       this.run();
     },
 
@@ -425,7 +425,11 @@
         p.life -= p.decay;
         if (p.life <= 0) { this.parts.splice(i, 1); continue; }
         if (p.ring) {
-          p.r += p.vr; p.vr *= 0.94;
+          // Time-based so it always fades in ~0.7s, even on slow frames.
+          var k = Math.min((performance.now() - p.born) / 700, 1);
+          p.life = 1 - k;
+          if (p.life <= 0) { this.parts.splice(i, 1); continue; }
+          p.r = p.r0 + 150 * (1 - Math.pow(1 - k, 3));
           c.globalAlpha = p.life * 0.8;
           c.strokeStyle = "#cfe0ff"; c.lineWidth = 3 * p.life;
           c.beginPath(); c.arc(p.x, p.y, p.r, 0, Math.PI * 2); c.stroke();
@@ -805,7 +809,140 @@
   }
 
   /* ------------------------------------------------------------------ */
+  /* Seasonal background: a few slow, subtle particles that change with  */
+  /* the time of year (northern hemisphere).                             */
+  /*   winter  Dec–Feb  snow        spring  Mar–May  petals              */
+  /*   summer  Jun–Aug  warm motes  autumn  Sep–Nov  falling leaves      */
+  /* Add ?season=winter|spring|summer|autumn to the URL to preview one.  */
+  /* ------------------------------------------------------------------ */
+  var Seasons = {
+    palettes: {
+      winter: { light: ["#9fb7d6", "#b7c9e2", "#c9d6ea"], dark: ["#ffffff", "#dbe6f7", "#c3d4ee"] },
+      spring: { light: ["#f2b8c6", "#f7cdd8", "#e9a9bb"], dark: ["#f7c6d3", "#f2b0c2", "#fbdbe4"] },
+      summer: { light: ["#e8b94f", "#f0c96d", "#dca544"], dark: ["#f5d06b", "#ffe29a", "#f0bd52"] },
+      autumn: { light: ["#c8793a", "#b5652e", "#d49a4a", "#a8552b"], dark: ["#d98e4a", "#c9733a", "#e0aa5c", "#b8653a"] }
+    },
+
+    current: function () {
+      var q = /[?&]season=(winter|spring|summer|autumn)/.exec(location.search);
+      if (q) return q[1];
+      var m = new Date().getMonth(); // 0 = January
+      if (m === 11 || m <= 1) return "winter";
+      if (m <= 4) return "spring";
+      if (m <= 7) return "summer";
+      return "autumn";
+    },
+
+    isDark: function () { return document.documentElement.getAttribute("data-theme") === "dark"; },
+
+    init: function () {
+      if (reduceMotion) return;
+      this.season = this.current();
+      var cv = this.canvas = document.createElement("canvas");
+      cv.className = "season-canvas season-" + this.season;
+      cv.setAttribute("aria-hidden", "true");
+      document.body.appendChild(cv);
+      this.c = cv.getContext("2d");
+      var self = this;
+      this.resize();
+      window.addEventListener("resize", function () { self.resize(); });
+      this.parts = [];
+      for (var i = 0; i < this.count; i++) this.parts.push(this.spawn(true));
+      this.last = performance.now();
+      requestAnimationFrame(function loop(now) {
+        if (!document.hidden) self.frame(now);
+        requestAnimationFrame(loop);
+      });
+    },
+
+    resize: function () {
+      this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+      this.w = innerWidth; this.h = innerHeight;
+      this.canvas.width = this.w * this.dpr; this.canvas.height = this.h * this.dpr;
+      // Sparse on purpose: roughly one particle per 70px of width.
+      this.count = Math.max(10, Math.min(26, Math.round(this.w / 70)));
+      if (this.parts) while (this.parts.length < this.count) this.parts.push(this.spawn(true));
+      if (this.parts) this.parts.length = Math.min(this.parts.length, this.count);
+    },
+
+    spawn: function (anywhere) {
+      var s = this.season, r = Math.random;
+      var p = {
+        x: r() * this.w,
+        y: anywhere ? r() * this.h : (s === "summer" ? this.h + 10 : -20),
+        phase: r() * Math.PI * 2,
+        colorIdx: Math.floor(r() * 4),
+        rot: r() * Math.PI * 2,
+        vrot: (r() - 0.5) * 0.02
+      };
+      if (s === "winter") { p.size = 1.2 + r() * 2.4; p.vy = 0.25 + r() * 0.45; p.sway = 0.3 + r() * 0.4; p.alpha = 0.35 + r() * 0.35; }
+      if (s === "spring") { p.size = 3 + r() * 3; p.vy = 0.3 + r() * 0.35; p.sway = 0.6 + r() * 0.6; p.alpha = 0.35 + r() * 0.25; }
+      if (s === "summer") { p.size = 1.2 + r() * 1.8; p.vy = -(0.12 + r() * 0.2); p.sway = 0.25 + r() * 0.3; p.alpha = 0.3 + r() * 0.35; }
+      if (s === "autumn") { p.size = 5 + r() * 5; p.vy = 0.35 + r() * 0.4; p.sway = 0.7 + r() * 0.7; p.alpha = 0.3 + r() * 0.25; }
+      return p;
+    },
+
+    frame: function (now) {
+      var dt = Math.min((now - this.last) / 16.67, 3);
+      this.last = now;
+      var c = this.c, s = this.season;
+      var pal = this.palettes[s][this.isDark() ? "dark" : "light"];
+      c.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+      c.clearRect(0, 0, this.w, this.h);
+      for (var i = 0; i < this.parts.length; i++) {
+        var p = this.parts[i];
+        p.phase += 0.012 * dt;
+        p.y += p.vy * dt;
+        p.x += Math.sin(p.phase) * p.sway * 0.5 * dt;
+        p.rot += p.vrot * dt + (s === "autumn" ? Math.sin(p.phase) * 0.01 * dt : 0);
+        if (p.y > this.h + 30 || p.y < -30 || p.x < -40 || p.x > this.w + 40) { this.parts[i] = this.spawn(false); continue; }
+        var alpha = p.alpha;
+        if (s === "summer") alpha *= 0.65 + 0.35 * Math.sin(p.phase * 2.3); // gentle twinkle
+        c.globalAlpha = alpha;
+        c.fillStyle = pal[p.colorIdx % pal.length];
+        this.draw(c, p, s);
+      }
+      c.globalAlpha = 1;
+    },
+
+    draw: function (c, p, s) {
+      if (s === "winter" || s === "summer") {
+        c.beginPath(); c.arc(p.x, p.y, p.size, 0, Math.PI * 2); c.fill();
+        if (s === "summer") { c.globalAlpha *= 0.25; c.beginPath(); c.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2); c.fill(); }
+        return;
+      }
+      c.save();
+      c.translate(p.x, p.y);
+      c.rotate(p.rot);
+      if (s === "spring") {
+        // Petal: a soft teardrop
+        c.scale(1, 0.62 + 0.25 * Math.sin(p.phase * 1.7)); // turns as it falls
+        c.beginPath();
+        c.moveTo(0, -p.size);
+        c.bezierCurveTo(p.size, -p.size * 0.6, p.size * 0.7, p.size, 0, p.size);
+        c.bezierCurveTo(-p.size * 0.7, p.size, -p.size, -p.size * 0.6, 0, -p.size);
+        c.fill();
+      } else {
+        // Leaf: pointed oval with a central vein, flipping as it falls
+        c.scale(0.55 + 0.45 * Math.abs(Math.sin(p.phase * 0.8)), 1);
+        var L = p.size;
+        c.beginPath();
+        c.moveTo(0, -L);
+        c.quadraticCurveTo(L * 0.75, -L * 0.2, 0, L);
+        c.quadraticCurveTo(-L * 0.75, -L * 0.2, 0, -L);
+        c.fill();
+        c.globalAlpha *= 0.6;
+        c.strokeStyle = "rgba(0,0,0,0.25)";
+        c.lineWidth = 0.7;
+        c.beginPath(); c.moveTo(0, -L * 0.8); c.lineTo(0, L * 1.25); c.stroke();
+      }
+      c.restore();
+    }
+  };
+
+  /* ------------------------------------------------------------------ */
   function boot() {
+    Seasons.init();
     FX.init();
     Dock.init();
     initIntro();
