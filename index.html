@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,8 +24,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/styles.css?v=202609231147" />
-  <link rel="stylesheet" href="assets/css/experience.css?v=202609231147" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=202609231209" />
+  <link rel="stylesheet" href="assets/css/experience.css?v=202609231209" />
 
   <!-- Sets the theme before first paint so there's no light-mode flash
        for visitors whose system (or last visit) prefers dark. The real
@@ -36,7 +36,7 @@
         var saved = localStorage.getItem("lucia-portfolio-theme");
         var theme = saved === "light" || saved === "dark"
           ? saved
-          : (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+          : "dark"; // first visit: always dark, whatever the OS setting
         document.documentElement.setAttribute("data-theme", theme);
       } catch (e) {
         // Storage blocked (private browsing, locked-down settings, etc.) — falls back to light, no harm done.
@@ -184,10 +184,10 @@
     <section class="section section-expertise" id="expertise" aria-labelledby="expertise-heading">
       <div class="bubble-field" aria-hidden="true"><span class="bubble bubble-a"></span><span class="bubble bubble-b"></span><span class="bubble bubble-c"></span></div>
       <div class="container">
-        <p class="eyebrow reveal" data-i18n="expertise.eyebrow">Core capability</p>
+        <p class="eyebrow reveal" data-i18n="expertise.eyebrow">What I do</p>
         <h2 id="expertise-heading" class="reveal" data-i18n="expertise.title">Business Central expertise</h2>
         <p class="section-intro reveal">
-          <span data-i18n="expertise.introBeforeDuration">I have been working professionally with Business Central / AL in a consultancy environment since March 2025, which adds up to </span><strong id="expertiseDuration"></strong><span data-i18n="expertise.introAfterDuration"> so far. In that time I've covered new implementations, migrations and upgrades, reporting, and integrations, across SaaS and On-Premise environments.</span>
+          <span data-i18n="expertise.introBeforeDuration">I have been working professionally with Business Central / AL in a consultancy environment since March 2025, which amounts to </span><strong id="expertiseDuration"></strong><span data-i18n="expertise.introAfterDuration"> so far. During that time I have worked on new implementations, migrations and upgrades, reporting and integrations, across both SaaS and On-Premise environments.</span>
         </p>
 
         <div class="expertise-grid">
@@ -196,7 +196,7 @@
               <svg viewBox="0 0 48 48" fill="none"><rect x="7" y="7" width="34" height="34" rx="6" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="2"/><path d="M15 19h18M15 24h18M15 29h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             </div>
             <h3 data-i18n="expertise.items.al.title">AL Development &amp; Extensions</h3>
-            <p data-i18n="expertise.items.al.body">This is <strong>the core of my day-to-day work</strong>: building and maintaining AL extensions for Business Central: tables, pages, page extensions, codeunits, events and subscribers. It's where business requirements become working functionality.</p>
+            <p data-i18n="expertise.items.al.body">This is <strong>the core of my day-to-day work</strong>: building and maintaining AL extensions for Business Central, including tables, pages, page extensions, codeunits, events and subscribers. It is where business requirements become working functionality.</p>
           </article>
 
           <article class="expertise-card reveal">
@@ -204,15 +204,15 @@
               <svg viewBox="0 0 48 48" fill="none"><path d="M12 8h16l8 8v24a2 2 0 01-2 2H12a2 2 0 01-2-2V10a2 2 0 012-2z" fill="currentColor" fill-opacity="0.14" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M28 8v8h8M16 26h16M16 32h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             </div>
             <h3 data-i18n="expertise.items.reports.title">Reporting (AL + RDLC)</h3>
-            <p data-i18n="expertise.items.reports.body">I develop reports combining AL datasets with RDLC layouts, mainly multi-page commercial documents for customers and suppliers, including conditional logic, totals and taxes. I have also developed multi-sheet Excel reports for clients who needed a working document.</p>
+            <p data-i18n="expertise.items.reports.body">I develop reports that combine AL datasets with RDLC layouts, mainly multi-page commercial documents for customers and suppliers, with conditional logic, totals and taxes. I have also built multi-sheet Excel reports for clients who needed a working document.</p>
           </article>
 
           <article class="expertise-card reveal">
             <div class="expertise-icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="17" fill="currentColor" fill-opacity="0.12"/><path d="M10 24a14 14 0 0124-9.5M38 24a14 14 0 01-24 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M34 10v6h-6M14 38v-6h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <h3 data-i18n="expertise.items.implementations.title">Re-implementations, data and code migrations</h3>
-            <p data-i18n="expertise.items.implementations.body">I have worked on new implementations, <strong>re-implementations, data migrations and code migrations</strong> between versions (NAV/BC14, BC21, BC25 and BC28), adapting existing customizations to each version.</p>
+            <h3 data-i18n="expertise.items.implementations.title">Re-implementations and Data & Code Migrations</h3>
+            <p data-i18n="expertise.items.implementations.body">I have worked on new implementations, <strong>re-implementations, and data and code migrations</strong> between versions (NAV/BC14, BC21, BC25 and BC28), adapting existing customizations to each target version.</p>
           </article>
 
           <article class="expertise-card reveal">
@@ -220,7 +220,7 @@
               <svg viewBox="0 0 48 48" fill="none"><circle cx="12" cy="24" r="5" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="2"/><circle cx="36" cy="12" r="5" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="2"/><circle cx="36" cy="36" r="5" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="2"/><path d="M17 22l14-8M17 26l14 8" stroke="currentColor" stroke-width="2"/></svg>
             </div>
             <h3 data-i18n="expertise.items.integrations.title">Integrations &amp; APIs</h3>
-            <p data-i18n="expertise.items.integrations.body">Business Central rarely works in isolation. I build the connections that let it exchange data with other systems (APIs, Web Services, XML, JSON and XMLPorts), so information <strong>moves reliably between Business Central and the systems it needs to talk to</strong>.</p>
+            <p data-i18n="expertise.items.integrations.body">Business Central rarely works in isolation. I build the integrations that allow it to exchange data with other systems (APIs, web services, XML, JSON and XMLports), so that information <strong>flows reliably between Business Central and the systems it depends on</strong>.</p>
           </article>
 
           <article class="expertise-card reveal">
@@ -228,7 +228,7 @@
               <svg viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="12" rx="14" ry="5" fill="currentColor" fill-opacity="0.18" stroke="currentColor" stroke-width="2"/><path d="M10 12v12c0 2.76 6.27 5 14 5s14-2.24 14-5V12" stroke="currentColor" stroke-width="2"/><path d="M10 24v12c0 2.76 6.27 5 14 5s14-2.24 14-5V24" stroke="currentColor" stroke-width="2"/></svg>
             </div>
             <h3 data-i18n="expertise.items.saas.title">SaaS &amp; On-Premise</h3>
-            <p data-i18n="expertise.items.saas.body">I have <strong>worked with both deployment models</strong> and know their differences in practice: what SaaS does and does not allow, and what maintaining an On-Premise environment involves. I have also worked with Docker.</p>
+            <p data-i18n="expertise.items.saas.body">I have <strong>hands-on experience with both deployment models</strong> and understand how they differ in practice: what SaaS does and does not allow, and what running an On-Premise environment involves. I have also worked with Docker.</p>
           </article>
 
           <article class="expertise-card reveal">
@@ -236,7 +236,7 @@
               <svg viewBox="0 0 48 48" fill="none"><path d="M24 8l4.5 9.2 10.1 1.5-7.3 7.1 1.7 10.1L24 31l-9 4.9 1.7-10.1-7.3-7.1 10.1-1.5z" fill="currentColor" fill-opacity="0.16" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
             </div>
             <h3 data-i18n="expertise.items.tooling.title">Development Environment &amp; Way of Working</h3>
-            <p data-i18n="expertise.items.tooling.body">I work in VS Code with the AL Language extension. Before developing, I analyse the requirement, define the structure and validate it against the functional specification or with the client. I manage each task as an issue with <strong>Git and pull requests</strong>, and I aim to write <strong>clean code that can scale</strong> in the future.</p>
+            <p data-i18n="expertise.items.tooling.body">I work in VS Code with the AL Language extension. Before starting development, I analyze the requirement, define the structure and validate it against the functional specification or with the client. I manage each task as an issue using <strong>Git and pull requests</strong>, and I aim to write <strong>clean code that can scale</strong> as the project grows.</p>
           </article>
         </div>
       </div>
@@ -247,7 +247,7 @@
       <div class="container">
         <p class="eyebrow reveal" data-i18n="ecosystem.eyebrow">Technology map</p>
         <h2 id="ecosystem-heading" class="reveal" data-i18n="ecosystem.title">Technology ecosystem</h2>
-        <p class="section-intro reveal" data-i18n="ecosystem.intro"><strong>Business Central and AL are at the center of what I do.</strong> Everything else here is a supporting technology I use around them, not a separate specialization. I am always open to learning new languages and tools as each project requires.</p>
+        <p class="section-intro reveal" data-i18n="ecosystem.intro"><strong>Business Central and AL are at the heart of what I do.</strong> Everything else here is a supporting technology I use alongside them, not a separate specialization. I am always open to learning new languages and tools as each project requires.</p>
 
         <div class="ecosystem-rings reveal">
           <div class="ring-group ring-core">
@@ -280,8 +280,8 @@
             <ul class="chip-list">
               <li class="chip chip-additional" data-i18n="ecosystem.additional.items.0">Java</li>
               <li class="chip chip-additional" data-i18n="ecosystem.additional.items.1">HTML / CSS</li>
-              <li class="chip chip-additional" data-i18n="ecosystem.additional.items.2">Introductory C</li>
-              <li class="chip chip-additional" data-i18n="ecosystem.additional.items.3">Introductory Python</li>
+              <li class="chip chip-additional" data-i18n="ecosystem.additional.items.2">C (fundamentals)</li>
+              <li class="chip chip-additional" data-i18n="ecosystem.additional.items.3">Python (fundamentals)</li>
             </ul>
           </div>
         </div>
@@ -295,7 +295,7 @@
       <div class="container">
         <p class="eyebrow reveal" data-i18n="ai.eyebrow">Looking ahead</p>
         <h2 id="ai-heading" class="reveal" data-i18n="ai.title">AI in my work</h2>
-        <p class="section-intro reveal" data-i18n="ai.intro">I use AI and keep exploring it in my work. I see it as a tool and as part of the future of our field: it is changing the way we work, but <strong>it is not a substitute for the work itself</strong>. That is why I make the most of it without setting aside my studies, my foundations or my own judgement.</p>
+        <p class="section-intro reveal" data-i18n="ai.intro">I use AI in my work and keep exploring what it can offer. I see it as a tool and as part of the future of our field: it is changing the way we work, but <strong>it is no substitute for the work itself</strong>. That is why I make the most of it without losing sight of my studies, my foundations or my own judgment.</p>
       </div>
     </section>
 
@@ -305,9 +305,9 @@
     <section class="section section-alt" id="journey" aria-labelledby="journey-heading">
       <div class="bubble-field" aria-hidden="true"><span class="bubble bubble-a"></span><span class="bubble bubble-b"></span><span class="bubble bubble-c"></span></div>
       <div class="container">
-        <p class="eyebrow reveal" data-i18n="journey.eyebrow">Trajectory</p>
+        <p class="eyebrow reveal" data-i18n="journey.eyebrow">Background</p>
         <h2 id="journey-heading" class="reveal" data-i18n="journey.title">Experience &amp; education</h2>
-        <p class="section-intro reveal" data-i18n="journey.intro">My professional path, together with the formal education that has run alongside it.</p>
+        <p class="section-intro reveal" data-i18n="journey.intro">My professional path and the education that has accompanied it.</p>
 
         <ol class="timeline reveal">
           <li class="timeline-item timeline-item-education">
@@ -316,7 +316,7 @@
               <span class="timeline-tag timeline-tag-education" data-i18n="journey.items.electronics.tag">Education</span>
               <h3 data-i18n="journey.items.electronics.title">Electronics and Industrial Automation Engineering</h3>
               <p class="timeline-meta" data-i18n="journey.items.electronics.meta">2 years completed, Universidad Politécnica de Alcalá</p>
-              <p data-i18n="journey.items.electronics.body">From here I moved into software development, a path I continued through the DAM qualification and further technical training.</p>
+              <p data-i18n="journey.items.electronics.body">This is where I moved into software development, a path I continued with the DAM qualification and further technical training.</p>
             </div>
           </li>
 
@@ -326,7 +326,7 @@
               <span class="timeline-tag timeline-tag-education" data-i18n="journey.items.dam.tag">Education</span>
               <h3 data-i18n="journey.items.dam.title">Higher Technician in Multiplatform Application Development (DAM)</h3>
               <p class="timeline-meta" data-i18n="journey.items.dam.meta">Completed</p>
-              <p data-i18n="journey.items.dam.body">Higher Vocational Training in software development.</p>
+              <p data-i18n="journey.items.dam.body">Higher vocational qualification in software development.</p>
             </div>
           </li>
 
@@ -337,7 +337,7 @@
               <p class="timeline-date" id="timelineStartLabel">Since 2025</p>
               <h3 data-i18n="journey.items.professional.role">Microsoft Dynamics 365 Business Central / AL Developer</h3>
               <p id="timelineCompany" data-i18n="journey.items.professional.companyFallback">Currently working professionally with Business Central</p>
-              <p class="timeline-meta" data-i18n="journey.items.professional.versions">Exposure to NAV/BC14, BC21, BC25 and BC28</p>
+              <p class="timeline-meta" data-i18n="journey.items.professional.versions">Experience with NAV/BC14, BC21, BC25 and BC28</p>
             </div>
           </li>
 
@@ -346,7 +346,7 @@
             <div class="timeline-content">
               <span class="timeline-tag timeline-tag-education" data-i18n="journey.items.unir.tag">Education (in progress)</span>
               <h3 data-i18n="journey.items.unir.title">Computer Engineering, UNIR</h3>
-              <p data-i18n="journey.items.unir.body">Online degree, with part of it recognized from previous studies, which I successfully combine with full-time work.</p>
+              <p data-i18n="journey.items.unir.body">Online degree, partly credited from previous studies, which I successfully combine with full-time work.</p>
             </div>
           </li>
         </ol>
@@ -360,10 +360,10 @@
         <div class="about-copy reveal">
           <p class="eyebrow" data-i18n="about.eyebrow">Get to know me</p>
           <h2 id="about-heading" data-i18n="about.title">About me</h2>
-          <p data-i18n="about.paragraphs.0">I enjoy working as part of a team and sharing ideas with other developers and consultants. I can also work independently, while not hesitating to ask for help when needed, as that is part of continuing to learn. What motivates me most is <strong>a real challenge</strong>: a problem worth understanding in depth, rather than simply patching.</p>
-          <p data-i18n="about.paragraphs.1">I am organized and open-minded, while also being decisive. I like to keep work clear and on track, remain open to better ways of doing things, and make decisions with confidence when they are needed.</p>
-          <p data-i18n="about.paragraphs.2">I enjoy learning and contributing beyond what is strictly expected: <strong>going a step further than a task requires</strong> whenever I can. I value constructive feedback as an essential part of professional growth, while always aiming to deliver every task to the highest standard. I see my development as continuous, and I aim to bring a little more to each project.</p>
-          <p data-i18n="about.paragraphs.3">I like to keep learning so I do not fall behind, and not only at university: in a company there are also many people to learn from every day.</p>
+          <p data-i18n="about.paragraphs.0">I enjoy working as part of a team and sharing ideas with other developers and consultants. I am also comfortable working independently, and I do not hesitate to ask for help when needed, as that is part of continuing to learn. What motivates me most is <strong>a real challenge</strong>: a problem worth understanding in depth rather than simply patching.</p>
+          <p data-i18n="about.paragraphs.1">I am organized and open-minded, as well as decisive. I like to keep work clear and on track, stay open to better ways of doing things, and make decisions confidently when they are needed.</p>
+          <p data-i18n="about.paragraphs.2">I enjoy learning and contributing beyond what is strictly expected, <strong>going a step further than a task requires</strong> whenever I can. I value constructive feedback as an essential part of professional growth, while always aiming to deliver high-quality work. I see my development as an ongoing process and aim to bring a little more to every project.</p>
+          <p data-i18n="about.paragraphs.3">I like to keep learning so that I stay up to date, and not only at university: in any company there are many people to learn from every day.</p>
         </div>
       </div>
     </section>
@@ -373,12 +373,13 @@
       <div class="bubble-field" aria-hidden="true"><span class="bubble bubble-a"></span><span class="bubble bubble-b"></span></div>
       <div class="container beyond-inner reveal">
         <div class="beyond-photo">
-          <img src="assets/img/guitar-placeholder.svg" alt="" data-i18n-attr="alt:beyond.guitarAlt" width="220" height="220" loading="lazy" />
+          <!-- Photo: Isa Bauptista on Unsplash (Unsplash License, free to use): https://unsplash.com/photos/4cJTiLAL6M4 -->
+          <img src="https://images.unsplash.com/photo-1630110330918-ced8a801add8?w=320&amp;h=320&amp;fit=crop&amp;crop=bottom&amp;q=80&amp;fm=jpg" srcset="https://images.unsplash.com/photo-1630110330918-ced8a801add8?w=320&amp;h=320&amp;fit=crop&amp;crop=bottom&amp;q=80&amp;fm=jpg 1x, https://images.unsplash.com/photo-1630110330918-ced8a801add8?w=480&amp;h=480&amp;fit=crop&amp;crop=bottom&amp;q=80&amp;fm=jpg 2x" alt="Acoustic guitar" data-i18n-attr="alt:beyond.guitarAlt" width="160" height="160" loading="lazy" />
         </div>
         <div class="beyond-copy">
           <p class="eyebrow" data-i18n="beyond.eyebrow">Beyond the code</p>
           <h2 id="beyond-heading" data-i18n="beyond.title">Beyond the code</h2>
-          <p data-i18n="beyond.body">Outside of Business Central, I enjoy music and play the guitar, and I make time for reading and drawing. It is a part of me that I think also shows in the creativity and ideas that come to me when I code. I also value time with the people around me: supporting them in difficult moments and celebrating achievements together.</p>
+          <p data-i18n="beyond.body">Outside of Business Central, I enjoy music and play the guitar, and I make time for reading and drawing. It is a side of me that I think also comes through in the creativity and ideas I bring to my code. I also value spending time with the people around me, supporting them through difficult moments and celebrating achievements together.</p>
         </div>
       </div>
     </section>
@@ -390,7 +391,7 @@
         <div class="contact-copy reveal">
           <p class="eyebrow" data-i18n="contact.eyebrow">Let's talk</p>
           <h2 id="contact-heading" data-i18n="contact.title">Contact</h2>
-          <p class="contact-intro" data-i18n="contact.intro">I value my current role, and I am open to new opportunities that are a <strong>strong fit for my professional goals</strong> and beneficial for both sides. If my profile could be a good fit for your team or project, I would be glad to hear from you.</p>
+          <p class="contact-intro" data-i18n="contact.intro">I value my current role, and I am open to new opportunities that are a <strong>strong fit for my professional goals</strong> and mutually beneficial. If my profile could be a good fit for your team or project, I would be glad to hear from you.</p>
 
           <div class="contact-links">
             <a id="contactEmail" class="contact-link" href="#" data-i18n="contact.email">Email</a>
@@ -436,13 +437,13 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <a href="#top" class="back-to-top" data-i18n="contact.backToTop">Back to top</a>
-      <p><span data-i18n="footer.builtWith">Designed and built by Lucía Esteban.</span> <span id="footerYear"></span> <span data-i18n="footer.rights">All rights reserved.</span></p>
+      <p><span data-i18n="footer.builtWith">Designed and developed by Lucía Esteban.</span> <span id="footerYear"></span> <span data-i18n="footer.rights">All rights reserved.</span></p>
     </div>
   </footer>
 
-  <script src="assets/js/config.js?v=202609231147"></script>
-  <script src="assets/js/i18n.js?v=202609231147"></script>
-  <script src="assets/js/main.js?v=202609231147"></script>
-  <script src="assets/js/experience.js?v=202609231147"></script>
+  <script src="assets/js/config.js?v=202609231209"></script>
+  <script src="assets/js/i18n.js?v=202609231209"></script>
+  <script src="assets/js/main.js?v=202609231209"></script>
+  <script src="assets/js/experience.js?v=202609231209"></script>
 </body>
 </html>

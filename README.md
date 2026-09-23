@@ -51,7 +51,7 @@ a functional benefit.
 │       ├── favicon.svg / .png  Site icon
 │       ├── og-image.svg / .png Social share preview image
 │       ├── profile-placeholder.svg   Placeholder for the hero photo
-│       └── guitar-placeholder.svg    Placeholder for the "beyond the code" photo
+│       └── guitar-placeholder.svg    (unused) old placeholder; the "Beyond the code" photo is by Isa Bauptista on Unsplash (Unsplash License)
 └── README.md
 ```
 
