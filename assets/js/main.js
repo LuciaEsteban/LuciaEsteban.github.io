@@ -10,7 +10,7 @@
   var CONFIG = window.SITE_CONFIG || {};
   var TRANSLATIONS = window.TRANSLATIONS || {};
   var LANG_STORAGE_KEY = "lucia-portfolio-lang"; // documented in README
-  var THEME_STORAGE_KEY = "lucia-portfolio-theme"; // "light" | "dark" — same idea as the language toggle
+  var THEME_STORAGE_KEY = "lucia-portfolio-theme"; // "light" | "dark", same idea as the language toggle
 
   var prefersReducedMotion =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -271,11 +271,10 @@
   /* ------------------------------------------------------------------ */
   /* Theme (light/dark)                                                   */
   /* ------------------------------------------------------------------ */
-  // Mirrors the language toggle: an explicit choice wins, otherwise we
-  // follow the OS-level prefers-color-scheme. The inline snippet in
-  // index.html's <head> does this same check before first paint so
-  // there's no flash of the wrong theme — this just keeps it in sync
-  // afterwards and handles the toggle button.
+  // Mirrors the language toggle: the visitor's saved choice wins,
+  // otherwise dark. The inline snippet in index.html's <head> does this
+  // same check before the first paint so there's no flash of the wrong
+  // theme; this keeps it in sync afterwards and handles the button.
 
   function getStoredTheme() {
     try {
