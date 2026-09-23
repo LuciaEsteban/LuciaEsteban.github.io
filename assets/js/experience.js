@@ -40,7 +40,7 @@
       animLabelOn: "Turn off the seasonal background animation",
       animLabelOff: "Turn on the seasonal background animation",
       welcomeText: "Welcome to my portfolio. If you would like to get to know me a little better, tap the bubble on the screen. You can also change the language in the top right corner.",
-      openingVO: "Here you can get to know me a little better: from my work as a Business Central developer and the way I approach each project, to what motivates me and what I enjoy outside of code. If you think I could be a good fit for your team, I would be glad to talk."
+      openingVO: "Hello, and welcome to my portfolio. I'm Lucía Esteban, a Business Central developer. Here you'll discover what I work on, how I approach each project, my background, and a little about who I am beyond the code. Thank you for stopping by. If you think I could be a good fit for your team, I'd be glad to talk."
     },
     es: {
       eyebrow: "Portfolio",
@@ -60,7 +60,7 @@
       animLabelOn: "Desactivar la animación de fondo de temporada",
       animLabelOff: "Activar la animación de fondo de temporada",
       welcomeText: "Bienvenidos a mi portfolio. Si quieres conocerme un poco más, toca la burbuja que aparece en pantalla. También puedes cambiar el idioma en la esquina superior derecha.",
-      openingVO: "En este espacio podrás conocerme un poco mejor: desde mi trabajo como desarrolladora en Business Central y la forma en que afronto cada proyecto, hasta lo que me motiva y lo que hago fuera del código. Si crees que puedo encajar en tu equipo, estaré encantada de hablar contigo."
+      openingVO: "Hola, y bienvenidos a mi portfolio. Soy Lucía Esteban, desarrolladora de Business Central. Aquí descubrirás en qué trabajo, cómo abordo cada proyecto, mi formación y también un poco de quién soy fuera del código. Gracias por tu visita. Si crees que puedo encajar en tu equipo, estaré encantada de hablar contigo."
     }
   };
   function lang() {
@@ -106,8 +106,12 @@
       this.analyser = ctx.createAnalyser(); this.analyser.fftSize = 64;
       this.musicBus.connect(warm); warm.connect(this.musicGain);
       this.musicGain.connect(this.master); this.musicGain.connect(this.analyser);
-      var musicSend = ctx.createGain(); musicSend.gain.value = 0.45;
-      warm.connect(musicSend); musicSend.connect(this.reverb);
+      // The music has its own reverb, placed before the fader, so that
+      // switching the music off silences its echo tail at once too.
+      var musicVerb = ctx.createConvolver(); musicVerb.buffer = this.impulse(2.4, 2.4);
+      var musicSend = ctx.createGain(); musicSend.gain.value = 0.3;
+      warm.connect(musicSend); musicSend.connect(musicVerb); musicVerb.connect(this.musicGain);
+      this.warm = warm;
       return true;
     },
 
@@ -290,8 +294,16 @@
       var g = Audio.musicGain.gain;
       g.cancelScheduledValues(ctx.currentTime);
       g.setValueAtTime(g.value, ctx.currentTime);
-      g.linearRampToValueAtTime(0, ctx.currentTime + 1);
-      setTimeout(function () { if (!self.playing) clearInterval(self.timer); }, 1100);
+      g.linearRampToValueAtTime(0, ctx.currentTime + 0.25);
+      clearInterval(this.timer);
+      // Cut off every note that was already scheduled: they were all wired
+      // into the old bus, so detaching it silences them for good.
+      setTimeout(function () {
+        if (self.playing) return;
+        try { Audio.musicBus.disconnect(); } catch (e) {}
+        Audio.musicBus = ctx.createGain();
+        Audio.musicBus.connect(Audio.warm);
+      }, 300);
       Dock.update();
     },
 
