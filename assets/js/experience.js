@@ -35,7 +35,7 @@
       volume: "Music volume",
       bubbleLabel: "Enter the portfolio",
       langTip: "You can change the language here",
-      listen: "Listen to my welcome",
+      listen: "Listen to me",
       listening: "Playing…",
       listenLabel: "Play a short spoken welcome message (about 20 seconds)",
       animOn: "Animation: on",
@@ -58,7 +58,7 @@
       volume: "Volumen de la música",
       bubbleLabel: "Entrar al portfolio",
       langTip: "Puedes cambiar el idioma aquí",
-      listen: "Escucha mi bienvenida",
+      listen: "Escúchame",
       listening: "Reproduciendo…",
       listenLabel: "Reproducir un breve mensaje de bienvenida (unos 20 segundos)",
       animOn: "Animación: on",
@@ -838,20 +838,24 @@
     var frame = document.querySelector(".hero-photo-frame");
     if (!frame) return;
     var state = "idle"; // idle → playing → done
+    // A speech bubble ("it's me talking") at the top right of the photo,
+    // with a sound icon and animated waves. It is the play button.
     var btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "listen-badge";
+    btn.className = "speech-bubble";
     btn.innerHTML =
-      '<span class="listen-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24">' +
-      '<path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/>' +
-      '<path d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></span>' +
-      '<span class="listen-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>' +
-      '<span class="listen-text"></span>';
+      '<svg class="speech-icon" viewBox="0 0 48 48" width="26" height="26" aria-hidden="true">' +
+      '<path d="M8 19v10h7l9 7V12l-9 7H8z" fill="currentColor"/>' +
+      '<path class="w1" d="M29 18.5a8 8 0 010 11" stroke="currentColor" stroke-width="3.2" fill="none" stroke-linecap="round"/>' +
+      '<path class="w2" d="M33.5 14a14 14 0 010 20" stroke="currentColor" stroke-width="3.2" fill="none" stroke-linecap="round"/>' +
+      '<path class="w3" d="M38 9.5a20 20 0 010 29" stroke="currentColor" stroke-width="3.2" fill="none" stroke-linecap="round"/></svg>' +
+      '<span class="speech-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>' +
+      '<span class="speech-text"></span>';
     frame.appendChild(btn);
     frame.classList.add("has-listen");
 
     function paint() {
-      btn.querySelector(".listen-text").textContent = state === "playing" ? t("listening") : t("listen");
+      btn.querySelector(".speech-text").textContent = state === "playing" ? t("listening") : t("listen");
       btn.setAttribute("aria-label", t("listenLabel"));
       btn.classList.toggle("is-playing", state === "playing");
     }
