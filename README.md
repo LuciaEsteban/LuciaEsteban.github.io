@@ -143,9 +143,14 @@ design is untouched):
 - **Voice message** — a comic-style speech bubble with a sound icon at the
   top right of the profile photo ("Listen to me"). Clicking it (or the
   photo) pops it and plays `assets/audio/opening-<lang>.mp3` once per
-  visit, with captions to the left of the photo that appear word by word
-  in time with the voice (cue timings in `core.js`, `openingCues`). The
-  clips are Lucía's own recordings, cleaned up (noise reduction, EQ,
+  visit. Captions appear word by word in time with the voice (cue
+  timings in `core.js`, `openingCues`, anchored to the pauses in the
+  recording). They sit to the right of the photo on wide screens, below
+  it on narrower desktops and over it on tablets and phones.
+  While she speaks, a guided tour scrolls to each section she mentions
+  (`openingTour`) with the captions floating in a screen corner, and
+  returns to the top at the end; any scroll by the visitor stops it.
+  The clips are Lucía's own recordings, cleaned up (noise reduction, EQ,
   light compression, a subtle room echo) and kept quiet (about -29 LUFS).
   When a recording is replaced, update its cue timings and bump
   `XP.Voice.VERSION` in `sound.js`.
