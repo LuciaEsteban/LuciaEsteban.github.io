@@ -1,0 +1,453 @@
+/* ==========================================================================
+   Intro screen: bubble, falling AL code, language switch, welcome text.
+   Without JavaScript the intro is hidden (see the <noscript> in index.html).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Intro overlay
+   -------------------------------------------------------------------------- */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(1200px 800px at 20% 10%, #16325f 0%, transparent 60%),
+    radial-gradient(900px 700px at 90% 90%, #2a1b5c 0%, transparent 60%),
+    #070f1d;
+  color: #eef3fc;
+  font-family: var(--font-sans);
+  transition: opacity 900ms ease, filter 900ms ease, visibility 0s linear 900ms;
+}
+.intro.is-leaving {
+  opacity: 0;
+  filter: blur(18px);
+  visibility: hidden;
+  pointer-events: none;
+}
+.intro.is-gone { display: none; }
+
+/* The page underneath starts slightly blurred and "breathes in" as the
+   intro dissolves, so the transition feels like focusing a lens. */
+html.intro-open { overflow: hidden; }
+html.intro-open body > :not(.intro):not(.fx-canvas):not(.music-dock):not(.season-toggle) {
+  filter: blur(14px);
+  transform: scale(1.03);
+}
+body > .site-header,
+body > main,
+body > .site-footer {
+  transition: filter 1100ms ease, transform 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Drifting blurred orbs behind the bubble */
+.intro-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.55;
+  animation: introOrb 14s ease-in-out infinite alternate;
+}
+.intro-orb:nth-child(1) { width: 420px; height: 420px; background: #2f6fed; top: -120px; left: -80px; }
+.intro-orb:nth-child(2) { width: 360px; height: 360px; background: #7c3aed; bottom: -120px; right: -60px; animation-duration: 17s; }
+.intro-orb:nth-child(3) { width: 260px; height: 260px; background: #16a394; top: 55%; left: 12%; animation-duration: 11s; opacity: 0.4; }
+.intro-orb:nth-child(4) { width: 220px; height: 220px; background: #d98e2b; top: 12%; right: 14%; animation-duration: 19s; opacity: 0.35; }
+@keyframes introOrb {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(60px, 40px) scale(1.15); }
+}
+
+/* Faint AL / Business Central code falling behind the bubble.
+   Deliberately barely visible — you only notice it if you look. */
+.intro-code {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+  padding: 0 2rem;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.075;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+          mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+}
+.intro-code-col {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+}
+.intro-code-col:nth-child(even) { filter: blur(0.6px); opacity: 0.75; }
+.intro-code-track {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: #9db4d8;
+  white-space: pre;
+  animation: codeFall 80s linear infinite;
+  will-change: transform;
+}
+.intro-code-track .c-k { color: #b9a7ff; }
+.intro-code-track .c-s { color: #8fd8c4; }
+.intro-code-track .c-a { color: #f2c98a; }
+@keyframes codeFall {
+  from { transform: translateY(-50%); }
+  to   { transform: translateY(0); }
+}
+@media (max-width: 600px) {
+  .intro-code { padding: 0 0.8rem; gap: 1rem; opacity: 0.07; }
+  .intro-code-track { font-size: 10px; }
+}
+
+/* Tiny rising micro-bubbles (spawned by JS) */
+.intro-fizz {
+  position: absolute;
+  bottom: -20px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6), rgba(255,255,255,0.05) 60%);
+  animation: fizzUp linear forwards;
+  pointer-events: none;
+}
+@keyframes fizzUp {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  10%  { opacity: 0.9; }
+  100% { transform: translate(var(--drift, 20px), -110vh); opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   The bubble
+   -------------------------------------------------------------------------- */
+.intro-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 1.6rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.intro-bubble {
+  --size: min(78vmin, 440px);
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  border: 0;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.06) 22%, transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(124,58,237,0.28) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(47,111,237,0.10) 0%, rgba(11,37,69,0.55) 70%, rgba(255,255,255,0.18) 100%);
+  box-shadow:
+    inset 0 0 40px rgba(255,255,255,0.12),
+    inset -18px -26px 60px rgba(124,58,237,0.25),
+    inset 20px 18px 50px rgba(47,111,237,0.25);
+  /* Keeps the blur of the emerge/pop animations perfectly round
+     (some GPUs otherwise render the blurred layer as a square). */
+  clip-path: circle(50% at 50% 50%);
+  /* Emerge: from a blurred, tiny, transparent blob to a crisp bubble */
+  animation:
+    bubbleEmerge 1800ms cubic-bezier(0.2, 0.9, 0.25, 1.15) 250ms both,
+    bubbleWobble 6s ease-in-out 2100ms infinite;
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  outline: none;
+}
+.intro-bubble:focus-visible::before { opacity: 1; padding: 5px; }
+
+/* Iridescent rim — a spinning conic gradient masked to a thin ring */
+.intro-bubble::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  padding: 3px;
+  background: conic-gradient(from 0deg, #5b93f5, #16a394, #f5d06b, #e879f9, #7c3aed, #5b93f5);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0.75;
+  animation: rimSpin 8s linear infinite;
+}
+/* Glossy highlight */
+.intro-bubble::after {
+  content: "";
+  position: absolute;
+  top: 9%; left: 18%;
+  width: 34%; height: 18%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0));
+  transform: rotate(-28deg);
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+@keyframes bubbleEmerge {
+  0%   { opacity: 0; transform: scale(0.15) translateY(60px); filter: blur(40px); }
+  55%  { opacity: 1; filter: blur(6px); }
+  80%  { transform: scale(1.06) translateY(-6px); filter: blur(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+}
+@keyframes bubbleWobble {
+  0%, 100% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; translate: 0 0; }
+  25%      { border-radius: 52% 48% 51% 49% / 48% 52% 49% 51%; translate: 0 -8px; }
+  50%      { border-radius: 49% 51% 48% 52% / 51% 49% 52% 48%; translate: 0 0; }
+  75%      { border-radius: 51% 49% 52% 48% / 49% 51% 48% 52%; translate: 0 6px; }
+}
+@keyframes rimSpin { to { transform: rotate(360deg); } }
+
+.intro-bubble:hover { scale: 1.035; }
+
+.intro-bubble.is-popping {
+  animation: bubblePop 520ms cubic-bezier(0.3, 0, 0.6, 1) forwards;
+}
+@keyframes bubblePop {
+  0%   { transform: scale(1); opacity: 1; filter: blur(0); }
+  35%  { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1.7); opacity: 0; filter: blur(12px); }
+}
+
+/* Content inside the bubble */
+.intro-content {
+  position: absolute;
+  inset: 12%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  pointer-events: none;
+}
+.intro-content > * {
+  opacity: 0;
+  animation: contentRise 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.intro-avatar {
+  width: 30%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255,255,255,0.7);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  animation-delay: 1300ms !important;
+}
+.intro-eyebrow {
+  font-size: clamp(0.62rem, 1.8vmin, 0.78rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #9dc0f5;
+  margin: 0.2rem 0 0;
+  animation-delay: 1500ms !important;
+}
+.intro-name {
+  font-size: clamp(1.25rem, 5.4vmin, 2.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0;
+  background: linear-gradient(90deg, #ffffff, #cfe0ff 40%, #f0d9ff 70%, #ffffff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  animation: contentRise 900ms cubic-bezier(0.22, 1, 0.36, 1) 1650ms forwards, shimmer 5s linear 2600ms infinite !important;
+}
+.intro-role {
+  font-size: clamp(0.7rem, 2.2vmin, 0.92rem);
+  color: #c3d1ea;
+  margin: 0;
+  max-width: 85%;
+  line-height: 1.4;
+  animation-delay: 1800ms !important;
+}
+.intro-cta {
+  margin-top: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  font-size: clamp(0.72rem, 2.2vmin, 0.9rem);
+  font-weight: 600;
+  background: rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.35);
+  animation: contentRise 900ms cubic-bezier(0.22, 1, 0.36, 1) 2100ms forwards, ctaPulse 2.4s ease-in-out 3000ms infinite !important;
+}
+@keyframes contentRise {
+  from { opacity: 0; transform: translateY(14px); filter: blur(6px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes shimmer { to { background-position: -200% center; } }
+@keyframes ctaPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(157,192,245,0.5); }
+  50%      { box-shadow: 0 0 0 10px rgba(157,192,245,0); }
+}
+
+/* Options under the bubble */
+.intro-options {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: contentRise 900ms ease 2500ms forwards;
+}
+.intro-options button {
+  font: inherit;
+  font-size: 0.85rem;
+  color: #c3d1ea;
+  background: transparent;
+  border: 1px solid rgba(195,209,234,0.3);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.intro-options button:hover,
+.intro-options button:focus-visible { background: rgba(255,255,255,0.1); color: #fff; }
+.intro-options button[aria-pressed="false"] { opacity: 0.6; text-decoration: line-through; }
+
+.intro-hint {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(195,209,234,0.55);
+  letter-spacing: 0.05em;
+}
+
+
+/* --------------------------------------------------------------------------
+   Intro language switch (top right) + a gentle hint that it is there
+   -------------------------------------------------------------------------- */
+.intro-lang {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+  opacity: 0;
+  animation: contentRise 900ms ease 2200ms forwards;
+}
+.intro-lang-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9dc0f5;
+}
+.intro-lang-buttons {
+  position: relative;
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.intro-lang-buttons button {
+  font: 600 0.82rem var(--font-sans);
+  color: #c3d1ea;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.intro-lang-buttons button:hover { color: #fff; }
+.intro-lang-buttons button[aria-pressed="true"] { background: #fff; color: var(--color-primary); }
+.intro-lang-buttons button:focus-visible { outline: 2px solid #9dc0f5; outline-offset: 2px; }
+/* Hint: a soft ring that pulses a few times around the switch */
+.intro-lang.is-hinting .intro-lang-buttons::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  border: 2px solid rgba(157, 192, 245, 0.8);
+  animation: langHint 1.6s ease-out 4;
+  pointer-events: none;
+}
+@keyframes langHint {
+  0%   { opacity: 0.9; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.18); }
+}
+@media (max-width: 600px) {
+  .intro-lang { top: 0.9rem; right: 0.9rem; }
+  .intro-lang-buttons button { padding: 0.35rem 0.7rem; }
+}
+
+
+/* Small tooltip under the language switch ("You can change the language here") */
+.intro-lang-tip {
+  position: relative;
+  margin-top: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: #eef3fc;
+  color: var(--color-primary);
+  font: 600 0.78rem var(--font-sans);
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 350ms ease, transform 350ms ease;
+  pointer-events: none;
+}
+.intro-lang-tip::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: 2.2rem;
+  width: 10px; height: 10px;
+  background: inherit;
+  transform: rotate(45deg);
+}
+.intro-lang-tip.is-visible { opacity: 1; transform: none; animation: tipBob 1.6s ease-in-out 350ms 3; }
+@keyframes tipBob { 50% { transform: translateY(3px); } }
+
+/* Welcome text typed out under the bubble */
+.intro-welcome {
+  max-width: 34rem;
+  min-height: 3.2em;           /* reserve two lines so nothing jumps while typing */
+  margin: -0.4rem 0 0;
+  padding: 0 1rem;
+  color: #c3d1ea;
+  font-size: clamp(0.85rem, 2.2vmin, 1rem);
+  line-height: 1.6;
+  text-align: center;
+}
+.intro-welcome.is-typing::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: #9dc0f5;
+  animation: caretBlink 0.9s steps(1) infinite;
+}
+@keyframes caretBlink { 50% { opacity: 0; } }
+@media (max-width: 600px) { .intro-welcome { min-height: 4.8em; } }
+
+/* "Press Enter" makes no sense on touch screens */
+@media (pointer: coarse) { .intro-hint { display: none; } }
+
+/* Reduced motion: keep the intro, but as a calm fade */
+@media (prefers-reduced-motion: reduce) {
+  .intro-bubble, .intro-content > *, .intro-options, .intro-name, .intro-cta { animation: none !important; opacity: 1 !important; }
+  .intro-orb, .intro-code-track { animation: none; }
+  html.intro-open body > * { filter: none !important; transform: none !important; }
+}

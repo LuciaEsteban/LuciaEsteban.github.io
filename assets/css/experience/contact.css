@@ -1,0 +1,126 @@
+/* ==========================================================================
+   Contact: two columns (text left, form right) and the end-of-page nudge.
+   ========================================================================== */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.5rem;
+  align-items: center;
+  text-align: left;
+}
+.contact-grid .contact-intro { margin-inline: 0; }
+.contact-grid .contact-links { justify-content: flex-start; }
+
+.contact-form {
+  position: relative;
+  display: grid;
+  gap: 0.9rem;
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+}
+.contact-form h3 { color: #fff; margin: 0 0 0.3rem; font-size: 1.2rem; }
+.form-row { display: grid; gap: 0.35rem; }
+.form-row label { font-size: 0.85rem; font-weight: 600; color: rgba(255, 255, 255, 0.8); }
+.form-row input,
+.form-row textarea {
+  font: inherit;
+  font-size: 0.95rem;
+  color: #fff;
+  background: rgba(7, 26, 51, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.85rem;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.form-row textarea { resize: vertical; min-height: 120px; }
+.form-row input:focus,
+.form-row textarea:focus {
+  outline: none;
+  border-color: #9dc0f5;
+  box-shadow: 0 0 0 3px rgba(91, 147, 245, 0.35);
+}
+.form-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+.contact-submit {
+  position: relative;
+  overflow: hidden;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0;
+  cursor: pointer;
+  color: var(--color-primary);
+  background: #fff;
+  font-weight: 700;
+}
+.contact-submit:hover { background: #e8f0ff; }
+.contact-submit svg { transition: transform var(--transition-fast); }
+.contact-submit:hover svg { transform: translateX(3px); }
+.contact-submit:disabled { opacity: 0.6; cursor: wait; }
+
+.form-status { margin: 0; min-height: 1.3em; font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); }
+.form-status.is-ok { color: #8fe3c9; }
+.form-status.is-error { color: #ffb4a8; }
+
+/* The nudge: two small, damped side-to-side movements… */
+.contact-form.is-nudging { animation: formNudge 900ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
+@keyframes formNudge {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(3px); }
+  30%, 50%, 70% { transform: translateX(-5px); }
+  40%, 60% { transform: translateX(5px); }
+}
+/* …then a slow float, a soft glow, and a light sweep on the button. */
+.contact-form.is-calling { animation: formFloat 5s ease-in-out infinite; }
+.contact-form.is-calling::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: 0 0 0 1px rgba(157, 192, 245, 0.5), 0 0 40px rgba(91, 147, 245, 0.25);
+  animation: formGlow 5s ease-in-out infinite;
+}
+.contact-form.is-calling .contact-submit::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 40%;
+  left: -60%;
+  background: linear-gradient(100deg, transparent, rgba(47, 111, 237, 0.25), transparent);
+  animation: btnSweep 4.5s ease-in-out 0.5s infinite;
+}
+.contact-form.is-engaged { animation: none; }
+.contact-form.is-engaged::before { animation: none; opacity: 0.6; }
+@keyframes formFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+@keyframes formGlow {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 1; }
+}
+@keyframes btnSweep {
+  0%, 60% { left: -60%; }
+  100%    { left: 130%; }
+}
+
+@media (max-width: 900px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; text-align: center; }
+  .contact-grid .contact-intro { margin-inline: auto; }
+  .contact-grid .contact-links { justify-content: center; }
+  .contact-form { text-align: left; max-width: 560px; width: 100%; margin-inline: auto; }
+}
+@media (max-width: 600px) {
+  .contact-form { padding: 1.4rem; }
+  .contact-submit { justify-self: stretch; justify-content: center; }
+}
+.section-contact .contact-intro strong { color: #fff; }

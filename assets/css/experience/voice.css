@@ -1,0 +1,280 @@
+/* ==========================================================================
+   "Listen to me": comic speech bubble on the profile photo, the burst when
+   it is popped, and the synced captions shown to the left of the photo.
+   ========================================================================== */
+
+:root {
+  --comic-ink: #0b2545;      /* outline + tail */
+  --comic-paper: #ffffff;    /* balloon fill */
+  --comic-shadow: #0b2545;   /* hard offset shadow, comic style */
+  --cc-bg: rgba(255, 255, 255, 0.86);
+}
+:root[data-theme="dark"] {
+  --comic-shadow: #5b93f5;   /* a dark shadow would vanish on the dark page */
+  --cc-bg: rgba(19, 34, 57, 0.86);
+}
+
+.hero-photo-frame.has-listen { cursor: pointer; }
+.hero-photo-frame.has-listen img { transition: transform 300ms ease, filter 300ms ease; }
+.hero-photo-frame.has-listen:hover img { transform: scale(1.02); filter: brightness(1.05); }
+
+/* --------------------------------------------------------------------------
+   Speech bubble
+   -------------------------------------------------------------------------- */
+.speech-bubble {
+  position: absolute;
+  top: -30px;
+  right: -34px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.05rem 0.55rem 0.8rem;
+  border: 2.5px solid var(--comic-ink);
+  border-radius: 22px;
+  background: var(--comic-paper);
+  color: var(--comic-ink);
+  font: 800 0.9rem var(--font-sans);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  cursor: pointer;
+  /* drop-shadow (not box-shadow) so the tail gets the comic shadow too */
+  filter: drop-shadow(4px 4px 0 var(--comic-shadow));
+  transform-origin: 20% 130%;
+  animation:
+    speechAppear 700ms cubic-bezier(0.34, 1.56, 0.64, 1) 600ms both,
+    speechNudge 4.5s ease-in-out 2.5s infinite;
+}
+.speech-bubble:hover { scale: 1.06; animation-play-state: paused; }
+.speech-bubble:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 4px; }
+
+/* Tail pointing down-left, towards the photo: an ink triangle with a
+   paper triangle inside it that also covers the balloon's bottom edge. */
+.speech-bubble::before,
+.speech-bubble::after {
+  content: "";
+  position: absolute;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+.speech-bubble::before {
+  left: 20px;
+  bottom: -16px;
+  width: 22px;
+  height: 16px;
+  background: var(--comic-ink);
+}
+.speech-bubble::after {
+  left: 22.5px;
+  bottom: -9px;
+  width: 14px;
+  height: 11.5px;
+  background: var(--comic-paper);
+}
+
+.speech-icon { display: grid; color: var(--color-accent); }
+.speech-icon svg { width: 24px; height: 24px; }
+.speech-icon .w1, .speech-icon .w2, .speech-icon .w3,
+.voice-cc-icon .w1, .voice-cc-icon .w2, .voice-cc-icon .w3 {
+  opacity: 0.3;
+  animation: speechWave 1.5s ease-in-out infinite;
+}
+.speech-icon .w2, .voice-cc-icon .w2 { animation-delay: 0.2s; }
+.speech-icon .w3, .voice-cc-icon .w3 { animation-delay: 0.4s; }
+
+/* Soft ring spreading out, inviting a click */
+.speech-ring {
+  position: absolute;
+  inset: -2.5px;
+  border-radius: 22px;
+  border: 2px solid var(--color-accent);
+  pointer-events: none;
+  animation: speechRing 2.4s ease-out infinite;
+}
+
+/* Comic "motion lines" next to the balloon */
+.speech-lines {
+  position: absolute;
+  top: -14px;
+  right: -16px;
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+}
+.speech-lines i {
+  position: absolute;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--comic-ink);
+  transform-origin: left center;
+  animation: speechLines 4.5s ease-in-out 2.5s infinite;
+}
+:root[data-theme="dark"] .speech-lines i { background: #eef3fc; }
+.speech-lines i:nth-child(1) { width: 12px; left: 2px;  top: 14px; transform: rotate(-60deg); }
+.speech-lines i:nth-child(2) { width: 14px; left: 8px;  top: 16px; transform: rotate(-30deg); }
+.speech-lines i:nth-child(3) { width: 10px; left: 12px; top: 21px; transform: rotate(-5deg); }
+
+/* Popping: swell, then burst away (like the intro bubble) */
+.speech-bubble.is-popping {
+  pointer-events: none;
+  animation: speechPop 450ms cubic-bezier(0.3, 0, 0.6, 1) forwards;
+}
+.speech-burst {
+  position: absolute;
+  z-index: 4;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+.speech-burst i {
+  position: absolute;
+  left: -2px;
+  top: -9px;
+  width: 4px;
+  height: 18px;
+  border-radius: 2px;
+  background: var(--color-accent);
+  opacity: 0;
+  animation: speechBurst 600ms ease-out forwards;
+}
+.speech-burst i:nth-child(1) { --a: 0deg; }
+.speech-burst i:nth-child(2) { --a: 45deg; }
+.speech-burst i:nth-child(3) { --a: 90deg; }
+.speech-burst i:nth-child(4) { --a: 135deg; }
+.speech-burst i:nth-child(5) { --a: 180deg; }
+.speech-burst i:nth-child(6) { --a: 225deg; }
+.speech-burst i:nth-child(7) { --a: 270deg; }
+.speech-burst i:nth-child(8) { --a: 315deg; }
+
+@keyframes speechAppear {
+  0%   { opacity: 0; transform: scale(0.3); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes speechNudge {
+  0%, 80%, 100% { transform: rotate(0) scale(1); }
+  84% { transform: rotate(-6deg) scale(1.06); }
+  88% { transform: rotate(5deg) scale(1.06); }
+  92% { transform: rotate(-2deg) scale(1.02); }
+}
+@keyframes speechRing {
+  0%   { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.3, 1.6); }
+}
+@keyframes speechWave { 0%, 100% { opacity: 0.3; } 40% { opacity: 1; } }
+@keyframes speechLines {
+  0%, 80%, 100% { opacity: 1; }
+  86%, 90% { opacity: 0.2; }
+}
+@keyframes speechPop {
+  0%   { transform: scale(1); opacity: 1; }
+  35%  { transform: scale(1.2) rotate(-4deg); opacity: 1; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+@keyframes speechBurst {
+  0%   { opacity: 1; transform: rotate(var(--a)) translateY(-26px) scaleY(1); }
+  100% { opacity: 0; transform: rotate(var(--a)) translateY(-62px) scaleY(0.3); }
+}
+
+/* --------------------------------------------------------------------------
+   Captions, to the left of the photo
+   -------------------------------------------------------------------------- */
+.voice-cc {
+  position: absolute;
+  right: calc(100% + 18px);
+  bottom: 12%;
+  z-index: 4;
+  width: 290px;
+  padding: 0.85rem 1rem 0.95rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--cc-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-md);
+  color: var(--color-ink);
+  text-align: left;
+  opacity: 0;
+  transform: translateX(14px);
+  pointer-events: none;
+  transition: opacity 400ms ease, transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.voice-cc.is-open { opacity: 1; transform: none; }
+.voice-cc.is-closing { opacity: 0; transform: translateX(14px); }
+
+.voice-cc-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.5rem;
+}
+.voice-cc-icon {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(135deg, var(--color-accent), #7c3aed);
+}
+.voice-cc-icon svg { width: 17px; height: 17px; }
+.voice-cc-name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.voice-cc-eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+  margin-left: auto;
+}
+.voice-cc-eq i {
+  width: 3px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-accent);
+}
+.voice-cc.is-live .voice-cc-eq i { animation: ccBar 0.9s ease-in-out infinite; }
+.voice-cc.is-live .voice-cc-eq i:nth-child(2) { animation-delay: -0.3s; }
+.voice-cc.is-live .voice-cc-eq i:nth-child(3) { animation-delay: -0.6s; }
+.voice-cc.is-live .voice-cc-eq i:nth-child(4) { animation-delay: -0.15s; }
+@keyframes ccBar { 0%, 100% { height: 4px; } 50% { height: 14px; } }
+
+.voice-cc-prev,
+.voice-cc-now { margin: 0; line-height: 1.5; }
+.voice-cc-prev { font-size: 0.82rem; color: var(--color-text-muted); margin-bottom: 0.25rem; }
+.voice-cc-prev:empty { display: none; }
+.voice-cc-now { font-size: 0.98rem; font-weight: 500; min-height: 3em; }
+.voice-cc-now span { opacity: 0.12; transition: opacity 250ms ease; }
+.voice-cc-now span.is-said { opacity: 1; }
+
+/* Stacked hero (tablet / mobile): bubble closer, captions over the lower
+   part of the photo so they never cover the name and text below it */
+@media (max-width: 900px) {
+  .speech-bubble { right: -12px; }
+  .voice-cc {
+    right: 12px;
+    left: 12px;
+    bottom: 12px;
+    width: auto;
+    transform: translateY(10px);
+  }
+  .voice-cc.is-open { transform: none; }
+  .voice-cc.is-closing { transform: translateY(10px); }
+}
+@media (max-width: 600px) {
+  .speech-bubble { top: -22px; right: -6px; padding: 0.45rem 0.85rem 0.45rem 0.65rem; font-size: 0.82rem; }
+  .speech-icon svg { width: 20px; height: 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .speech-bubble, .speech-ring, .speech-lines i,
+  .speech-icon .w1, .speech-icon .w2, .speech-icon .w3,
+  .voice-cc-icon .w1, .voice-cc-icon .w2, .voice-cc-icon .w3,
+  .voice-cc.is-live .voice-cc-eq i { animation: none; opacity: 1; }
+  .speech-ring { display: none; }
+  .voice-cc-now span { transition: none; }
+}
