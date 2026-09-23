@@ -237,7 +237,7 @@
     var duration = computeDuration(CONFIG.businessCentralStartDate);
 
     if (!duration) {
-      el.textContent = "—";
+      el.textContent = "";
       return;
     }
 
@@ -251,13 +251,15 @@
     el.textContent = parts.length === 2 ? parts.join(" " + conjunction + " ") : parts.join(" ");
   }
 
-  function renderTimelineMeta() {
+  function renderTimelineMeta(lang) {
+    var dict = TRANSLATIONS[lang || getLang()] || TRANSLATIONS.en;
     var startLabelEl = document.getElementById("timelineStartLabel");
     var companyEl = document.getElementById("timelineCompany");
 
     var start = new Date(CONFIG.businessCentralStartDate);
     if (startLabelEl && !isNaN(start.getTime())) {
-      startLabelEl.textContent = start.getFullYear() + " —";
+      var since = resolvePath(dict, "journey.items.professional.since") || "{year}";
+      startLabelEl.textContent = since.replace("{year}", start.getFullYear());
     }
 
     if (companyEl && CONFIG.currentCompanyDisplayName) {

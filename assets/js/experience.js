@@ -34,7 +34,11 @@
       play: "Play background music",
       pause: "Pause background music",
       volume: "Music volume",
-      bubbleLabel: "Enter the portfolio"
+      bubbleLabel: "Enter the portfolio",
+      animOn: "Animation: on",
+      animOff: "Animation: off",
+      animLabelOn: "Turn off the seasonal background animation",
+      animLabelOff: "Turn on the seasonal background animation"
     },
     es: {
       eyebrow: "Portfolio",
@@ -48,7 +52,11 @@
       play: "Reproducir música de fondo",
       pause: "Pausar música de fondo",
       volume: "Volumen de la música",
-      bubbleLabel: "Entrar al portfolio"
+      bubbleLabel: "Entrar al portfolio",
+      animOn: "Animación: on",
+      animOff: "Animación: off",
+      animLabelOn: "Desactivar la animación de fondo de temporada",
+      animLabelOff: "Activar la animación de fondo de temporada"
     }
   };
   function lang() {
@@ -496,7 +504,7 @@
       this.animate();
     },
 
-    show: function () { if (this.el) this.el.classList.add("is-visible"); },
+    show: function () { if (this.el) this.el.classList.add("is-visible"); Seasons.show(); },
 
     update: function () {
       if (!this.btn) return;
@@ -753,9 +761,9 @@
           body: JSON.stringify({
             name: data.name,
             email: data.email,            // used as Reply-To, so answering goes straight to the sender
-            company: data.company || "—",
+            company: data.company || "-",
             message: data.message,
-            _subject: formText("subject") + " — " + data.name,
+            _subject: formText("subject") + ": " + data.name,
             _template: "table",
             _captcha: "false"
           })
@@ -776,9 +784,9 @@
       // No endpoint configured: hand the message to the visitor's email app.
       var to = config.professionalEmail;
       if (!to) { say("error", "error"); return; }
-      var body = data.message + "\n\n— " + data.name + (data.company ? " (" + data.company + ")" : "") + "\n" + data.email;
+      var body = data.message + "\n\n" + data.name + (data.company ? " (" + data.company + ")" : "") + "\n" + data.email;
       window.location.href = "mailto:" + to +
-        "?subject=" + encodeURIComponent(formText("subject") + " — " + data.name) +
+        "?subject=" + encodeURIComponent(formText("subject") + ": " + data.name) +
         "&body=" + encodeURIComponent(body);
       say("mailto", "ok");
     });
@@ -835,6 +843,54 @@
 
     isDark: function () { return document.documentElement.getAttribute("data-theme") === "dark"; },
 
+    enabled: true,
+    storageKey: "lucia-portfolio-season-fx",
+    icons: {
+      winter: '<path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5L12 7l2.5-2.5M9.5 19.5L12 17l2.5 2.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+      spring: '<path d="M12 12c0-4 2-7 5-7 0 3-2 7-5 7zm0 0c0-4-2-7-5-7 0 3 2 7 5 7zm0 0c3 0 6 2 6 5-3 0-6-2-6-5zm0 0c-3 0-6 2-6 5 3 0 6-2 6-5z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/>',
+      summer: '<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+      autumn: '<path d="M5 19C5 10 11 5 19 5c0 8-5 14-14 14zm0 0l8-8" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
+    },
+
+    initToggle: function () {
+      var self = this;
+      var btn = this.toggle = document.createElement("button");
+      btn.type = "button";
+      btn.className = "season-toggle";
+      btn.innerHTML = '<span class="season-toggle-icon" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24">' +
+        this.icons[this.season] + '</svg></span><span class="season-toggle-label"></span>';
+      document.body.appendChild(btn);
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        self.setEnabled(!self.enabled);
+        try { localStorage.setItem(self.storageKey, self.enabled ? "on" : "off"); } catch (err) {}
+      });
+      document.querySelectorAll(".lang-btn").forEach(function (b) {
+        b.addEventListener("click", function () { setTimeout(function () { self.paintToggle(); }, 0); });
+      });
+      this.paintToggle();
+    },
+
+    paintToggle: function () {
+      if (!this.toggle) return;
+      this.toggle.querySelector(".season-toggle-label").textContent = this.enabled ? t("animOn") : t("animOff");
+      this.toggle.setAttribute("aria-label", this.enabled ? t("animLabelOn") : t("animLabelOff"));
+      this.toggle.setAttribute("aria-pressed", this.enabled ? "true" : "false");
+      this.toggle.classList.toggle("is-off", !this.enabled);
+    },
+
+    setEnabled: function (on) {
+      this.enabled = on;
+      if (this.canvas) {
+        this.canvas.style.display = on ? "" : "none";
+        if (!on) this.c.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      }
+      this.last = performance.now();
+      this.paintToggle();
+    },
+
+    show: function () { if (this.toggle) this.toggle.classList.add("is-visible"); },
+
     init: function () {
       if (reduceMotion) return;
       this.season = this.current();
@@ -849,8 +905,10 @@
       this.parts = [];
       for (var i = 0; i < this.count; i++) this.parts.push(this.spawn(true));
       this.last = performance.now();
+      this.initToggle();
+      try { if (localStorage.getItem(this.storageKey) === "off") this.setEnabled(false); } catch (err) {}
       requestAnimationFrame(function loop(now) {
-        if (!document.hidden) self.frame(now);
+        if (!document.hidden && self.enabled) self.frame(now);
         requestAnimationFrame(loop);
       });
     },
