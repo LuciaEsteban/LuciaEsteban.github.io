@@ -26,8 +26,8 @@ window.SITE_CONFIG = {
   linkedInUrl: "https://www.linkedin.com/in/luciaes-dev/",
   githubUrl: "https://github.com/LuciaEsteban",
   cvPdfUrls: {
-    en: "assets/files/Lucia-Esteban-CV-EN.pdf",
-    es: "assets/files/Lucia-Esteban-CV-ES.pdf",
+    en: "assets/files/Lucia-Esteban-CV-EN.pdf?v=202609231833",
+    es: "assets/files/Lucia-Esteban-CV-ES.pdf?v=202609231833",
   },
 
   /**
