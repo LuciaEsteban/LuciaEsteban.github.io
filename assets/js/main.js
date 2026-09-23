@@ -51,6 +51,7 @@
     document.documentElement.setAttribute("lang", lang);
     renderExpertiseIntro(lang);
     renderTimelineMeta(lang);
+    updateCvLink(lang);
   }
 
   function applyTranslations(lang) {
@@ -111,6 +112,24 @@
         nav.classList.remove("is-open");
         toggle.setAttribute("aria-expanded", "false");
       });
+    });
+  }
+
+  function initBackToTop() {
+    var link = document.querySelector(".back-to-top");
+    if (!link) return;
+
+    link.addEventListener("click", function (event) {
+      event.preventDefault();
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+      });
+
+      if (window.history && window.history.replaceState && window.location.hash) {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
     });
   }
 
@@ -333,9 +352,35 @@
       return value;
     }, null);
 
-    wireLink("contactCv", CONFIG.cvPdfUrl, function (value) {
-      return value;
-    }, resolvePath(dict, "contact.cvUnavailable"));
+    updateCvLink(lang);
+  }
+
+  function updateCvLink(lang) {
+    var el = document.getElementById("contactCv");
+    if (!el) return;
+
+    var dict = TRANSLATIONS[lang] || TRANSLATIONS.en;
+    var urls = CONFIG.cvPdfUrls || {};
+    var value = urls[lang] || urls.en || urls.es || null;
+
+    if (value) {
+      el.setAttribute("href", value);
+      el.setAttribute("target", "_blank");
+      el.setAttribute("rel", "noopener noreferrer");
+      el.removeAttribute("aria-disabled");
+      el.removeAttribute("tabindex");
+      el.setAttribute("data-i18n", "contact.cv");
+      var label = resolvePath(dict, "contact.cv");
+      if (label) el.textContent = label;
+    } else {
+      el.setAttribute("href", "#contact");
+      el.removeAttribute("target");
+      el.removeAttribute("rel");
+      el.setAttribute("aria-disabled", "true");
+      el.setAttribute("tabindex", "-1");
+      var unavailable = resolvePath(dict, "contact.cvUnavailable");
+      if (unavailable) el.textContent = unavailable;
+    }
   }
 
   function wireLink(id, value, hrefBuilder, unavailableText) {
@@ -370,6 +415,7 @@
     document.documentElement.setAttribute("lang", lang);
 
     initNavToggle();
+    initBackToTop();
     initScrollReveal();
     initContactLinks();
     initThemeToggle();
