@@ -161,6 +161,11 @@ Any other static file server works equally well (e.g. `npx serve`).
 
 ## Deployment
 
+**Cache busting:** `index.html` loads every CSS/JS file with a `?v=…`
+suffix. Bump that number whenever a CSS or JS file changes, so visitors'
+browsers fetch the new version instead of a cached old one.
+
+
 The site is deployed with **GitHub Pages**, serving static files directly
 from this repository (`main` branch, root). Pushing to `main` is enough —
 no CI/build step is involved. GitHub Pages can take a few minutes to
