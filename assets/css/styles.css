@@ -42,30 +42,11 @@
 
 /* ==========================================================================
    Dark mode
-   Same token set, repainted. Applied via a `data-theme` attribute on
-   <html> — an inline snippet in <head> sets it before first paint from
-   localStorage or prefers-color-scheme, and the toggle button in main.js
-   keeps it in sync after that. Two blocks below on purpose: the media
-   query covers "never touched the toggle, just follows the OS", and the
-   attribute selector covers "picked a theme explicitly, override the OS".
+   Same token set, repainted. It is switched on by data-theme="dark" on
+   <html>: the inline script in <head> sets it before the first paint
+   (dark on a first visit, otherwise the visitor's last choice) and the
+   toggle button in main.js changes it afterwards.
    ========================================================================== */
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --color-bg: #0a1526;
-    --color-bg-alt: #0f1e36;
-    --color-surface: #132239;
-    --color-border: #263a5c;
-    --color-ink: #eef3fc;
-    --color-ink-soft: #c3d1ea;
-    --color-text: #c7d2e8;
-    --color-text-muted: #8ea0c4;
-    --color-primary-soft: #9dc0f5;
-    --color-accent: #5b93f5;
-    --color-accent-soft: rgba(47, 111, 237, 0.18);
-    --color-header-bg: rgba(10, 21, 38, 0.85);
-  }
-}
 
 :root[data-theme="dark"] {
   --color-bg: #0a1526;
@@ -796,48 +777,10 @@ button:focus-visible,
 .beyond-copy p { margin-bottom: 0; color: var(--color-text-muted); }
 
 /* ==========================================================================
-   Exploring AI
+   AI
    ========================================================================== */
 
 .section-ai { position: relative; overflow: hidden; }
-.ai-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-top: 2.5rem;
-}
-.ai-card {
-  position: relative;
-  padding: 2rem;
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
-}
-.ai-card::before {
-  content: "";
-  position: absolute;
-  left: 2rem; right: 2rem; top: 0;
-  height: 3px;
-  border-radius: 0 0 3px 3px;
-  background: linear-gradient(90deg, var(--color-accent), #7c3aed);
-}
-.ai-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--color-accent); }
-.ai-num {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--color-accent);
-  margin-bottom: 0.8rem;
-}
-.ai-card h3 { font-size: 1.12rem; margin-bottom: 0.6rem; }
-.ai-card p { color: var(--color-text-muted); margin-bottom: 0; line-height: 1.6; }
-
-@media (max-width: 900px) {
-  .ai-grid { grid-template-columns: 1fr; }
-}
 
 /* ==========================================================================
    Contact
