@@ -111,7 +111,7 @@ design is untouched):
   (event subscribers, an API page, an HTTP webhook, an XMLport) falls
   slowly in an endless loop. Popping the bubble (click, Enter or Space)
   plays a soft pop and a piano chord and dissolves into the site.
-  "Enter without sound" / Escape skips all audio.
+  Escape enters without any sound.
 - **Background music** — synthesised live with the Web Audio API: calm
   piano arpeggios over a string pad and bass, in D major, generative
   so it never repeats exactly. No audio files, so no licensing and no
@@ -122,10 +122,10 @@ design is untouched):
   English/Español switch (top right, with a short pulsing hint) that
   also sets the language of the whole site. Recorded voice clips are
   played from `assets/audio/` if present: `welcome-en.mp3` /
-  `welcome-es.mp3` on the bubble screen (on the first click, or when the
+  `welcome-es.mp3` on the bubble screen (the language switch pulses again when it ends) (on the first click, or when the
   language is changed, since browsers block sound before any
   interaction) and `opening-en.mp3` / `opening-es.mp3` right after
-  entering (not when entering without sound). The words are shown as a
+  entering (not when entering with Escape). The words are shown as a
   caption while each clip plays; the texts live in `experience.js`
   (`welcomeVO`, `openingVO`). Missing clips are simply skipped.
 - **Seasonal background** — a few slow, low-opacity particles that
