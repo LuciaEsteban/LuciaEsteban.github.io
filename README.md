@@ -11,7 +11,7 @@ Live site: https://luciaesteban.github.io/
 
 The site leads with Business Central / AL capability — what Lucía can build
 today — and only afterwards moves into chronology (professional experience,
-education) and personal context. Content is bilingual (English / Spanish),
+education) and personal context. Copy is written to stay true over time (durations are computed from dates in `config.js`, no "this year"-style wording). Content is bilingual (English / Spanish),
 anonymized technical case studies illustrate real project work without
 naming clients, and every interactive element (language switch, scroll
 reveal, automatic experience counter) is there to support that goal rather
@@ -64,7 +64,7 @@ of being duplicated across the codebase:
 |---|---|
 | `businessCentralStartDate` | Drives the automatic "years / months of experience" calculation site-wide. |
 | `professionalEmail`, `linkedInUrl`, `cvPdfUrl` | Contact links. Left as `null` until provided — the related button is hidden/disabled rather than shipping a broken or fake link. |
-| `contactFormEndpoint` | Optional form-service URL (e.g. Formspree). `null` = the contact form opens the visitor's email app pre-filled. |
+| `contactFormEndpoint` | Where the contact form sends messages. Set to FormSubmit for `luciaes.dev@gmail.com` (one-time activation email on the first message). `null` = open the visitor's email app pre-filled instead. |
 | `githubUrl` | Already set. |
 | `currentCompanyDisplayName` | Optional — only set this if Lucía has explicitly decided to publish her current employer's name. |
 | `education.*` | Optional exact education dates. |
@@ -123,9 +123,9 @@ design is untouched):
   strums a chord.
 - **Contact form** (right-hand side of the Contact section) — name,
   email, optional company and message, with validation and a spam
-  honeypot. If `contactFormEndpoint` in `config.js` is set (e.g. a free
-  Formspree form) it sends directly; otherwise it opens the visitor's
-  email app with the message pre-filled. When the visitor reaches the
+  honeypot. Messages are emailed directly via FormSubmit
+  (`contactFormEndpoint` in `config.js`), with the sender's address as
+  Reply-To; set it to `null` to open the visitor's email app instead. When the visitor reaches the
   end of the page the form gives one short nudge and then floats
   gently with a soft glow until they start typing.
 - Respects `prefers-reduced-motion` (no trail/tilt, calm intro) and
