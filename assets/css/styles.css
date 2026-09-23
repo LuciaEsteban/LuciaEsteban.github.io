@@ -796,6 +796,50 @@ button:focus-visible,
 .beyond-copy p { margin-bottom: 0; color: var(--color-text-muted); }
 
 /* ==========================================================================
+   Exploring AI
+   ========================================================================== */
+
+.section-ai { position: relative; overflow: hidden; }
+.ai-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.ai-card {
+  position: relative;
+  padding: 2rem;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+.ai-card::before {
+  content: "";
+  position: absolute;
+  left: 2rem; right: 2rem; top: 0;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(90deg, var(--color-accent), #7c3aed);
+}
+.ai-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--color-accent); }
+.ai-num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-accent);
+  margin-bottom: 0.8rem;
+}
+.ai-card h3 { font-size: 1.12rem; margin-bottom: 0.6rem; }
+.ai-card p { color: var(--color-text-muted); margin-bottom: 0; line-height: 1.6; }
+
+@media (max-width: 900px) {
+  .ai-grid { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
    Contact
    ========================================================================== */
 
