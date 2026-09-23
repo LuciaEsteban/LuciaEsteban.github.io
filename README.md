@@ -124,12 +124,13 @@ design is untouched):
   whole site. A welcome text is typed out under the bubble (browsers
   block sound before the first click, so this part is written, not
   spoken); when it finishes, the switch pulses and a small tooltip
-  points it out. Right after entering, a recorded clip is played from
-  `assets/audio/opening-en.mp3` / `opening-es.mp3` if present, with a
+  points it out. A speech bubble with a sound icon at the top right of the
+  profile photo ("Listen to me", click it or the photo) plays a recorded clip from
+  `assets/audio/opening-en.mp3` / `opening-es.mp3` once per visit, with a
   caption of the same words (`openingVO` in `experience.js`). Missing
   clips are simply skipped. The clips are Lucía's own recordings, cleaned
   up (noise reduction, EQ, light compression, a subtle room echo,
-  loudness-normalized to about -16 LUFS).
+  kept quiet, around -25 LUFS, so it never startles).
 - **Seasonal background** — a few slow, low-opacity particles that
   follow the time of year (northern hemisphere): snow Dec–Feb, petals
   Mar–May, warm drifting motes Jun–Aug, falling leaves Sep–Nov. Adapts
