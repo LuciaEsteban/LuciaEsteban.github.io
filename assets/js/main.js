@@ -285,10 +285,6 @@
     }
   }
 
-  function systemPrefersDark() {
-    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-  }
-
   function effectiveTheme() {
     var stored = getStoredTheme();
     if (stored === "light" || stored === "dark") return stored;
