@@ -149,7 +149,7 @@ window.TRANSLATIONS = {
       eyebrow: "Trajectory",
       title: "Experience & education",
       intro:
-        "A still-short professional history, paired with the formal education that's run alongside it — including right now.",
+        "My professional path, together with the formal education that has run alongside it.",
       items: {
         electronics: {
           tag: "Education",
@@ -173,7 +173,7 @@ window.TRANSLATIONS = {
           tag: "Education — in progress",
           title: "Computer Engineering — UNIR",
           body:
-            "Resumed in 2026, with 1.2 years already recognized from previous studies. It's an online degree, chosen specifically to combine well with full-time work: three years of coursework remain, spread out over about six real years at a pace that fits around the job.",
+            "An online degree, chosen specifically to fit alongside full-time work, with part of it recognized from previous studies. I follow it at a steady, sustainable pace that works around the job.",
         },
       },
     },
@@ -184,7 +184,7 @@ window.TRANSLATIONS = {
         "I like working with people, sharing ideas with other developers and consultants, and I'm just as happy figuring things out on my own sometimes. What really gets me going is <strong>a genuine challenge</strong>: a problem that makes me want to dig in and actually understand it, not just patch it.",
         "I'm organized and open-minded, and that doesn't make me any less decisive. I like keeping things clear and on track, while staying open to a better way of doing something, and I'm comfortable making a call when one is needed.",
         "I like learning, and I like contributing more than what's strictly expected of me: <strong>going a bit further than a task asks for</strong> when I can. I also value constructive feedback, because I know there's no growing without it, even though that doesn't stop me wanting to leave every task as well done as I can. I'm still growing as a developer, and I know that every day I can offer a little more than I did the day before.",
-        "This year I resumed my degree in Computer Engineering, an online program I chose specifically so I could combine it well with full-time work. I have three years of coursework left, which I'm spreading out over around six real years so I can keep a pace that works for me.",
+        "Alongside my job, I'm studying Computer Engineering online. I chose an online program precisely so I could combine it with full-time work: I take it at a steady pace that fits around my projects, which lets me keep strengthening my foundations without stepping back from real, day-to-day work.",
       ],
     },
     beyond: {
@@ -367,7 +367,7 @@ window.TRANSLATIONS = {
       eyebrow: "Trayectoria",
       title: "Experiencia y formación",
       intro:
-        "Un recorrido profesional todavía breve, junto a la formación que lo ha acompañado — incluido ahora mismo.",
+        "Mi recorrido profesional, junto a la formación que lo ha acompañado.",
       items: {
         electronics: {
           tag: "Formación",
@@ -391,7 +391,7 @@ window.TRANSLATIONS = {
           tag: "Formación — en curso",
           title: "Ingeniería Informática — UNIR",
           body:
-            "Retomada en 2026, con 1,2 años ya reconocidos de estudios previos. Es una carrera online, elegida precisamente para compatibilizarla bien con el trabajo a tiempo completo: quedan tres años de plan de estudios, repartidos en unos seis años reales al ritmo que permite el trabajo.",
+            "Una carrera online, elegida precisamente para compatibilizarla con el trabajo a tiempo completo, con parte ya reconocida de estudios previos. La sigo a un ritmo constante y sostenible, que encaja con el trabajo.",
         },
       },
     },
@@ -402,7 +402,7 @@ window.TRANSLATIONS = {
         "Me gusta trabajar con gente, compartir ideas con otros desarrolladores y consultores, y también disfruto resolviendo cosas por mi cuenta en ciertos momentos. Lo que de verdad me engancha es <strong>un reto real</strong>: un problema que me hace querer meterme a fondo y entenderlo bien, no solo parchearlo.",
         "Soy organizada y de mente abierta, y eso no me hace menos decidida. Me gusta tener las cosas claras y encaminadas, sin dejar de estar abierta a una forma mejor de hacer algo, y no me cuesta tomar una decisión cuando hace falta.",
         "Me gusta aprender, y me gusta aportar más de lo que se espera de mí: <strong>ir un poco más allá de lo que pide la tarea</strong> cuando puedo. También valoro las críticas constructivas, porque sé que sin ellas no se puede crecer, aunque eso no quita que me guste dejar cada tarea lo mejor hecha posible. Todavía estoy en desarrollo como profesional, y sé que cada día puedo ofrecer un poco más que el día anterior.",
-        "Este año he retomado el Grado en Ingeniería Informática, una carrera online que elegí precisamente para poder compatibilizarla bien con mi trabajo a tiempo completo. Me quedan tres años de plan de estudios, que voy a repartir en unos seis años reales para llevarlo al ritmo que necesito.",
+        "Compagino mi trabajo con el Grado en Ingeniería Informática, que estudio online. Elegí una carrera online precisamente para poder compatibilizarla con el trabajo a tiempo completo: la llevo a un ritmo constante que encaja con mis proyectos, y eso me permite seguir reforzando mis bases sin apartarme del trabajo real del día a día.",
       ],
     },
     beyond: {

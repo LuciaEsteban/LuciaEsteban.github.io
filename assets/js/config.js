@@ -28,13 +28,14 @@ window.SITE_CONFIG = {
   cvPdfUrl: null, // e.g. "assets/files/lucia-esteban-cv.pdf"
 
   /**
-   * Contact form endpoint. Leave as null and the form opens the
-   * visitor's email app with the message pre-filled (to
-   * professionalEmail). To receive messages directly without that
-   * step, create a free form at https://formspree.io and paste its
-   * URL here, e.g. "https://formspree.io/f/abcdwxyz".
+   * Contact form endpoint. Messages are delivered straight to the inbox
+   * through FormSubmit (https://formsubmit.co) — no backend needed on
+   * GitHub Pages. The very first message triggers a one-time
+   * "Activate form" email to this address; once confirmed, every
+   * message arrives automatically. Set to null to fall back to opening
+   * the visitor's email app instead.
    */
-  contactFormEndpoint: null,
+  contactFormEndpoint: "https://formsubmit.co/ajax/luciaes.dev@gmail.com",
 
   /**
    * Optional. Only set this if Lucía has explicitly decided to publish

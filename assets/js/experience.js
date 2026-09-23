@@ -747,11 +747,19 @@
           method: "POST",
           headers: { "Content-Type": "application/json", "Accept": "application/json" },
           body: JSON.stringify({
-            name: data.name, email: data.email, company: data.company,
-            message: data.message, _subject: formText("subject") + " — " + data.name
+            name: data.name,
+            email: data.email,            // used as Reply-To, so answering goes straight to the sender
+            company: data.company || "—",
+            message: data.message,
+            _subject: formText("subject") + " — " + data.name,
+            _template: "table",
+            _captcha: "false"
           })
         }).then(function (r) {
-          if (!r.ok) throw new Error(r.status);
+          return r.json().catch(function () { return {}; }).then(function (json) {
+            if (!r.ok || String(json.success) !== "true") throw new Error(json.message || r.status);
+          });
+        }).then(function () {
           form.reset();
           say("success", "ok");
           Audio.chime();
