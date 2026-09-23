@@ -39,7 +39,7 @@
       animOff: "Animation: off",
       animLabelOn: "Turn off the seasonal background animation",
       animLabelOff: "Turn on the seasonal background animation",
-      welcomeVO: "Welcome to my portfolio. If you would like to get to know me a little better, tap the bubble on the screen. You can also change the language in the top right corner.",
+      welcomeText: "Welcome to my portfolio. If you would like to get to know me a little better, tap the bubble on the screen. You can also change the language in the top right corner.",
       openingVO: "Here you can get to know me a little better: from my work as a Business Central developer and the way I approach each project, to what motivates me and what I enjoy outside of code. If you think I could be a good fit for your team, I would be glad to talk."
     },
     es: {
@@ -59,7 +59,7 @@
       animOff: "Animación: off",
       animLabelOn: "Desactivar la animación de fondo de temporada",
       animLabelOff: "Activar la animación de fondo de temporada",
-      welcomeVO: "Bienvenidos a mi portfolio. Si quieres conocerme un poco más, toca la burbuja que aparece en pantalla. También puedes cambiar el idioma en la esquina superior derecha.",
+      welcomeText: "Bienvenidos a mi portfolio. Si quieres conocerme un poco más, toca la burbuja que aparece en pantalla. También puedes cambiar el idioma en la esquina superior derecha.",
       openingVO: "En este espacio podrás conocerme un poco mejor: desde mi trabajo como desarrolladora en Business Central y la forma en que afronto cada proyecto, hasta lo que me motiva y lo que hago fuera del código. Si crees que puedo encajar en tu equipo, estaré encantada de hablar contigo."
     }
   };
@@ -588,7 +588,6 @@
   /* ------------------------------------------------------------------ */
   /* Voice-over                                                          */
   /* Plays recorded clips from assets/audio/ when they exist:            */
-  /*   welcome-en.mp3 / welcome-es.mp3  (bubble screen)                  */
   /*   opening-en.mp3 / opening-es.mp3  (right after entering the site)  */
   /* Missing files are simply skipped, so the site works without them.   */
   /* A caption with the same words is shown while a clip plays.          */
@@ -699,7 +698,6 @@
       void langBox.offsetWidth; // restart the animation
       langBox.classList.add("is-hinting");
     }
-    setTimeout(hintLanguage, 2600);
 
     function localise() {
       intro.querySelectorAll("[data-intro-text]").forEach(function (el) {
@@ -727,17 +725,30 @@
       if (siteBtn) siteBtn.click();
       else { try { localStorage.setItem("lucia-portfolio-lang", b.getAttribute("data-lang")); } catch (err) {} }
       localise();
-      Voice.play("welcome", hintLanguage); // a click is a user gesture, so the browser allows sound here
+      typeWelcome(); // re-type the welcome text in the new language
     });
 
-    // The first click anywhere on the intro (other than the bubble or a
-    // button) also plays the welcome message; browsers block sound before that.
-    var welcomed = false;
-    intro.addEventListener("pointerdown", function (e) {
-      if (welcomed || e.target.closest("button")) return;
-      welcomed = true;
-      Voice.play("welcome", hintLanguage);
-    });
+    // Welcome text, typed out under the bubble. (Browsers block sound until
+    // the first click, so this part is written rather than spoken.) When it
+    // finishes, the language switch is pointed out.
+    var welcome = document.createElement("p");
+    welcome.className = "intro-welcome";
+    welcome.setAttribute("aria-live", "polite");
+    intro.querySelector(".intro-stage").insertBefore(welcome, intro.querySelector(".intro-options"));
+    var typeTimer = null;
+    function typeWelcome() {
+      clearTimeout(typeTimer);
+      var text = t("welcomeText"), i = 0;
+      if (reduceMotion) { welcome.textContent = text; hintLanguage(); return; }
+      welcome.classList.add("is-typing");
+      (function step() {
+        i += 1;
+        welcome.textContent = text.slice(0, i);
+        if (i < text.length) typeTimer = setTimeout(step, text.charAt(i - 1) === "." ? 380 : 32);
+        else { welcome.classList.remove("is-typing"); hintLanguage(); }
+      })();
+    }
+    typeTimer = setTimeout(typeWelcome, 2500);
 
     // Rising fizz
     var fizzTimer = null;
@@ -765,6 +776,7 @@
       if (entered) return;
       entered = true;
       Voice.stop();
+      clearTimeout(typeTimer);
       Audio.enabled = !!withSound;
       if (withSound) Audio.init();
 
