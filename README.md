@@ -35,25 +35,41 @@ a functional benefit.
 
 ```
 .
-├── index.html                  Single-page site, all sections
+├── index.html                    Single-page site, all sections
 ├── assets/
 │   ├── css/
-│   │   ├── styles.css          All styling, incl. responsive & motion rules
-│   │   └── experience.css      Intro screen, sparkles canvas, music player
+│   │   ├── styles.css            Base design, incl. responsive & motion rules
+│   │   └── experience/           Experience layer styles
+│   │       ├── intro.css         Intro bubble, falling AL code, language switch
+│   │       ├── controls.css      Floating music player + animation switch
+│   │       ├── voice.css         "Listen to me" speech bubble + captions
+│   │       ├── contact.css       Contact layout, form and its nudge
+│   │       └── page.css          Canvas layers, card tilt, chips
 │   ├── js/
-│   │   ├── config.js           Central configuration (see below)
-│   │   ├── i18n.js             English + Spanish content dictionary
-│   │   ├── main.js             Language switch, nav, reveal animations,
-│   │   │                       experience calculator, contact link wiring
-│   │   └── experience.js       Intro bubble, sparkles, sound effects and
-│   │                           generative background music (Web Audio API)
+│   │   ├── config.js             Central configuration (see below)
+│   │   ├── i18n.js               English + Spanish content dictionary
+│   │   ├── main.js               Language switch, nav, reveal animations,
+│   │   │                         experience calculator, contact link wiring
+│   │   └── experience/           Experience layer (shared namespace window.XP)
+│   │       ├── core.js           Copy (EN/ES), language helpers
+│   │       ├── sound.js          Sound effects, generative music, voice clips
+│   │       ├── visuals.js        Pop ripple, seasonal background
+│   │       ├── controls.js       Music player + animation switch
+│   │       ├── intro.js          Intro screen
+│   │       ├── voice.js          Speech bubble + synced captions
+│   │       └── page.js           Interactions, contact form, start-up
+│   ├── audio/
+│   │   └── opening-en.mp3 / opening-es.mp3   Lucía's recorded welcome
 │   └── img/
-│       ├── favicon.svg / .png  Site icon
-│       ├── og-image.svg / .png Social share preview image
-│       ├── profile-placeholder.svg   Placeholder for the hero photo
-│       └── guitar-placeholder.svg    (unused) old placeholder; the "Beyond the code" photo is by Ansgar Scheffold on Unsplash (Unsplash License)
+│       ├── favicon.svg / .png    Site icon
+│       ├── og-image.svg / .png   Social share preview image
+│       ├── profile-image.jpg     Hero photo
+│       └── profile-placeholder.svg, guitar-placeholder.svg (unused placeholders)
 └── README.md
 ```
+
+The "Beyond the code" photo is by Ansgar Scheffold on Unsplash (Unsplash
+License), loaded from Unsplash's image CDN.
 
 ## Configuration — `assets/js/config.js`
 
@@ -101,7 +117,7 @@ final:
 - Code, identifiers, comments and this README are in English, per standard
   practice, regardless of the page's displayed language.
 
-## Intro, sound & music — `assets/js/experience.js`
+## Experience layer — `assets/js/experience/`
 
 A separate, optional "experience layer" (own CSS + JS files, the base
 design is untouched):
@@ -119,34 +135,36 @@ design is untouched):
   play/pause, volume and a live equalizer; pauses automatically when
   the tab is hidden. Switching it off cuts the sound within a quarter
   of a second (the music's reverb sits before the fader).
-- **Language switch on the intro + voice-over** — the intro has an
-  English/Español switch (top right) that also sets the language of the
-  whole site. A welcome text is typed out under the bubble (browsers
-  block sound before the first click, so this part is written, not
-  spoken); when it finishes, the switch pulses and a small tooltip
-  points it out. A speech bubble with a sound icon at the top right of the
-  profile photo ("Listen to me", click it or the photo) plays a recorded clip from
-  `assets/audio/opening-en.mp3` / `opening-es.mp3` once per visit, with a
-  caption of the same words (`openingVO` in `experience.js`). Missing
-  clips are simply skipped. The clips are Lucía's own recordings, cleaned
-  up (noise reduction, EQ, light compression, a subtle room echo,
-  kept quiet, around -25 LUFS, so it never startles).
+- **Language switch on the intro** — English/Español switch (top right)
+  that also sets the language of the whole site. A welcome text is typed
+  out under the bubble (browsers block sound before the first click, so
+  this part is written, not spoken); when it finishes, the switch pulses
+  and a small tooltip points it out.
+- **Voice message** — a comic-style speech bubble with a sound icon at the
+  top right of the profile photo ("Listen to me"). Clicking it (or the
+  photo) pops it and plays `assets/audio/opening-<lang>.mp3` once per
+  visit, with captions to the left of the photo that appear word by word
+  in time with the voice (cue timings in `core.js`, `openingCues`). The
+  clips are Lucía's own recordings, cleaned up (noise reduction, EQ,
+  light compression, a subtle room echo) and kept quiet (about -29 LUFS).
+  When a recording is replaced, update its cue timings and bump
+  `XP.Voice.VERSION` in `sound.js`.
 - **Seasonal background** — a few slow, low-opacity particles that
   follow the time of year (northern hemisphere): snow Dec–Feb, petals
   Mar–May, warm drifting motes Jun–Aug, falling leaves Sep–Nov. Adapts
   to light/dark mode, pauses in hidden tabs, off with reduced motion.
   Preview any season with `?season=winter|spring|summer|autumn`.
 - **Page interactions** — 3D tilt on the expertise cards, hero colour
-  orbs that follow the mouse, and clicking the photo or the guitar
-  strums a chord.
+  orbs that follow the mouse, and clicking the "Beyond the code"
+  photo strums a guitar chord.
 - **Contact form** (right-hand side of the Contact section) — name,
   email, optional company and message, with validation and a spam
   honeypot. Messages are emailed directly via FormSubmit
   (`contactFormEndpoint` in `config.js`), with the sender's address as
-  Reply-To; set it to `null` to open the visitor's email app instead. When the visitor reaches the
-  end of the page the form gives one short nudge and then floats
+  Reply-To; set it to `null` to open the visitor's email app instead.
+  When the visitor reaches the end of the page the form gives one short nudge and then floats
   gently with a soft glow until they start typing.
-- Respects `prefers-reduced-motion` (no trail/tilt, calm intro) and
+- Respects `prefers-reduced-motion` (no tilt or seasonal particles, calm intro) and
   works without JavaScript (intro is hidden via `<noscript>`).
 
 ## Accessibility
