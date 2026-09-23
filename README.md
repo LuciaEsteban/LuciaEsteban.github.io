@@ -38,12 +38,15 @@ a functional benefit.
 ├── index.html                  Single-page site, all sections
 ├── assets/
 │   ├── css/
-│   │   └── styles.css          All styling, incl. responsive & motion rules
+│   │   ├── styles.css          All styling, incl. responsive & motion rules
+│   │   └── experience.css      Intro screen, sparkles canvas, music player
 │   ├── js/
 │   │   ├── config.js           Central configuration (see below)
 │   │   ├── i18n.js             English + Spanish content dictionary
-│   │   └── main.js             Language switch, nav, reveal animations,
-│   │                           experience calculator, contact link wiring
+│   │   ├── main.js             Language switch, nav, reveal animations,
+│   │   │                       experience calculator, contact link wiring
+│   │   └── experience.js       Intro bubble, sparkles, sound effects and
+│   │                           generative background music (Web Audio API)
 │   └── img/
 │       ├── favicon.svg / .png  Site icon
 │       ├── og-image.svg / .png Social share preview image
@@ -61,6 +64,7 @@ of being duplicated across the codebase:
 |---|---|
 | `businessCentralStartDate` | Drives the automatic "years / months of experience" calculation site-wide. |
 | `professionalEmail`, `linkedInUrl`, `cvPdfUrl` | Contact links. Left as `null` until provided — the related button is hidden/disabled rather than shipping a broken or fake link. |
+| `contactFormEndpoint` | Optional form-service URL (e.g. Formspree). `null` = the contact form opens the visitor's email app pre-filled. |
 | `githubUrl` | Already set. |
 | `currentCompanyDisplayName` | Optional — only set this if Lucía has explicitly decided to publish her current employer's name. |
 | `education.*` | Optional exact education dates. |
@@ -96,6 +100,36 @@ final:
   other data is stored locally.
 - Code, identifiers, comments and this README are in English, per standard
   practice, regardless of the page's displayed language.
+
+## Intro, sound & music — `assets/js/experience.js`
+
+A separate, optional "experience layer" (own CSS + JS files, the base
+design is untouched):
+
+- **Intro screen** — a glass bubble emerges from a blurred background
+  with the photo, name and role. Behind it, barely visible, AL code
+  (event subscribers, an API page, an HTTP webhook, an XMLport) falls
+  slowly in an endless loop. Popping the bubble (click, Enter or Space)
+  plays a soft pop and a piano chord and dissolves into the site.
+  "Enter without sound" / Escape skips all audio.
+- **Background music** — synthesised live with the Web Audio API: calm
+  piano arpeggios over a string pad and bass, in D major, generative
+  so it never repeats exactly. No audio files, so no licensing and no
+  extra download. Floating player bottom-right ("Music on/off") with
+  play/pause, volume and a live equalizer; pauses automatically when
+  the tab is hidden.
+- **Page interactions** — 3D tilt on the expertise cards, hero colour
+  orbs that follow the mouse, and clicking the photo or the guitar
+  strums a chord.
+- **Contact form** (right-hand side of the Contact section) — name,
+  email, optional company and message, with validation and a spam
+  honeypot. If `contactFormEndpoint` in `config.js` is set (e.g. a free
+  Formspree form) it sends directly; otherwise it opens the visitor's
+  email app with the message pre-filled. When the visitor reaches the
+  end of the page the form gives one short nudge and then floats
+  gently with a soft glow until they start typing.
+- Respects `prefers-reduced-motion` (no trail/tilt, calm intro) and
+  works without JavaScript (intro is hidden via `<noscript>`).
 
 ## Accessibility
 

@@ -25,6 +25,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/experience.css" />
 
   <!-- Sets the theme before first paint so there's no light-mode flash
        for visitors whose system (or last visit) prefers dark. The real
@@ -42,8 +43,36 @@
       }
     })();
   </script>
+  <!-- Intro screen: blurs the page until the bubble is popped. -->
+  <script>document.documentElement.classList.add("intro-open");</script>
+  <noscript><style>.intro{display:none!important}html.intro-open{overflow:auto!important}html.intro-open body>*{filter:none!important;transform:none!important}</style></noscript>
 </head>
 <body>
+  <!-- INTRO — a bubble emerges from the blur over faint falling AL code;
+       popping it plays a sound and opens the site. Texts are filled in by
+       assets/js/experience.js in the visitor's language. -->
+  <div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="introName">
+    <span class="intro-orb" aria-hidden="true"></span>
+    <span class="intro-orb" aria-hidden="true"></span>
+    <span class="intro-orb" aria-hidden="true"></span>
+    <span class="intro-orb" aria-hidden="true"></span>
+    <div class="intro-stage">
+      <button type="button" class="intro-bubble">
+        <span class="intro-content">
+          <img class="intro-avatar" src="assets/img/profile-image.jpg" alt="" width="120" height="120" />
+          <span class="intro-eyebrow" data-intro-text="eyebrow">Portfolio</span>
+          <span class="intro-name" id="introName">Lucía Esteban Peña</span>
+          <span class="intro-role" data-intro-text="role">Microsoft Dynamics 365 Business Central / AL Developer</span>
+          <span class="intro-cta"><span aria-hidden="true">✦</span> <span data-intro-text="cta">Tap the bubble</span></span>
+        </span>
+      </button>
+      <div class="intro-options">
+        <button type="button" data-intro-music aria-pressed="true">♪ Music: on</button>
+        <button type="button" data-intro-silent data-intro-text="silent">Enter without sound</button>
+      </div>
+    </div>
+    <p class="intro-hint" data-intro-text="hint">Press Enter to come in</p>
+  </div>
   <a class="skip-link" href="#main" data-i18n="skipLink">Skip to main content</a>
 
   <header class="site-header" id="top">
@@ -64,6 +93,7 @@
         <ul>
           <li><a href="#expertise" data-i18n="nav.expertise">Business Central</a></li>
           <li><a href="#ecosystem" data-i18n="nav.ecosystem">Ecosystem</a></li>
+          <li><a href="#ai" data-i18n="nav.ai">AI</a></li>
           <li><a href="#journey" data-i18n="nav.journey">Journey</a></li>
           <li><a href="#about" data-i18n="nav.about">About</a></li>
           <li><a href="#contact" class="nav-cta" data-i18n="nav.contact">Contact</a></li>
@@ -262,6 +292,35 @@
       </div>
     </section>
 
+    <!-- AI — how Lucía approaches AI: valued and explored, never a
+         substitute for her own knowledge -->
+    <section class="section section-ai" id="ai" aria-labelledby="ai-heading">
+      <div class="bubble-field" aria-hidden="true"><span class="bubble bubble-a"></span><span class="bubble bubble-c"></span></div>
+      <div class="container">
+        <p class="eyebrow reveal" data-i18n="ai.eyebrow">Looking ahead</p>
+        <h2 id="ai-heading" class="reveal" data-i18n="ai.title">Exploring AI</h2>
+        <p class="section-intro reveal" data-i18n="ai.intro">AI is changing how software is built, and Business Central is no exception. I'd rather understand it and grow with it than watch from the sidelines — so I follow how it's evolving and look for ways to put it to good use in my work.</p>
+
+        <div class="ai-grid">
+          <article class="ai-card reveal">
+            <span class="ai-num" aria-hidden="true">01</span>
+            <h3 data-i18n="ai.items.judgement.title">My own judgement first</h3>
+            <p data-i18n="ai.items.judgement.body">AI is a tool, not a substitute for knowing what I'm doing. I rely on my own understanding of AL, Business Central and the business behind each requirement — and that's exactly what lets me tell a good suggestion from a bad one.</p>
+          </article>
+          <article class="ai-card reveal">
+            <span class="ai-num" aria-hidden="true">02</span>
+            <h3 data-i18n="ai.items.adapting.title">Adapting as it grows</h3>
+            <p data-i18n="ai.items.adapting.body">I keep up with how AI tools evolve and try them where they add real value, so I can make the most of each step forward instead of falling behind it.</p>
+          </article>
+          <article class="ai-card reveal">
+            <span class="ai-num" aria-hidden="true">03</span>
+            <h3 data-i18n="ai.items.learning.title">Still learning</h3>
+            <p data-i18n="ai.items.learning.body">That's also why I keep studying: the stronger my foundations, the better I can use AI — and the more I have to offer beyond it.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <!-- JOURNEY (professional experience + education, combined — one job
          entry didn't earn a whole section to itself, and the two threads
          genuinely run side by side anyway) -->
@@ -349,17 +408,49 @@
     <!-- CONTACT -->
     <section class="section section-contact" id="contact" aria-labelledby="contact-heading">
       <div class="bubble-field bubble-field-dark" aria-hidden="true"><span class="bubble bubble-a"></span><span class="bubble bubble-b"></span><span class="bubble bubble-c"></span></div>
-      <div class="container contact-inner reveal">
-        <p class="eyebrow" data-i18n="contact.eyebrow">Let's talk</p>
-        <h2 id="contact-heading" data-i18n="contact.title">Contact</h2>
-        <p class="contact-intro" data-i18n="contact.intro">I'm currently in my role and I value it, but I'm open to a change if it's a genuinely good fit for where I want to go — not out of necessity, just because it works well for both sides. If my profile could be a good fit for your team or project, I'd be happy to hear from you.</p>
+      <div class="container contact-inner contact-grid">
+        <div class="contact-copy reveal">
+          <p class="eyebrow" data-i18n="contact.eyebrow">Let's talk</p>
+          <h2 id="contact-heading" data-i18n="contact.title">Contact</h2>
+          <p class="contact-intro" data-i18n="contact.intro">I'm currently in my role and I value it, but I'm open to a change if it's a genuinely good fit for where I want to go — not out of necessity, just because it works well for both sides. If my profile could be a good fit for your team or project, I'd be happy to hear from you.</p>
 
-        <div class="contact-links">
-          <a id="contactEmail" class="contact-link" href="#" data-i18n="contact.email">Email</a>
-          <a id="contactLinkedIn" class="contact-link" href="#" target="_blank" rel="noopener" data-i18n="contact.linkedin">LinkedIn</a>
-          <a id="contactGithub" class="contact-link" href="#" target="_blank" rel="noopener" data-i18n="contact.github">GitHub</a>
-          <a id="contactCv" class="contact-link" href="#" data-i18n="contact.cv">Download CV</a>
+          <div class="contact-links">
+            <a id="contactEmail" class="contact-link" href="#" data-i18n="contact.email">Email</a>
+            <a id="contactLinkedIn" class="contact-link" href="#" target="_blank" rel="noopener" data-i18n="contact.linkedin">LinkedIn</a>
+            <a id="contactGithub" class="contact-link" href="#" target="_blank" rel="noopener" data-i18n="contact.github">GitHub</a>
+            <a id="contactCv" class="contact-link" href="#" data-i18n="contact.cv">Download CV</a>
+          </div>
         </div>
+
+        <!-- Contact form. Sends through SITE_CONFIG.contactFormEndpoint
+             (e.g. a Formspree URL) when one is set; otherwise it opens
+             the visitor's email app with the message already written. -->
+        <form class="contact-form reveal" id="contactForm" novalidate aria-labelledby="contactFormTitle">
+          <h3 id="contactFormTitle" data-i18n="contact.form.title">Send me a message</h3>
+          <div class="form-row">
+            <label for="cfName" data-i18n="contact.form.name">Name</label>
+            <input id="cfName" name="name" type="text" autocomplete="name" required maxlength="100" />
+          </div>
+          <div class="form-row">
+            <label for="cfEmail" data-i18n="contact.form.email">Email</label>
+            <input id="cfEmail" name="email" type="email" autocomplete="email" required maxlength="150" />
+          </div>
+          <div class="form-row">
+            <label for="cfCompany" data-i18n="contact.form.company">Company (optional)</label>
+            <input id="cfCompany" name="company" type="text" autocomplete="organization" maxlength="100" />
+          </div>
+          <div class="form-row">
+            <label for="cfMessage" data-i18n="contact.form.message">Message</label>
+            <textarea id="cfMessage" name="message" rows="5" required maxlength="3000"></textarea>
+          </div>
+          <!-- Honeypot: invisible to people, bots tend to fill it in -->
+          <input class="form-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <button type="submit" class="btn contact-submit">
+            <span data-i18n="contact.form.send">Send message</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h14m0 0l-6-6m6 6l-6 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <p class="form-status" id="contactFormStatus" role="status" aria-live="polite"></p>
+        </form>
       </div>
     </section>
   </main>
@@ -374,5 +465,6 @@
   <script src="assets/js/config.js"></script>
   <script src="assets/js/i18n.js"></script>
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/experience.js"></script>
 </body>
 </html>
