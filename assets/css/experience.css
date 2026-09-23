@@ -34,7 +34,7 @@
 /* The page underneath starts slightly blurred and "breathes in" as the
    intro dissolves, so the transition feels like focusing a lens. */
 html.intro-open { overflow: hidden; }
-html.intro-open body > :not(.intro):not(.fx-canvas):not(.music-dock) {
+html.intro-open body > :not(.intro):not(.fx-canvas):not(.music-dock):not(.voice-caption):not(.season-toggle) {
   filter: blur(14px);
   transform: scale(1.03);
 }
@@ -621,3 +621,90 @@ body > .site-footer {
   .season-toggle { right: 0.8rem; bottom: calc(0.8rem + 60px); padding: 0.35rem; }
   .season-toggle-label { display: none; }
 }
+
+/* --------------------------------------------------------------------------
+   Intro language switch (top right) + a gentle hint that it is there
+   -------------------------------------------------------------------------- */
+.intro-lang {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.45rem;
+  opacity: 0;
+  animation: contentRise 900ms ease 2200ms forwards;
+}
+.intro-lang-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9dc0f5;
+}
+.intro-lang-buttons {
+  position: relative;
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.intro-lang-buttons button {
+  font: 600 0.82rem var(--font-sans);
+  color: #c3d1ea;
+  background: transparent;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.intro-lang-buttons button:hover { color: #fff; }
+.intro-lang-buttons button[aria-pressed="true"] { background: #fff; color: var(--color-primary); }
+.intro-lang-buttons button:focus-visible { outline: 2px solid #9dc0f5; outline-offset: 2px; }
+/* Hint: a soft ring that pulses a few times around the switch */
+.intro-lang.is-hinting .intro-lang-buttons::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  border: 2px solid rgba(157, 192, 245, 0.8);
+  animation: langHint 1.6s ease-out 4;
+  pointer-events: none;
+}
+@keyframes langHint {
+  0%   { opacity: 0.9; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.18); }
+}
+@media (max-width: 600px) {
+  .intro-lang { top: 0.9rem; right: 0.9rem; }
+  .intro-lang-buttons button { padding: 0.35rem 0.7rem; }
+}
+
+/* Caption shown while a voice-over clip plays */
+.voice-caption {
+  position: fixed;
+  left: 50%;
+  bottom: 1.4rem;
+  z-index: 1002;
+  width: min(640px, calc(100% - 2rem));
+  margin: 0;
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius-md);
+  background: rgba(7, 15, 29, 0.82);
+  color: #eef3fc;
+  font: 500 0.9rem/1.5 var(--font-sans);
+  text-align: center;
+  transform: translate(-50%, 12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+.voice-caption.is-visible { opacity: 1; transform: translate(-50%, 0); }
+@media (max-width: 600px) { .voice-caption { bottom: 5.5rem; font-size: 0.82rem; } }
