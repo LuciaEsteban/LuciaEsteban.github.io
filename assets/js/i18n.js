@@ -18,6 +18,7 @@ window.TRANSLATIONS = {
     nav: {
       expertise: "Business Central",
       ecosystem: "Ecosystem",
+      ai: "AI",
       journey: "Journey",
       about: "About",
       contact: "Contact",
@@ -124,6 +125,26 @@ window.TRANSLATIONS = {
       lessThanAMonth: "just getting started",
       conjunction: "and",
     },
+    ai: {
+      eyebrow: "Looking ahead",
+      title: "Exploring AI",
+      intro:
+        "AI is changing how software is built, and Business Central is no exception. I'd rather <strong>understand it and grow with it</strong> than watch from the sidelines — so I follow how it's evolving and look for ways to put it to good use in my work.",
+      items: {
+        judgement: {
+          title: "My own judgement first",
+          body: "AI is a tool, not a substitute for knowing what I'm doing. I rely on my own understanding of AL, Business Central and the business behind each requirement — and that's exactly what lets me tell a good suggestion from a bad one.",
+        },
+        adapting: {
+          title: "Adapting as it grows",
+          body: "I keep up with how AI tools evolve and try them where they add real value, so I can make the most of each step forward instead of falling behind it.",
+        },
+        learning: {
+          title: "Still learning",
+          body: "That's also why I keep studying: the stronger my foundations, the better I can use AI — and the more I have to offer beyond it.",
+        },
+      },
+    },
     journey: {
       eyebrow: "Trajectory",
       title: "Experience & education",
@@ -185,6 +206,21 @@ window.TRANSLATIONS = {
       emailUnavailable: "Email coming soon",
       linkedinUnavailable: "LinkedIn coming soon",
       cvUnavailable: "CV coming soon",
+      form: {
+        title: "Send me a message",
+        name: "Name",
+        email: "Email",
+        company: "Company (optional)",
+        message: "Message",
+        send: "Send message",
+        sending: "Sending…",
+        success: "Thank you! Your message has been sent — I'll get back to you soon.",
+        mailto: "Your email app should open with the message ready to send.",
+        error: "Something went wrong. Please try again or write to me directly by email.",
+        missing: "Please fill in your name, email and message.",
+        invalidEmail: "Please enter a valid email address.",
+        subject: "Portfolio contact",
+      },
       backToTop: "Back to top",
     },
     footer: {
@@ -203,6 +239,7 @@ window.TRANSLATIONS = {
     nav: {
       expertise: "Business Central",
       ecosystem: "Ecosistema",
+      ai: "IA",
       journey: "Trayectoria",
       about: "Sobre mí",
       contact: "Contacto",
@@ -306,6 +343,26 @@ window.TRANSLATIONS = {
       lessThanAMonth: "recién empezando",
       conjunction: "y",
     },
+    ai: {
+      eyebrow: "Mirando adelante",
+      title: "Explorando la IA",
+      intro:
+        "La IA está cambiando la forma de desarrollar software, y Business Central no es una excepción. Prefiero <strong>entenderla y crecer con ella</strong> antes que verla desde fuera — por eso sigo de cerca cómo evoluciona y busco formas de aprovecharla bien en mi trabajo.",
+      items: {
+        judgement: {
+          title: "Primero, mi propio criterio",
+          body: "La IA es una herramienta, no un sustituto de saber lo que hago. Me apoyo en lo que conozco de AL, de Business Central y del negocio que hay detrás de cada requisito — y eso es justo lo que me permite distinguir una buena sugerencia de una mala.",
+        },
+        adapting: {
+          title: "Adaptarme a su crecimiento",
+          body: "Sigo cómo evolucionan las herramientas de IA y las pruebo allí donde aportan valor real, para sacar partido de cada avance en lugar de quedarme atrás.",
+        },
+        learning: {
+          title: "Seguir aprendiendo",
+          body: "Por eso también sigo estudiando: cuanto más sólidas son mis bases, mejor puedo aprovechar la IA — y más puedo aportar más allá de ella.",
+        },
+      },
+    },
     journey: {
       eyebrow: "Trayectoria",
       title: "Experiencia y formación",
@@ -367,6 +424,21 @@ window.TRANSLATIONS = {
       emailUnavailable: "Email próximamente",
       linkedinUnavailable: "LinkedIn próximamente",
       cvUnavailable: "CV próximamente",
+      form: {
+        title: "Envíame un mensaje",
+        name: "Nombre",
+        email: "Email",
+        company: "Empresa (opcional)",
+        message: "Mensaje",
+        send: "Enviar mensaje",
+        sending: "Enviando…",
+        success: "¡Gracias! Tu mensaje se ha enviado — te responderé pronto.",
+        mailto: "Se abrirá tu aplicación de correo con el mensaje listo para enviar.",
+        error: "Algo ha fallado. Inténtalo de nuevo o escríbeme directamente por email.",
+        missing: "Por favor, rellena tu nombre, email y mensaje.",
+        invalidEmail: "Por favor, introduce un email válido.",
+        subject: "Contacto desde el portfolio",
+      },
       backToTop: "Volver arriba",
     },
     footer: {

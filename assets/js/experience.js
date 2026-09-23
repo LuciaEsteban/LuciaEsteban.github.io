@@ -1,0 +1,811 @@
+/**
+ * Experience layer — intro bubble with falling AL code, sound effects
+ * and a generative background soundtrack.
+ *
+ * All audio is synthesised live with the Web Audio API: there are no
+ * audio files, so there is nothing to license and nothing extra to
+ * download. The music is a small generative engine — piano arpeggios
+ * over a soft string pad and bass, in D major — that never plays
+ * exactly the same way twice.
+ *
+ * Browsers only allow sound after a user gesture, which is exactly
+ * what the intro bubble provides: the click that pops it also unlocks
+ * the audio.
+ */
+(function () {
+  "use strict";
+
+  var reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var finePointer = window.matchMedia && matchMedia("(pointer: fine)").matches;
+
+  /* ------------------------------------------------------------------ */
+  /* Copy                                                                */
+  /* ------------------------------------------------------------------ */
+  var TEXT = {
+    en: {
+      eyebrow: "Portfolio",
+      role: "Microsoft Dynamics 365 Business Central / AL Developer",
+      cta: "Tap the bubble",
+      musicOn: "♪ Music: on",
+      musicOff: "♪ Music: off",
+      silent: "Enter without sound",
+      hint: "Press Enter to come in",
+      dockLabel: "Music",
+      play: "Play background music",
+      pause: "Pause background music",
+      volume: "Music volume",
+      bubbleLabel: "Enter the portfolio"
+    },
+    es: {
+      eyebrow: "Portfolio",
+      role: "Desarrolladora Microsoft Dynamics 365 Business Central / AL",
+      cta: "Toca la burbuja",
+      musicOn: "♪ Música: on",
+      musicOff: "♪ Música: off",
+      silent: "Entrar sin sonido",
+      hint: "Pulsa Enter para entrar",
+      dockLabel: "Música",
+      play: "Reproducir música de fondo",
+      pause: "Pausar música de fondo",
+      volume: "Volumen de la música",
+      bubbleLabel: "Entrar al portfolio"
+    }
+  };
+  function lang() {
+    var l = document.documentElement.getAttribute("lang");
+    try { l = localStorage.getItem("lucia-portfolio-lang") || l; } catch (e) {}
+    return l === "es" ? "es" : "en";
+  }
+  function t(key) { return (TEXT[lang()] || TEXT.en)[key]; }
+
+  /* ------------------------------------------------------------------ */
+  /* Audio engine                                                        */
+  /* ------------------------------------------------------------------ */
+  var Audio = {
+    ctx: null,
+    enabled: false,   // sfx allowed (visitor didn't choose "silent")
+    master: null, sfxBus: null, musicBus: null, musicGain: null, reverb: null, analyser: null,
+
+    init: function () {
+      if (this.ctx) { if (this.ctx.state === "suspended") this.ctx.resume(); return true; }
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return false;
+      var ctx = this.ctx = new AC();
+
+      this.master = ctx.createGain();
+      this.master.gain.value = 0.9;
+      var comp = ctx.createDynamicsCompressor();
+      comp.threshold.value = -14; comp.ratio.value = 3;
+      this.master.connect(comp); comp.connect(ctx.destination);
+
+      this.reverb = ctx.createConvolver();
+      this.reverb.buffer = this.impulse(2.8, 2.2);
+      var revGain = ctx.createGain(); revGain.gain.value = 0.35;
+      this.reverb.connect(revGain); revGain.connect(this.master);
+
+      this.sfxBus = ctx.createGain(); this.sfxBus.gain.value = 0.6;
+      this.sfxBus.connect(this.master); this.sfxBus.connect(this.reverb);
+
+      // Music: everything through a warm low-pass, then a fader.
+      this.musicBus = ctx.createGain();
+      var warm = ctx.createBiquadFilter();
+      warm.type = "lowpass"; warm.frequency.value = 2400; warm.Q.value = 0.5;
+      this.musicGain = ctx.createGain(); this.musicGain.gain.value = 0;
+      this.analyser = ctx.createAnalyser(); this.analyser.fftSize = 64;
+      this.musicBus.connect(warm); warm.connect(this.musicGain);
+      this.musicGain.connect(this.master); this.musicGain.connect(this.analyser);
+      var musicSend = ctx.createGain(); musicSend.gain.value = 0.45;
+      warm.connect(musicSend); musicSend.connect(this.reverb);
+      return true;
+    },
+
+    impulse: function (seconds, decay) {
+      var rate = this.ctx.sampleRate, len = rate * seconds;
+      var buf = this.ctx.createBuffer(2, len, rate);
+      for (var c = 0; c < 2; c++) {
+        var d = buf.getChannelData(c);
+        for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, decay);
+      }
+      return buf;
+    },
+
+    noiseBuffer: function (seconds) {
+      if (this._noise) return this._noise;
+      var len = this.ctx.sampleRate * (seconds || 1);
+      var buf = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
+      var d = buf.getChannelData(0);
+      for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+      return (this._noise = buf);
+    },
+
+    /* A soft "bell / electric piano" voice */
+    tone: function (freq, when, dur, vol, dest, type) {
+      var ctx = this.ctx;
+      var g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, when);
+      g.gain.exponentialRampToValueAtTime(vol, when + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+      g.connect(dest || this.sfxBus);
+      var o1 = ctx.createOscillator(); o1.type = type || "sine"; o1.frequency.value = freq;
+      var o2 = ctx.createOscillator(); o2.type = "sine"; o2.frequency.value = freq * 2.001;
+      var g2 = ctx.createGain(); g2.gain.value = 0.18;
+      o1.connect(g); o2.connect(g2); g2.connect(g);
+      o1.start(when); o2.start(when);
+      o1.stop(when + dur + 0.05); o2.stop(when + dur + 0.05);
+    },
+
+    /* Plucked-string-ish voice (a nod to the guitar) */
+    pluck: function (freq, when, vol) {
+      var ctx = this.ctx;
+      var o = ctx.createOscillator(); o.type = "triangle"; o.frequency.value = freq;
+      var f = ctx.createBiquadFilter(); f.type = "lowpass";
+      f.frequency.setValueAtTime(freq * 8, when);
+      f.frequency.exponentialRampToValueAtTime(freq * 1.2, when + 0.4);
+      var g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, when);
+      g.gain.exponentialRampToValueAtTime(vol, when + 0.004);
+      g.gain.exponentialRampToValueAtTime(0.0001, when + 1.2);
+      o.connect(f); f.connect(g); g.connect(this.sfxBus);
+      o.start(when); o.stop(when + 1.3);
+    },
+
+    /* Bubble pop: quick pitch drop + a tiny burst of air */
+    pop: function () {
+      if (!this.enabled || !this.ctx) return;
+      var ctx = this.ctx, now = ctx.currentTime;
+      var o = ctx.createOscillator(); o.type = "sine";
+      o.frequency.setValueAtTime(1200, now);
+      o.frequency.exponentialRampToValueAtTime(180, now + 0.09);
+      var g = ctx.createGain();
+      g.gain.setValueAtTime(0.45, now);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+      o.connect(g); g.connect(this.sfxBus); o.start(now); o.stop(now + 0.15);
+
+      var n = ctx.createBufferSource(); n.buffer = this.noiseBuffer();
+      var bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 2500; bp.Q.value = 1.2;
+      var ng = ctx.createGain();
+      ng.gain.setValueAtTime(0.3, now);
+      ng.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+      n.connect(bp); bp.connect(ng); ng.connect(this.sfxBus); n.start(now); n.stop(now + 0.1);
+    },
+
+    /* A soft felt-piano voice: a few partials with their own decays,
+       through a closing low-pass so notes bloom and then mellow. */
+    piano: function (freq, when, vol, dest, dur) {
+      var ctx = this.ctx;
+      dur = dur || 2.6;
+      var out = ctx.createGain();
+      out.gain.setValueAtTime(0.0001, when);
+      out.gain.exponentialRampToValueAtTime(vol, when + 0.006);
+      out.gain.exponentialRampToValueAtTime(vol * 0.35, when + 0.35);
+      out.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+      var lp = ctx.createBiquadFilter(); lp.type = "lowpass";
+      lp.frequency.setValueAtTime(Math.min(freq * 7, 12000), when);
+      lp.frequency.exponentialRampToValueAtTime(Math.max(freq * 2.2, 300), when + 1.2);
+      lp.connect(out); out.connect(dest || this.sfxBus);
+      var partials = [[1, "triangle", 1, dur], [2, "sine", 0.22, 0.7], [3.01, "sine", 0.07, 0.35]];
+      partials.forEach(function (p) {
+        var o = ctx.createOscillator(); o.type = p[1]; o.frequency.value = freq * p[0];
+        var g = ctx.createGain();
+        g.gain.setValueAtTime(p[2], when);
+        g.gain.exponentialRampToValueAtTime(0.0001, when + p[3]);
+        o.connect(g); g.connect(lp);
+        o.start(when); o.stop(when + dur + 0.05);
+      });
+    },
+
+    /* Warm string-like pad: detuned saws, slow swell, dark filter */
+    pad: function (freqs, when, dur, vol, dest) {
+      var ctx = this.ctx;
+      var lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 850; lp.Q.value = 0.6;
+      var g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, when);
+      g.gain.linearRampToValueAtTime(vol, when + 2.2);
+      g.gain.setValueAtTime(vol, when + dur - 1.4);
+      g.gain.linearRampToValueAtTime(0.0001, when + dur);
+      lp.connect(g); g.connect(dest);
+      freqs.forEach(function (f) {
+        [-7, 7].forEach(function (cents) {
+          var o = ctx.createOscillator(); o.type = "sawtooth";
+          o.frequency.value = f; o.detune.value = cents;
+          o.connect(lp); o.start(when); o.stop(when + dur + 0.05);
+        });
+      });
+    },
+
+    /* Welcome chord when the bubble is popped: an open D major 9, rolled */
+    chime: function () {
+      if (!this.enabled || !this.ctx) return;
+      var now = this.ctx.currentTime + 0.04;
+      var notes = [50, 57, 62, 66, 69, 76];
+      for (var i = 0; i < notes.length; i++) this.piano(hz(notes[i]), now + i * 0.05, i ? 0.13 : 0.18, null, 3.5);
+    },
+
+    /* Guitar Easter egg (photo / guitar image) */
+    strum: function () {
+      if (!this.enabled || !this.ctx) return;
+      var now = this.ctx.currentTime;
+      var chord = Music.currentChord();
+      var voicing = [chord[0] / 2].concat(chord, [chord[1] * 2]);
+      for (var i = 0; i < voicing.length; i++) this.pluck(voicing[i], now + i * 0.028, 0.2);
+    }
+  };
+
+  /* ------------------------------------------------------------------ */
+  /* Background music — calm, cinematic piano + strings                  */
+  /* ------------------------------------------------------------------ */
+  function hz(midi) { return 440 * Math.pow(2, (midi - 69) / 12); }
+
+  var Music = {
+    playing: false,
+    bpm: 68,
+    step: 0,          // 8th-note counter; each chord lasts 2 bars (16 eighths)
+    nextTime: 0,
+    timer: null,
+    volume: 0.55,
+    // D major, elegant and unhurried:  Dmaj9 → Bm11 → Gmaj7 → A7sus4
+    progression: [
+      { bass: 38, pad: [57, 61, 64, 66], arp: [62, 66, 69, 73, 76] },
+      { bass: 35, pad: [57, 62, 64, 66], arp: [59, 62, 66, 69, 73] },
+      { bass: 31, pad: [54, 59, 62, 66], arp: [55, 59, 62, 66, 69] },
+      { bass: 33, pad: [55, 59, 62, 64], arp: [57, 62, 64, 67, 71] }
+    ],
+    patterns: [[0, 1, 2, 4, 3, 2, 1, 2], [0, 2, 4, 3, 1, 3, 2, 4]],
+
+    chordAt: function (step) { return this.progression[Math.floor(step / 16) % 4]; },
+    currentChord: function () { return this.chordAt(this.step).arp.slice(0, 4).map(hz); },
+
+    start: function () {
+      if (!Audio.init()) return;
+      var ctx = Audio.ctx;
+      this.playing = true;
+      this.step = 0;
+      this.nextTime = ctx.currentTime + 0.15;
+      var self = this;
+      clearInterval(this.timer);
+      this.timer = setInterval(function () { self.schedule(); }, 25);
+      var g = Audio.musicGain.gain;
+      g.cancelScheduledValues(ctx.currentTime);
+      g.setValueAtTime(g.value, ctx.currentTime);
+      g.linearRampToValueAtTime(this.volume, ctx.currentTime + 3);
+      Dock.update();
+    },
+
+    stop: function () {
+      if (!Audio.ctx) return;
+      var ctx = Audio.ctx, self = this;
+      this.playing = false;
+      var g = Audio.musicGain.gain;
+      g.cancelScheduledValues(ctx.currentTime);
+      g.setValueAtTime(g.value, ctx.currentTime);
+      g.linearRampToValueAtTime(0, ctx.currentTime + 1);
+      setTimeout(function () { if (!self.playing) clearInterval(self.timer); }, 1100);
+      Dock.update();
+    },
+
+    setVolume: function (v) {
+      this.volume = v;
+      if (this.playing && Audio.ctx) Audio.musicGain.gain.setTargetAtTime(v, Audio.ctx.currentTime, 0.1);
+    },
+
+    schedule: function () {
+      var ctx = Audio.ctx;
+      var eighth = 60 / this.bpm / 2;
+      while (this.nextTime < ctx.currentTime + 0.25) {
+        this.playStep(this.step, this.nextTime, eighth);
+        this.nextTime += eighth;
+        this.step++;
+      }
+    },
+
+    playStep: function (step, when, eighth) {
+      var s = step % 16, cycle = Math.floor(step / 64);
+      var ch = this.chordAt(step), dest = Audio.musicBus;
+
+      if (s === 0) {
+        Audio.pad(ch.pad.map(hz), when, 16 * eighth + 1.4, 0.022, dest);
+        this.bass(hz(ch.bass), when, 16 * eighth + 0.5);
+      }
+
+      // Piano arpeggio: quarter notes on the first pass, flowing eighths after.
+      if (cycle > 0 || s % 2 === 0) {
+        var pat = this.patterns[cycle % 2];
+        var vel = (s % 4 === 0 ? 0.075 : 0.05) * (0.9 + Math.random() * 0.2);
+        Audio.piano(hz(ch.arp[pat[s % 8]]), when, vel, dest, 2.4);
+      }
+
+      // A sparse, singing top line from the second pass on.
+      if (cycle > 0 && (s === 0 || (s === 12 && Math.random() < 0.5))) {
+        var top = ch.arp[s === 0 ? 4 : 3] + 12;
+        Audio.piano(hz(top), when + 0.012, 0.06, dest, 4);
+      }
+
+      // Very soft pulse from the third pass on, to give it some momentum.
+      if (cycle > 1 && s % 4 === 0) this.kick(when, s % 8 === 0 ? 0.16 : 0.09);
+    },
+
+    bass: function (f, when, dur) {
+      var ctx = Audio.ctx;
+      var o = ctx.createOscillator(); o.type = "sine"; o.frequency.value = f;
+      var g = ctx.createGain();
+      g.gain.setValueAtTime(0.0001, when);
+      g.gain.linearRampToValueAtTime(0.2, when + 0.15);
+      g.gain.exponentialRampToValueAtTime(0.0001, when + dur);
+      o.connect(g); g.connect(Audio.musicBus); o.start(when); o.stop(when + dur + 0.05);
+    },
+    kick: function (when, vol) {
+      var ctx = Audio.ctx;
+      var o = ctx.createOscillator(); o.type = "sine";
+      o.frequency.setValueAtTime(95, when);
+      o.frequency.exponentialRampToValueAtTime(40, when + 0.14);
+      var g = ctx.createGain();
+      g.gain.setValueAtTime(vol, when);
+      g.gain.exponentialRampToValueAtTime(0.0001, when + 0.4);
+      o.connect(g); g.connect(Audio.musicBus); o.start(when); o.stop(when + 0.45);
+    }
+  };
+
+  /* ------------------------------------------------------------------ */
+  /* FX canvas: sparkles + cursor trail                                  */
+  /* ------------------------------------------------------------------ */
+  var FX = {
+    canvas: null, c: null, parts: [], running: false, dpr: 1,
+    colors: ["#ffffff", "#9dc0f5", "#5b93f5", "#f5d06b", "#e879f9", "#16a394", "#c4b5fd"],
+
+    init: function () {
+      var cv = this.canvas = document.createElement("canvas");
+      cv.className = "fx-canvas";
+      cv.setAttribute("aria-hidden", "true");
+      document.body.appendChild(cv);
+      this.c = cv.getContext("2d");
+      this.resize();
+      var self = this;
+      window.addEventListener("resize", function () { self.resize(); });
+    },
+    resize: function () {
+      this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+      this.canvas.width = innerWidth * this.dpr;
+      this.canvas.height = innerHeight * this.dpr;
+    },
+
+    burst: function (x, y, count, power) {
+      count = reduceMotion ? Math.min(count, 12) : count;
+      power = power || 1;
+      for (var i = 0; i < count; i++) {
+        var a = Math.random() * Math.PI * 2;
+        var sp = (1.5 + Math.random() * 6) * power;
+        this.parts.push({
+          x: x, y: y,
+          vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 1.2 * power,
+          life: 1, decay: 0.008 + Math.random() * 0.018,
+          size: 2 + Math.random() * 4 * power,
+          color: this.colors[(Math.random() * this.colors.length) | 0],
+          star: Math.random() < 0.55,
+          spin: Math.random() * Math.PI, vs: (Math.random() - 0.5) * 0.3,
+          g: 0.06 + Math.random() * 0.05
+        });
+      }
+      this.run();
+    },
+
+    ring: function (x, y, radius) {
+      this.parts.push({ ring: true, x: x, y: y, r: radius * 0.6, vr: 9, life: 1, decay: 0.03 });
+      this.run();
+    },
+
+    trail: function (x, y) {
+      if (this.parts.length > 400) return;
+      this.parts.push({
+        x: x, y: y, vx: (Math.random() - 0.5) * 0.6, vy: Math.random() * 0.6 + 0.2,
+        life: 0.9, decay: 0.03, size: 1.5 + Math.random() * 2.2,
+        color: this.colors[(Math.random() * this.colors.length) | 0],
+        star: Math.random() < 0.3, spin: 0, vs: 0.1, g: 0.01
+      });
+      this.run();
+    },
+
+    run: function () {
+      if (this.running) return;
+      this.running = true;
+      var self = this;
+      requestAnimationFrame(function loop() {
+        self.draw();
+        if (self.parts.length) requestAnimationFrame(loop);
+        else { self.running = false; self.c.clearRect(0, 0, self.canvas.width, self.canvas.height); }
+      });
+    },
+
+    draw: function () {
+      var c = this.c, dpr = this.dpr;
+      c.setTransform(dpr, 0, 0, dpr, 0, 0);
+      c.clearRect(0, 0, innerWidth, innerHeight);
+      c.globalCompositeOperation = "lighter";
+      for (var i = this.parts.length - 1; i >= 0; i--) {
+        var p = this.parts[i];
+        p.life -= p.decay;
+        if (p.life <= 0) { this.parts.splice(i, 1); continue; }
+        if (p.ring) {
+          p.r += p.vr; p.vr *= 0.94;
+          c.globalAlpha = p.life * 0.8;
+          c.strokeStyle = "#cfe0ff"; c.lineWidth = 3 * p.life;
+          c.beginPath(); c.arc(p.x, p.y, p.r, 0, Math.PI * 2); c.stroke();
+          continue;
+        }
+        p.vx *= 0.985; p.vy = p.vy * 0.985 + p.g;
+        p.x += p.vx; p.y += p.vy; p.spin += p.vs;
+        c.globalAlpha = Math.max(0, p.life);
+        c.fillStyle = p.color;
+        if (p.star) this.star(p.x, p.y, p.size * 1.6, p.spin);
+        else { c.beginPath(); c.arc(p.x, p.y, p.size * 0.6, 0, Math.PI * 2); c.fill(); }
+      }
+      c.globalAlpha = 1;
+      c.globalCompositeOperation = "source-over";
+    },
+
+    // Four-point twinkle star
+    star: function (x, y, r, rot) {
+      var c = this.c;
+      c.save(); c.translate(x, y); c.rotate(rot);
+      c.beginPath();
+      for (var i = 0; i < 8; i++) {
+        var rad = i % 2 ? r * 0.28 : r;
+        var a = (i / 8) * Math.PI * 2;
+        c.lineTo(Math.cos(a) * rad, Math.sin(a) * rad);
+      }
+      c.closePath(); c.fill(); c.restore();
+    }
+  };
+
+  /* ------------------------------------------------------------------ */
+  /* Floating music dock                                                 */
+  /* ------------------------------------------------------------------ */
+  var Dock = {
+    el: null, btn: null, bars: [], label: null, vol: null,
+
+    init: function () {
+      var el = this.el = document.createElement("div");
+      el.className = "music-dock";
+      el.innerHTML =
+        '<button type="button" class="music-btn"></button>' +
+        '<div class="music-eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>' +
+        '<span class="music-label"></span>' +
+        '<input class="music-vol" type="range" min="0" max="1" step="0.01" />';
+      document.body.appendChild(el);
+      this.btn = el.querySelector(".music-btn");
+      this.bars = el.querySelectorAll(".music-eq span");
+      this.label = el.querySelector(".music-label");
+      this.vol = el.querySelector(".music-vol");
+      this.vol.value = Music.volume;
+
+      var self = this;
+      this.btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        Audio.enabled = true;
+        if (Music.playing) Music.stop(); else Music.start();
+      });
+      this.vol.addEventListener("input", function () { Music.setVolume(parseFloat(self.vol.value)); });
+      this.vol.addEventListener("click", function (e) { e.stopPropagation(); });
+      document.querySelectorAll(".lang-btn").forEach(function (b) {
+        b.addEventListener("click", function () { setTimeout(function () { self.update(); }, 0); });
+      });
+      this.update();
+      this.animate();
+    },
+
+    show: function () { if (this.el) this.el.classList.add("is-visible"); },
+
+    update: function () {
+      if (!this.btn) return;
+      var on = Music.playing;
+      this.btn.innerHTML = on
+        ? '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg>'
+        : '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>';
+      this.btn.setAttribute("aria-label", on ? t("pause") : t("play"));
+      this.btn.setAttribute("aria-pressed", on ? "true" : "false");
+      this.label.textContent = (on ? t("musicOn") : t("musicOff")).replace("♪ ", "");
+      this.vol.setAttribute("aria-label", t("volume"));
+    },
+
+    animate: function () {
+      var self = this, data = new Uint8Array(32);
+      (function loop() {
+        if (Audio.analyser && Music.playing) {
+          Audio.analyser.getByteFrequencyData(data);
+          for (var i = 0; i < self.bars.length; i++) {
+            var v = data[1 + i * 3] / 255;
+            self.bars[i].style.height = (4 + v * 14).toFixed(1) + "px";
+          }
+        } else {
+          for (var k = 0; k < self.bars.length; k++) self.bars[k].style.height = "4px";
+        }
+        setTimeout(function () { requestAnimationFrame(loop); }, 60);
+      })();
+    }
+  };
+
+  /* ------------------------------------------------------------------ */
+  /* Intro background: faint Business Central / AL code, falling slowly  */
+  /* ------------------------------------------------------------------ */
+  var AL_SNIPPETS = [
+"[EventSubscriber(ObjectType::Codeunit, Codeunit::\"Sales-Post\",\n    'OnAfterPostSalesDoc', '', false, false)]\nlocal procedure OnAfterPostSalesDoc(var SalesHeader: Record \"Sales Header\";\n    SalesInvHdrNo: Code[20])\nbegin\n    if SalesInvHdrNo = '' then\n        exit;\n    WebhookMgt.QueueInvoice(SalesInvHdrNo);\nend;",
+"page 50120 \"Customer API\"\n{\n    PageType = API;\n    APIPublisher = 'contoso';\n    APIGroup = 'sales';\n    APIVersion = 'v2.0';\n    EntityName = 'customer';\n    EntitySetName = 'customers';\n    SourceTable = Customer;\n    DelayedInsert = true;\n    ODataKeyFields = SystemId;\n\n    layout\n    {\n        area(Content)\n        {\n            repeater(Records)\n            {\n                field(id; Rec.SystemId) { }\n                field(number; Rec.\"No.\") { }\n                field(displayName; Rec.Name) { }\n                field(balance; Rec.\"Balance (LCY)\") { }\n            }\n        }\n    }\n}",
+"codeunit 50130 \"Webhook Sender\"\n{\n    procedure Send(Payload: JsonObject): Boolean\n    var\n        Client: HttpClient;\n        Content: HttpContent;\n        Headers: HttpHeaders;\n        Response: HttpResponseMessage;\n        Body: Text;\n    begin\n        Payload.WriteTo(Body);\n        Content.WriteFrom(Body);\n        Content.GetHeaders(Headers);\n        Headers.Remove('Content-Type');\n        Headers.Add('Content-Type', 'application/json');\n        Client.Post(GetEndpoint(), Content, Response);\n        exit(Response.IsSuccessStatusCode());\n    end;\n}",
+"[EventSubscriber(ObjectType::Table, Database::Customer,\n    'OnAfterInsertEvent', '', false, false)]\nlocal procedure OnAfterInsertCustomer(var Rec: Record Customer;\n    RunTrigger: Boolean)\nbegin\n    if Rec.IsTemporary() then\n        exit;\n    SyncMgt.EnqueueCustomer(Rec.SystemId);\nend;",
+"tableextension 50140 \"Sales Header Ext\" extends \"Sales Header\"\n{\n    fields\n    {\n        field(50140; \"External Order ID\"; Text[50])\n        {\n            Caption = 'External Order ID';\n            DataClassification = CustomerContent;\n        }\n    }\n}",
+"local procedure BuildPayload(SalesInvHeader: Record \"Sales Invoice Header\")\n    Result: JsonObject\nvar\n    Lines: JsonArray;\n    Line: Record \"Sales Invoice Line\";\nbegin\n    Result.Add('number', SalesInvHeader.\"No.\");\n    Result.Add('customer', SalesInvHeader.\"Sell-to Customer No.\");\n    Result.Add('amount', SalesInvHeader.\"Amount Including VAT\");\n    Line.SetRange(\"Document No.\", SalesInvHeader.\"No.\");\n    if Line.FindSet() then\n        repeat\n            Lines.Add(LineToJson(Line));\n        until Line.Next() = 0;\n    Result.Add('lines', Lines);\nend;",
+"[EventSubscriber(ObjectType::Codeunit, Codeunit::\"Purch.-Post\",\n    'OnBeforePostPurchaseDoc', '', false, false)]\nlocal procedure CheckApproval(var PurchaseHeader: Record \"Purchase Header\")\nbegin\n    if not ApprovalMgt.IsApproved(PurchaseHeader) then\n        Error(NotApprovedErr, PurchaseHeader.\"No.\");\nend;",
+"xmlport 50150 \"Item Export\"\n{\n    Direction = Export;\n    Format = Xml;\n    schema\n    {\n        textelement(Items)\n        {\n            tableelement(Item; Item)\n            {\n                fieldelement(No; Item.\"No.\") { }\n                fieldelement(Description; Item.Description) { }\n                fieldelement(UnitPrice; Item.\"Unit Price\") { }\n            }\n        }\n    }\n}"
+  ];
+
+  var AL_KEYWORDS = /\b(procedure|local|var|begin|end|if|then|exit|not|repeat|until|codeunit|page|tableextension|extends|xmlport|field|fields|layout|area|repeater|schema|textelement|tableelement|fieldelement|Record|Code|Text|Boolean|JsonObject|JsonArray|HttpClient|HttpContent|HttpHeaders|HttpResponseMessage|Error)\b/g;
+
+  function highlightAL(src) {
+    var esc = src.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    // strings and attributes first, then keywords outside of them
+    return esc.split(/('(?:[^'])*'|"(?:[^"])*"|\[EventSubscriber[^\]]*\])/g).map(function (part, i) {
+      if (i % 2) return '<span class="' + (part.charAt(0) === "[" ? "c-a" : "c-s") + '">' + part + "</span>";
+      return part.replace(AL_KEYWORDS, '<span class="c-k">$1</span>');
+    }).join("");
+  }
+
+  function initCodeRain(intro) {
+    var layer = document.createElement("div");
+    layer.className = "intro-code";
+    layer.setAttribute("aria-hidden", "true");
+    var cols = innerWidth >= 1100 ? 4 : innerWidth >= 700 ? 3 : 2;
+    for (var c = 0; c < cols; c++) {
+      // Each column gets its own order of snippets so they never line up.
+      var order = AL_SNIPPETS.map(function (_, i) { return AL_SNIPPETS[(i + c * 3) % AL_SNIPPETS.length]; });
+      var block = order.map(highlightAL).join("\n\n\n");
+      var col = document.createElement("div");
+      col.className = "intro-code-col";
+      var dur = 70 + c * 13;
+      // Two identical copies stacked → translate by exactly one copy for a seamless loop.
+      col.innerHTML = '<pre class="intro-code-track" style="animation-duration:' + dur + "s;animation-delay:-" + (c * 17) + 's">' +
+        block + "\n\n\n" + block + "\n\n\n</pre>";
+      layer.appendChild(col);
+    }
+    var stage = intro.querySelector(".intro-stage");
+    intro.insertBefore(layer, stage);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Intro                                                               */
+  /* ------------------------------------------------------------------ */
+  function initIntro() {
+    var intro = document.getElementById("intro");
+    if (!intro) return;
+    var bubble = intro.querySelector(".intro-bubble");
+    var musicToggle = intro.querySelector("[data-intro-music]");
+    var silentBtn = intro.querySelector("[data-intro-silent]");
+    var wantMusic = true;
+    var entered = false;
+    initCodeRain(intro);
+
+    // Localise
+    intro.querySelectorAll("[data-intro-text]").forEach(function (el) {
+      el.textContent = t(el.getAttribute("data-intro-text"));
+    });
+    bubble.setAttribute("aria-label", t("bubbleLabel"));
+    function paintToggle() {
+      musicToggle.textContent = wantMusic ? t("musicOn") : t("musicOff");
+      musicToggle.setAttribute("aria-pressed", wantMusic ? "true" : "false");
+    }
+    paintToggle();
+
+    // Rising fizz
+    var fizzTimer = null;
+    if (!reduceMotion) {
+      fizzTimer = setInterval(function () {
+        var f = document.createElement("span");
+        f.className = "intro-fizz";
+        var s = 4 + Math.random() * 14;
+        f.style.width = f.style.height = s + "px";
+        f.style.left = Math.random() * 100 + "%";
+        f.style.setProperty("--drift", (Math.random() * 80 - 40) + "px");
+        f.style.animationDuration = (6 + Math.random() * 7) + "s";
+        intro.appendChild(f);
+        setTimeout(function () { f.remove(); }, 13500);
+      }, 380);
+    }
+
+    musicToggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      wantMusic = !wantMusic;
+      paintToggle();
+    });
+
+    function enter(withSound) {
+      if (entered) return;
+      entered = true;
+      Audio.enabled = !!withSound;
+      if (withSound) Audio.init();
+
+      var r = bubble.getBoundingClientRect();
+      var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      Audio.pop();
+      Audio.chime();
+      bubble.classList.add("is-popping");
+      FX.ring(cx, cy, r.width / 2);
+
+      setTimeout(function () {
+        intro.classList.add("is-leaving");
+        document.documentElement.classList.remove("intro-open");
+        if (withSound && wantMusic) setTimeout(function () { Music.start(); }, 500);
+      }, 380);
+      setTimeout(function () {
+        intro.classList.add("is-gone");
+        clearInterval(fizzTimer);
+        Dock.show();
+        var main = document.getElementById("main");
+        if (main) { main.setAttribute("tabindex", "-1"); main.focus({ preventScroll: true }); }
+      }, 1400);
+    }
+
+    bubble.addEventListener("click", function (e) { e.stopPropagation(); enter(true); });
+    silentBtn.addEventListener("click", function (e) { e.stopPropagation(); enter(false); });
+    document.addEventListener("keydown", function onKey(e) {
+      if (entered) { document.removeEventListener("keydown", onKey); return; }
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); enter(true); }
+      if (e.key === "Escape") enter(false);
+    });
+    setTimeout(function () { bubble.focus({ preventScroll: true }); }, 400);
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Page interactivity                                                  */
+  /* ------------------------------------------------------------------ */
+  function initPageFx() {
+    // Photo & guitar: strum a chord, with a soft ripple
+    ["hero-photo-frame", "beyond-photo"].forEach(function (cls) {
+      var el = document.querySelector("." + cls);
+      if (!el) return;
+      el.style.cursor = "pointer";
+      el.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var r = el.getBoundingClientRect();
+        FX.ring(r.left + r.width / 2, r.top + r.height / 2, Math.min(r.width, r.height) / 2);
+        Audio.strum();
+      });
+    });
+
+    // 3D tilt on the expertise cards
+    if (finePointer && !reduceMotion) {
+      document.querySelectorAll(".expertise-card").forEach(function (card) {
+        card.classList.add("tilt");
+        card.addEventListener("pointermove", function (e) {
+          var r = card.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+          card.style.setProperty("--ry", ((px - 0.5) * 10).toFixed(2) + "deg");
+          card.style.setProperty("--rx", ((0.5 - py) * 10).toFixed(2) + "deg");
+          card.style.setProperty("--lift", "-4px");
+          card.style.setProperty("--mx", (px * 100).toFixed(1) + "%");
+          card.style.setProperty("--my", (py * 100).toFixed(1) + "%");
+        });
+        card.addEventListener("pointerleave", function () {
+          card.style.setProperty("--rx", "0deg");
+          card.style.setProperty("--ry", "0deg");
+          card.style.setProperty("--lift", "0");
+        });
+      });
+
+      // Hero orbs follow the mouse a little (parallax)
+      var field = document.querySelector(".bubble-field-hero");
+      if (field) {
+        document.addEventListener("pointermove", function (e) {
+          var dx = (e.clientX / innerWidth - 0.5) * 40, dy = (e.clientY / innerHeight - 0.5) * 40;
+          field.style.transform = "translate(" + dx.toFixed(1) + "px," + dy.toFixed(1) + "px)";
+        }, { passive: true });
+        field.style.transition = "transform 600ms cubic-bezier(0.22, 1, 0.36, 1)";
+      }
+    }
+
+    // Pause the music while the tab is hidden, resume when back.
+    var pausedByHide = false;
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden && Music.playing) { pausedByHide = true; Music.stop(); }
+      else if (!document.hidden && pausedByHide) { pausedByHide = false; Music.start(); }
+    });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Contact form                                                        */
+  /* ------------------------------------------------------------------ */
+  function formText(key) {
+    var dict = (window.TRANSLATIONS || {})[lang()] || (window.TRANSLATIONS || {}).en || {};
+    return ((dict.contact || {}).form || {})[key] || "";
+  }
+
+  function initContactForm() {
+    var form = document.getElementById("contactForm");
+    if (!form) return;
+    var status = document.getElementById("contactFormStatus");
+    var button = form.querySelector(".contact-submit");
+    var config = window.SITE_CONFIG || {};
+
+    function say(key, kind) {
+      status.textContent = formText(key);
+      status.className = "form-status" + (kind ? " is-" + kind : "");
+    }
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var data = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        company: form.company.value.trim(),
+        message: form.message.value.trim()
+      };
+      if (form._gotcha.value) return; // bot
+      if (!data.name || !data.email || !data.message) { say("missing", "error"); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) { say("invalidEmail", "error"); form.email.focus(); return; }
+
+      if (config.contactFormEndpoint) {
+        button.disabled = true;
+        say("sending");
+        fetch(config.contactFormEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({
+            name: data.name, email: data.email, company: data.company,
+            message: data.message, _subject: formText("subject") + " — " + data.name
+          })
+        }).then(function (r) {
+          if (!r.ok) throw new Error(r.status);
+          form.reset();
+          say("success", "ok");
+          Audio.chime();
+        }).catch(function () {
+          say("error", "error");
+        }).then(function () { button.disabled = false; });
+        return;
+      }
+
+      // No endpoint configured: hand the message to the visitor's email app.
+      var to = config.professionalEmail;
+      if (!to) { say("error", "error"); return; }
+      var body = data.message + "\n\n— " + data.name + (data.company ? " (" + data.company + ")" : "") + "\n" + data.email;
+      window.location.href = "mailto:" + to +
+        "?subject=" + encodeURIComponent(formText("subject") + " — " + data.name) +
+        "&body=" + encodeURIComponent(body);
+      say("mailto", "ok");
+    });
+
+    // Once the visitor starts typing, the "come say hi" motion stops.
+    form.addEventListener("focusin", function () { form.classList.add("is-engaged"); });
+  }
+
+  /* When the visitor reaches the end of the page, the form gives a
+     short, polite nudge and then floats gently to invite a message. */
+  function initContactNudge() {
+    var form = document.getElementById("contactForm");
+    if (!form || reduceMotion || !("IntersectionObserver" in window)) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        setTimeout(function () {
+          form.classList.add("is-nudging");
+          setTimeout(function () {
+            form.classList.remove("is-nudging");
+            form.classList.add("is-calling");
+          }, 900);
+        }, 900);
+      });
+    }, { threshold: 0.55 });
+    io.observe(form);
+  }
+
+  /* ------------------------------------------------------------------ */
+  function boot() {
+    FX.init();
+    Dock.init();
+    initIntro();
+    initPageFx();
+    initContactForm();
+    initContactNudge();
+    if (!document.getElementById("intro")) Dock.show();
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();

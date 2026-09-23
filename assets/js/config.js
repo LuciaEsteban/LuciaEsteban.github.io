@@ -28,6 +28,15 @@ window.SITE_CONFIG = {
   cvPdfUrl: null, // e.g. "assets/files/lucia-esteban-cv.pdf"
 
   /**
+   * Contact form endpoint. Leave as null and the form opens the
+   * visitor's email app with the message pre-filled (to
+   * professionalEmail). To receive messages directly without that
+   * step, create a free form at https://formspree.io and paste its
+   * URL here, e.g. "https://formspree.io/f/abcdwxyz".
+   */
+  contactFormEndpoint: null,
+
+  /**
    * Optional. Only set this if Lucía has explicitly decided to publish
    * her current employer's name on the public site.
    */
