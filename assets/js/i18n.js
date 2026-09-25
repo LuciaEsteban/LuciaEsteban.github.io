@@ -31,10 +31,7 @@ window.TRANSLATIONS = {
       role: "Microsoft Dynamics 365 Business Central / AL Developer",
       tagline:
         "I build and maintain <strong>AL extensions, business reports and integrations</strong> for Microsoft Dynamics 365 Business Central, across SaaS and On-Premise environments.",
-      badgeRemote: "100% remote",
       badgeLanguages: "English & Spanish",
-      availability:
-        "Open to fully remote opportunities. Working remotely does not mean working in isolation: I like to stay <strong>involved with the team</strong> and move projects forward together with the people I work with.",
       ctaPrimary: "Explore my Business Central work",
       ctaSecondary: "Get in touch",
       photoAlt: "Portrait photo of Lucía Esteban Peña",
@@ -185,7 +182,7 @@ window.TRANSLATIONS = {
       eyebrow: "Let's talk",
       title: "Contact",
       intro:
-        "I value my current role, and I am open to new opportunities that are a <strong>strong fit for my professional goals</strong> and mutually beneficial. If my profile could be a good fit for your team or project, I would be glad to hear from you.",
+        "I currently work in a hybrid arrangement, and I value my current role a great deal, though in the long term I would like my career to move toward fully remote work.",
       email: "Email",
       linkedin: "LinkedIn",
       github: "GitHub",
@@ -239,10 +236,7 @@ window.TRANSLATIONS = {
       role: "Desarrolladora Microsoft Dynamics 365 Business Central / AL",
       tagline:
         "Desarrollo y mantengo <strong>extensiones AL, informes de negocio e integraciones</strong> para Microsoft Dynamics 365 Business Central, en entornos SaaS y On-Premise.",
-      badgeRemote: "100% remoto",
       badgeLanguages: "Inglés y español",
-      availability:
-        "Abierta a oportunidades 100% en remoto. Trabajar en remoto no significa trabajar de forma aislada: me gusta estar <strong>implicada con el equipo</strong> y sacar adelante los proyectos junto a las personas con las que trabajo.",
       ctaPrimary: "Ver mi trabajo en Business Central",
       ctaSecondary: "Contactar",
       photoAlt: "Fotografía de retrato de Lucía Esteban Peña",
@@ -390,7 +384,7 @@ window.TRANSLATIONS = {
       eyebrow: "Hablemos",
       title: "Contacto",
       intro:
-        "Valoro mi puesto actual y estoy abierta a nuevas oportunidades que encajen con <strong>mis objetivos profesionales</strong> y resulten beneficiosas para ambas partes. Si mi perfil puede encajar en tu equipo o proyecto, estaré encantada de hablar contigo.",
+        "Actualmente trabajo de forma híbrida y valoro mucho mi puesto de trabajo actual, aunque a largo plazo me gustaría que mi carrera evolucionase hacia el teletrabajo 100%.",
       email: "Email",
       linkedin: "LinkedIn",
       github: "GitHub",
